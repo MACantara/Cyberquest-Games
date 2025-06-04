@@ -1,0 +1,73 @@
+<div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
+    <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+        <i class="bi bi-activity"></i> SOC Dashboard
+    </h3>
+
+    <!-- Default State -->
+    <div id="dashboard-placeholder" class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-96 flex flex-col items-center justify-center">
+        <i class="bi bi-shield-exclamation text-4xl text-gray-500 mb-4 animate-pulse"></i>
+        <p class="text-gray-400 text-center">
+            <strong>Select an infrastructure node to begin defense</strong><br>
+            <span class="text-sm">Monitor traffic and deploy countermeasures</span>
+        </p>
+    </div>
+
+    <!-- Active Defense Panel -->
+    <div id="defense-panel" class="hidden">
+        <div class="bg-gray-700 rounded p-4 mb-4">
+            <!-- Target Header -->
+            <div class="flex items-center justify-between mb-4">
+                <h4 id="target-name" class="font-semibold text-white text-lg"></h4>
+                <button id="close-defense" class="text-gray-400 hover:text-white">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+            
+            <!-- Real-time Traffic Monitor -->
+            <div class="bg-gray-800 rounded p-3 mb-4">
+                <h5 class="text-red-300 font-semibold mb-2">Incoming Traffic Analysis</h5>
+                <div id="traffic-monitor" class="space-y-2 max-h-32 overflow-y-auto"></div>
+            </div>
+            
+            <!-- Attack Indicators -->
+            <div class="bg-gray-800 rounded p-3 mb-4">
+                <h5 class="text-orange-300 font-semibold mb-2">Attack Indicators</h5>
+                <div id="attack-indicators" class="grid grid-cols-2 gap-2"></div>
+            </div>
+        </div>
+
+        <!-- Defense Tools -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <button class="defense-tool bg-red-600 hover:bg-red-700 text-white p-3 rounded text-sm font-medium" data-tool="firewall">
+                <i class="bi bi-shield-x mr-2"></i> Block IPs
+            </button>
+            <button class="defense-tool bg-blue-600 hover:bg-blue-700 text-white p-3 rounded text-sm font-medium" data-tool="loadbalancer">
+                <i class="bi bi-arrow-repeat mr-2"></i> Load Balance
+            </button>
+            <button class="defense-tool bg-green-600 hover:bg-green-700 text-white p-3 rounded text-sm font-medium" data-tool="filter">
+                <i class="bi bi-funnel mr-2"></i> Filter Traffic
+            </button>
+            <button class="defense-tool bg-purple-600 hover:bg-purple-700 text-white p-3 rounded text-sm font-medium" data-tool="reroute">
+                <i class="bi bi-arrow-through-heart mr-2"></i> Reroute Traffic
+            </button>
+        </div>
+
+        <!-- Defense Results -->
+        <div id="defense-results" class="bg-gray-700 rounded p-4 mb-4 hidden">
+            <h5 class="font-semibold text-cyan-300 mb-3">Defense Status</h5>
+            <div id="results-content" class="space-y-2"></div>
+        </div>
+
+        <!-- Command Console -->
+        <div class="bg-gray-900 rounded p-3">
+            <h5 class="text-green-400 font-semibold mb-2">Command Console</h5>
+            <div class="flex gap-2">
+                <input type="text" id="command-input" placeholder="Enter firewall rule..." 
+                       class="flex-1 bg-gray-800 text-white p-2 rounded text-sm border border-gray-600">
+                <button id="execute-command" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">
+                    Execute
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

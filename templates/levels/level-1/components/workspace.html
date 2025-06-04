@@ -1,0 +1,67 @@
+<div class="col-span-6 bg-gray-800 rounded-lg p-4 shadow">
+    <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+        <i class="bi bi-search"></i> Verification Workspace
+    </h3>
+
+    <!-- Tutorial Tooltip -->
+    <div id="tutorial-workspace" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
+        <p class="text-blue-200 text-sm">
+            <i class="bi bi-lightbulb mr-2"></i>
+            Drag and drop stories here to analyze them. Use the verification tools to check headlines, sources, and images.
+        </p>
+    </div>
+
+    <!-- Drop Zone -->
+    <div id="workspace" class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-64 flex flex-col items-center justify-center">
+        <i class="bi bi-arrow-down-circle text-4xl text-gray-500 mb-4"></i>
+        <p class="text-gray-400 text-center">
+            <strong>Select a story from the news feed to begin fact-checking</strong><br>
+            <span class="text-sm">Look for red flags in headlines, sources, and timing</span>
+        </p>
+    </div>
+
+    <!-- Story Analysis Panel -->
+    <div id="analysis-panel" class="mt-4 hidden">
+        <div class="bg-gray-700 rounded p-4">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="font-semibold text-white">Story Analysis</h4>
+                <button id="clear-workspace" class="text-gray-400 hover:text-white">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+            <div id="story-details" class="mb-4"></div>
+            
+            <!-- Verification Tools -->
+            <div class="grid grid-cols-2 gap-3">
+                <button class="verification-tool bg-blue-600 hover:bg-blue-700 text-white p-3 rounded text-sm font-medium" data-tool="headline">
+                    <i class="bi bi-text-paragraph mr-2"></i> Analyze Headline
+                </button>
+                <button class="verification-tool bg-purple-600 hover:bg-purple-700 text-white p-3 rounded text-sm font-medium" data-tool="source">
+                    <i class="bi bi-building mr-2"></i> Check Source
+                </button>
+                <button class="verification-tool bg-green-600 hover:bg-green-700 text-white p-3 rounded text-sm font-medium" data-tool="image">
+                    <i class="bi bi-image mr-2"></i> Image Verification
+                </button>
+                <button class="verification-tool bg-orange-600 hover:bg-orange-700 text-white p-3 rounded text-sm font-medium" data-tool="metadata">
+                    <i class="bi bi-info-circle mr-2"></i> Check Metadata
+                </button>
+            </div>
+
+            <!-- Verification Results -->
+            <div id="verification-results" class="mt-4 hidden">
+                <h5 class="font-semibold text-cyan-300 mb-2">Verification Results</h5>
+                <div id="results-content" class="space-y-2"></div>
+                
+                <!-- Final Decision -->
+                <div class="mt-4 flex gap-3">
+                    <button id="mark-fake" class="flex-1 bg-red-600 hover:bg-red-700 text-white p-3 rounded font-medium">
+                        <i class="bi bi-x-circle mr-2"></i> Mark as Fake
+                    </button>
+                    <button id="mark-real" class="flex-1 bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium">
+                        <i class="bi bi-check-circle mr-2"></i> Mark as Verified
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

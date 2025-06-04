@@ -1,0 +1,83 @@
+<div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
+    <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+        <i class="bi bi-geo-alt"></i> City Infrastructure
+    </h3>
+    
+    <!-- Tutorial Tooltip -->
+    <div id="tutorial-infrastructure" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
+        <p class="text-blue-200 text-sm">
+            <i class="bi bi-lightbulb mr-2"></i>
+            Monitor critical infrastructure health. Red nodes are under attack. Click to focus defense efforts.
+        </p>
+    </div>
+
+    <div class="space-y-3">
+        <!-- Hospital System -->
+        <div class="infrastructure-node bg-green-900 border border-green-600 rounded p-3 cursor-pointer hover:bg-green-800 transition" data-node="hospital">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-heart-pulse text-green-400 text-lg flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-white">Medical Centers</h4>
+                        <span id="hospital-status" class="text-xs bg-green-600 text-white px-2 py-1 rounded">ONLINE</span>
+                    </div>
+                    <p class="text-xs text-green-300 mb-2">Patient records, emergency services</p>
+                    <div class="bg-green-800 rounded-full h-2">
+                        <div id="hospital-uptime" class="bg-green-400 h-2 rounded-full transition-all" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Power Grid -->
+        <div class="infrastructure-node bg-yellow-900 border border-yellow-600 rounded p-3 cursor-pointer hover:bg-yellow-800 transition" data-node="power">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-lightning-charge text-yellow-400 text-lg flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-white">Power Grid</h4>
+                        <span id="power-status" class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">DEGRADED</span>
+                    </div>
+                    <p class="text-xs text-yellow-300 mb-2">City electrical infrastructure</p>
+                    <div class="bg-yellow-800 rounded-full h-2">
+                        <div id="power-uptime" class="bg-yellow-400 h-2 rounded-full transition-all" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Services -->
+        <div class="infrastructure-node bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition animate-pulse" data-node="emergency">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-telephone-x text-red-400 text-lg flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-white">Emergency Services</h4>
+                        <span id="emergency-status" class="text-xs bg-red-600 text-white px-2 py-1 rounded">CRITICAL</span>
+                    </div>
+                    <p class="text-xs text-red-300 mb-2">911, Fire, Police dispatch</p>
+                    <div class="bg-red-800 rounded-full h-2">
+                        <div id="emergency-uptime" class="bg-red-400 h-2 rounded-full transition-all" style="width: 45%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transportation -->
+        <div class="infrastructure-node bg-blue-900 border border-blue-600 rounded p-3 cursor-pointer hover:bg-blue-800 transition" data-node="transport">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-train-front text-blue-400 text-lg flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-white">Transportation</h4>
+                        <span id="transport-status" class="text-xs bg-blue-600 text-white px-2 py-1 rounded">STABLE</span>
+                    </div>
+                    <p class="text-xs text-blue-300 mb-2">Traffic signals, metro systems</p>
+                    <div class="bg-blue-800 rounded-full h-2">
+                        <div id="transport-uptime" class="bg-blue-400 h-2 rounded-full transition-all" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

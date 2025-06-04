@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Level 9: Operation Blackout -->
+<div class="max-w-7xl mx-auto">
+    <!-- Opening Cutscene Modal -->
+    {% include 'levels/level-9/components/cutscene-modal.html' %}
+
+    <!-- Header with Mission Stats -->
+    {% include 'levels/level-9/components/header.html' %}
+
+    <!-- Main Game Interface -->
+    {% include 'levels/level-9/components/game-interface.html' %}
+
+    <!-- Mentor AI Panel -->
+    {% include 'levels/level-9/components/mentor-panel.html' %}
+
+    <!-- Modals -->
+    {% include 'levels/level-9/components/results-modal.html' %}
+
+    <!-- Navigation -->
+    {% include 'levels/level-9/components/navigation.html' %}
+</div>
+
+<!-- Level 9 JavaScript -->
+<script src="{{ url_for('static', filename='js/levels/level-9/level-9.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Level 4: The Password Heist -->
+<div class="max-w-7xl mx-auto">
+    <!-- Opening Cutscene Modal -->
+    {% include 'levels/level-4/components/cutscene-modal.html' %}
+
+    <!-- Header with Mission Stats -->
+    {% include 'levels/level-4/components/header.html' %}
+
+    <!-- Main Game Interface -->
+    {% include 'levels/level-4/components/game-interface.html' %}
+
+    <!-- Mentor AI Panel -->
+    {% include 'levels/level-4/components/mentor-panel.html' %}
+
+    <!-- Modals -->
+    {% include 'levels/level-4/components/results-modal.html' %}
+
+    <!-- Navigation -->
+    {% include 'levels/level-4/components/navigation.html' %}
+</div>
+
+<!-- Level 4 JavaScript -->
+<script src="{{ url_for('static', filename='js/levels/level-4/level-4.js') }}"></script>
+{% endblock %}

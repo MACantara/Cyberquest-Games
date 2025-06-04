@@ -1,0 +1,47 @@
+<div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
+    <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+        <i class="bi bi-monitor"></i> Analysis Workspace
+    </h3>
+
+    <!-- Default State -->
+    <div id="workspace-placeholder" class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-96 flex flex-col items-center justify-center">
+        <i class="bi bi-search text-4xl text-gray-500 mb-4"></i>
+        <p class="text-gray-400 text-center">
+            <strong>Select a forensic tool to begin analysis</strong><br>
+            <span class="text-sm">Uncover digital artifacts and piece together the truth</span>
+        </p>
+    </div>
+
+    <!-- Active Analysis Panel -->
+    <div id="analysis-workspace" class="hidden">
+        <div class="bg-gray-700 rounded p-4 mb-4">
+            <!-- Tool Header -->
+            <div class="flex items-center justify-between mb-4">
+                <h4 id="tool-name" class="font-semibold text-white text-lg"></h4>
+                <button id="close-tool" class="text-gray-400 hover:text-white">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+            
+            <!-- Analysis Content -->
+            <div id="analysis-content" class="bg-gray-800 rounded p-3 mb-4"></div>
+            
+            <!-- Tool Actions -->
+            <div id="tool-actions" class="grid grid-cols-2 gap-3"></div>
+        </div>
+
+        <!-- Evidence Detection -->
+        <div id="evidence-detection" class="bg-gray-700 rounded p-4 mb-4 hidden">
+            <h5 class="font-semibold text-yellow-300 mb-3">Evidence Detected</h5>
+            <div id="detected-evidence" class="space-y-2"></div>
+        </div>
+
+        <!-- Pattern Analysis -->
+        <div id="pattern-analysis" class="bg-purple-900 border border-purple-600 rounded p-3">
+            <h5 class="text-purple-300 font-semibold mb-2">Pattern Analysis</h5>
+            <div id="patterns-found" class="space-y-1 text-xs">
+                <div class="text-gray-400">No patterns detected yet...</div>
+            </div>
+        </div>
+    </div>
+</div>

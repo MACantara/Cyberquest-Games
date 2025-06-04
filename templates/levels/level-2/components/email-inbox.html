@@ -1,0 +1,75 @@
+<div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
+    <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+        <i class="bi bi-inbox"></i> Academy Inbox
+    </h3>
+    
+    <!-- Tutorial Tooltip -->
+    <div id="tutorial-inbox" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
+        <p class="text-blue-200 text-sm">
+            <i class="bi bi-lightbulb mr-2"></i>
+            Click on emails to examine them. Look for suspicious elements like misspellings, urgent language, or unfamiliar senders.
+        </p>
+    </div>
+
+    <div class="space-y-3">
+        <!-- Email 1 - Phishing Attempt -->
+        <div class="email-item bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition" data-email="1">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-exclamation-triangle text-red-400 text-lg flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-white">URGENT: Tactical Briefing Required</h4>
+                        <span class="text-xs text-red-300">2 min ago</span>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-1">From: vega@interw0r1d.net</p>
+                    <p class="text-xs text-red-200">⚠️ PRIORITY 1 - Download attachment immediately</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email 2 - Legitimate -->
+        <div class="email-item bg-gray-700 rounded p-3 cursor-pointer hover:bg-gray-600 transition" data-email="2">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-envelope text-blue-400 text-lg flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-white">Weekly Training Schedule</h4>
+                        <span class="text-xs text-gray-400">1 hour ago</span>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-1">From: admin@interworld.academy</p>
+                    <p class="text-xs text-gray-400">Your training schedule for next week...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email 3 - Suspicious -->
+        <div class="email-item bg-yellow-900 border border-yellow-600 rounded p-3 cursor-pointer hover:bg-yellow-800 transition" data-email="3">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-question-circle text-yellow-400 text-lg flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-white">Account Verificaton Needed</h4>
+                        <span class="text-xs text-yellow-300">30 min ago</span>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-1">From: security@inter-world.org</p>
+                    <p class="text-xs text-yellow-200">Click here to verify your account...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email 4 - Real Commander Vega -->
+        <div class="email-item bg-gray-700 rounded p-3 cursor-pointer hover:bg-gray-600 transition" data-email="4">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-shield-check text-green-400 text-lg flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-white">Confused about urgent message?</h4>
+                        <span class="text-xs text-gray-400">Just now</span>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-1">From: c.vega@interworld.academy ✓</p>
+                    <p class="text-xs text-gray-400">Nova, I didn't send any urgent briefing...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Level 10: The Hunt for The Null -->
+<div class="max-w-7xl mx-auto">
+    <!-- Opening Cutscene Modal -->
+    {% include 'levels/level-10/components/cutscene-modal.html' %}
+
+    <!-- Header with Mission Stats -->
+    {% include 'levels/level-10/components/header.html' %}
+
+    <!-- Main Game Interface -->
+    {% include 'levels/level-10/components/game-interface.html' %}
+
+    <!-- ARGUS AI Panel -->
+    {% include 'levels/level-10/components/argus-panel.html' %}
+
+    <!-- Modals -->
+    {% include 'levels/level-10/components/results-modal.html' %}
+
+    <!-- Navigation -->
+    {% include 'levels/level-10/components/navigation.html' %}
+</div>
+
+<!-- Level 10 JavaScript -->
+<script src="{{ url_for('static', filename='js/levels/level-10/level-10.js') }}"></script>
+{% endblock %}

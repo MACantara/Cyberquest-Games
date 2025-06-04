@@ -1,0 +1,7 @@
+.text-gold-400 { color: #fbbf24; }
+.text-gold-600 { color: #d97706; }
+.bg-gold-500 { background-color: #f59e0b; }
+.bg-gold-600 { background-color: #d97706; }
+.from-gold-600 { --tw-gradient-from: #d97706; }
+.to-yellow-600 { --tw-gradient-to: #ca8a04; }
+.hover\:bg-gold-600:hover { background-color: #d97706; }

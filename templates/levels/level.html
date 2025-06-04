@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-gray-800 rounded-lg p-8 shadow">
+    <h2 class="text-2xl font-bold mb-4 text-cyan-300">Level {{ level_id }}</h2>
+    <p class="mb-6 text-gray-200">[Level scenario and interactive content goes here.]</p>
+    <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm"><i class="bi bi-arrow-left"></i> Back to Campaign</a>
+</div>
+{% endblock %}

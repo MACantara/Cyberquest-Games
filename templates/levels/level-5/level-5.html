@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Level 5: The Social Web -->
+<div class="max-w-7xl mx-auto">
+    <!-- Opening Cutscene Modal -->
+    {% include 'levels/level-5/components/cutscene-modal.html' %}
+
+    <!-- Header with Mission Stats -->
+    {% include 'levels/level-5/components/header.html' %}
+
+    <!-- Main Game Interface -->
+    {% include 'levels/level-5/components/game-interface.html' %}
+
+    <!-- Mentor AI Panel -->
+    {% include 'levels/level-5/components/mentor-panel.html' %}
+
+    <!-- Modals -->
+    {% include 'levels/level-5/components/results-modal.html' %}
+
+    <!-- Navigation -->
+    {% include 'levels/level-5/components/navigation.html' %}
+</div>
+
+<!-- Level 5 JavaScript -->
+<script src="{{ url_for('static', filename='js/levels/level-5/level-5.js') }}"></script>
+{% endblock %}

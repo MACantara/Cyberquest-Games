@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Ending: The Sentinel's Legacy -->
+<div class="max-w-7xl mx-auto">
+    <!-- Opening Sequence Modal -->
+    {% include 'levels/ending/components/intro-modal.html' %}
+
+    <!-- Header -->
+    {% include 'levels/ending/components/header.html' %}
+
+    <!-- Main Interface -->
+    {% include 'levels/ending/components/main-interface.html' %}
+
+    <!-- Modals -->
+    {% include 'levels/ending/components/final-message-modal.html' %}
+    {% include 'levels/ending/components/results-modal.html' %}
+
+    <!-- Navigation -->
+    {% include 'levels/ending/components/navigation.html' %}
+</div>
+
+<!-- Ending JavaScript -->
+<script src="{{ url_for('static', filename='js/levels/ending/ending.js') }}"></script>
+
+<!-- Ending CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ending.css') }}">
+{% endblock %}

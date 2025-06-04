@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-6 text-cyan-300">Campaign Levels</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Level 1 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-newspaper text-yellow-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 1: The Misinformation Maze</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Debunk fake news and stop misinformation from influencing an election.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=1) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~15 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Level 2 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-envelope-exclamation text-red-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 2: Shadow in the Inbox</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Spot phishing attempts and practice safe email protocols.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=2) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~20 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 3 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-bug text-purple-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 3: Malware Mayhem</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Isolate infections and perform digital cleanup during a gaming tournament.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=3) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~25 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 4 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-key text-orange-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 4: The Password Heist</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Defend against brute-force attacks and implement strong password practices.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=4) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~20 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 5 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-share text-blue-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 5: The Social Web</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Navigate ethical social media behavior and protect your digital footprint.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=5) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~25 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 6 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-bank text-green-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 6: Digital Gold Rush</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Spot financial scams and practice safe online business practices.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=6) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~30 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 7 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-robot text-pink-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 7: The Adaptive Adversary</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Confront AI-powered threats that adapt to your behavior patterns.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=7) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~25 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 8 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-shield-check text-emerald-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 8: The White Hat Test</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Practice ethical hacking and responsible vulnerability disclosure.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=8) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~30 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 9 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-lightning text-red-500"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 9: Operation Blackout</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Defend critical infrastructure from a coordinated DDoS attack.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=9) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~35 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 10 -->
+    <div class="bg-gray-800 rounded-lg p-5 shadow flex items-start gap-4 border-2 border-cyan-500">
+        <span class="text-3xl"><i class="bi bi-search text-indigo-400"></i></span>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-lg">Level 10: The Hunt for The Null</h3>
+                <span class="text-xs bg-cyan-500 text-white px-2 py-1 rounded">AVAILABLE</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-2">Final mission: Collaborate with other cadets to expose The Null's identity.</p>
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('level', level_id=10) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded text-sm font-medium">
+                    <i class="bi bi-play-fill mr-1"></i> Start Mission
+                </a>
+                <div class="text-xs text-gray-400">
+                    <i class="bi bi-clock mr-1"></i> ~40 minutes
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Campaign Complete Section -->
+<div class="mt-8 bg-gradient-to-r from-purple-900 to-indigo-900 rounded-lg p-6 border border-purple-600">
+    <div class="text-center">
+        <div class="text-4xl mb-4">🏆</div>
+        <h3 class="text-xl font-bold text-cyan-300 mb-2">Campaign Complete</h3>
+        <p class="text-gray-300 mb-4">You've finished all 10 levels! Experience the final debrief and see your legacy.</p>
+        <a href="{{ url_for('ending') }}" class="bg-gold-500 hover:bg-gold-600 text-white px-6 py-3 rounded font-medium inline-flex items-center gap-2">
+            <i class="bi bi-award"></i> View Ending Sequence
+        </a>
+    </div>
+</div>
+{% endblock %}

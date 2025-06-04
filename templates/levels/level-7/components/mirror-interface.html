@@ -1,0 +1,71 @@
+<div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
+    <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+        <i class="bi bi-arrows"></i> Mirror Interface
+    </h3>
+
+    <!-- Default State -->
+    <div id="mirror-placeholder" class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-96 flex flex-col items-center justify-center">
+        <i class="bi bi-cpu text-4xl text-gray-500 mb-4 animate-pulse"></i>
+        <p class="text-gray-400 text-center">
+            <strong>AI is analyzing your behavioral patterns</strong><br>
+            <span class="text-sm">Choose a scenario to face your adaptive adversary</span>
+        </p>
+    </div>
+
+    <!-- Active Scenario Panel -->
+    <div id="scenario-panel" class="hidden">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+            <!-- Your Side -->
+            <div class="bg-gray-700 rounded p-4">
+                <h4 class="text-cyan-300 font-semibold mb-3 text-center">You</h4>
+                <div id="player-action" class="text-center">
+                    <div class="w-16 h-16 bg-cyan-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                        <i class="bi bi-person text-white text-xl"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm">Awaiting decision...</p>
+                </div>
+            </div>
+
+            <!-- AI Side -->
+            <div class="bg-gray-700 rounded p-4">
+                <h4 class="text-purple-300 font-semibold mb-3 text-center">AI Adversary</h4>
+                <div id="ai-action" class="text-center">
+                    <div class="w-16 h-16 bg-purple-500 rounded-full mx-auto mb-2 flex items-center justify-center animate-pulse">
+                        <i class="bi bi-robot text-white text-xl"></i>
+                    </div>
+                    <p id="ai-prediction" class="text-purple-300 text-sm">Analyzing patterns...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario Content -->
+        <div class="bg-gray-700 rounded p-4 mb-4">
+            <h5 class="text-white font-semibold mb-3">Current Scenario</h5>
+            <div id="scenario-content" class="text-gray-200 text-sm mb-4"></div>
+            
+            <!-- Challenge Options -->
+            <div id="challenge-options" class="grid grid-cols-2 gap-3">
+                <!-- Options populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- AI Adaptation Display -->
+        <div class="bg-purple-900 border border-purple-600 rounded p-3">
+            <h5 class="text-purple-300 font-semibold mb-2">AI Adaptation Status</h5>
+            <div id="adaptation-status" class="space-y-2 text-xs">
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Learning Rate:</span>
+                    <span id="learning-rate" class="text-purple-400">High</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Prediction Confidence:</span>
+                    <span id="prediction-confidence" class="text-purple-400">75%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Next Expected Move:</span>
+                    <span id="next-move" class="text-purple-400">Standard Response</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

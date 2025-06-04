@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center">
+    <h1 class="text-4xl font-bold mb-4 text-cyan-400">CyberQuest: Shadows of the Net</h1>
+    <p class="mb-6 text-lg max-w-2xl mx-auto">
+        Embark on a gamified journey through digital literacy and cybersecurity. Rise through the ranks of the InterWorld Cyber Academy, uncover conspiracies, and defend the digital frontier!
+    </p>
+    <a href="{{ url_for('campaign') }}" class="inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-6 py-3 rounded shadow transition">
+        <i class="bi bi-play-fill mr-2"></i>Start Campaign
+    </a>
+</div>
+{% endblock %}

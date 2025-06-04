@@ -1,0 +1,76 @@
+<div class="col-span-3 space-y-4">
+    <!-- Alert Queue -->
+    <div class="bg-gray-800 rounded-lg p-4 shadow">
+        <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+            <i class="bi bi-exclamation-triangle"></i> Alert Queue
+        </h3>
+        
+        <div id="alert-queue" class="space-y-2 max-h-64 overflow-y-auto">
+            <!-- Alerts populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Traffic Analytics -->
+    <div class="bg-gray-800 rounded-lg p-4 shadow">
+        <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+            <i class="bi bi-graph-up"></i> Traffic Analytics
+        </h3>
+        
+        <div class="space-y-3">
+            <div class="bg-gray-700 rounded p-3">
+                <h4 class="text-sm font-semibold text-white mb-2">Attack Volume</h4>
+                <div class="bg-gray-600 rounded h-3 mb-1">
+                    <div id="attack-volume" class="bg-red-400 h-3 rounded transition-all duration-500" style="width: 60%"></div>
+                </div>
+                <p class="text-xs text-gray-400">60 Gbps incoming</p>
+            </div>
+            
+            <div class="bg-gray-700 rounded p-3">
+                <h4 class="text-sm font-semibold text-white mb-2">Response Efficiency</h4>
+                <div class="bg-gray-600 rounded h-3 mb-1">
+                    <div id="response-efficiency" class="bg-green-400 h-3 rounded transition-all duration-500" style="width: 85%"></div>
+                </div>
+                <p class="text-xs text-gray-400">85% mitigation rate</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-red-900 border border-red-600 rounded p-3">
+        <h4 class="text-sm font-semibold text-red-300 mb-2">
+            <i class="bi bi-lightning mr-1"></i> Emergency Actions
+        </h4>
+        <div class="space-y-2">
+            <button class="w-full bg-red-700 hover:bg-red-600 text-white p-2 rounded text-xs" id="emergency-blackhole">
+                🕳️ Emergency Blackhole
+            </button>
+            <button class="w-full bg-orange-700 hover:bg-orange-600 text-white p-2 rounded text-xs" id="failover-activate">
+                🔄 Activate Failover
+            </button>
+            <button class="w-full bg-purple-700 hover:bg-purple-600 text-white p-2 rounded text-xs" id="trace-source">
+                🔍 Trace Attack Source
+            </button>
+        </div>
+    </div>
+
+    <!-- Network Status -->
+    <div class="bg-gray-800 rounded-lg p-4 shadow">
+        <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+            <i class="bi bi-wifi"></i> Network Status
+        </h3>
+        <div class="space-y-2 text-xs">
+            <div class="flex justify-between">
+                <span class="text-gray-300">Bandwidth:</span>
+                <span id="bandwidth-usage" class="text-red-400">95% utilized</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-300">Latency:</span>
+                <span id="network-latency" class="text-yellow-400">350ms avg</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-300">Packet Loss:</span>
+                <span id="packet-loss" class="text-red-400">12%</span>
+            </div>
+        </div>
+    </div>
+</div>
