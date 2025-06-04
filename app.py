@@ -3,34 +3,22 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 
-DB_PATH = "cyberquest.db"
-
-def init_db():
-    if not os.path.exists(DB_PATH):
-        conn = sqlite3.connect(DB_PATH)
-        c = conn.cursor()
-        c.execute('''
-            CREATE TABLE users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT UNIQUE,
-                password TEXT,
-                progress INTEGER DEFAULT 0
-            )
-        ''')
-        conn.commit()
-        conn.close()
-
-# Initialize database on first request
-_db_initialized = False
-
-@app.before_request
-def setup():
-    global _db_initialized
-    if not _db_initialized:
-        init_db()
-        _db_initialized = True
+# Use in-memory database for serverless environment
+def get_db_connection():
+    conn = sqlite3.connect(':memory:')
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE,
+            password TEXT,
+            progress INTEGER DEFAULT 0
+        )
+    ''')
+    conn.commit()
+    return conn
 
 @app.route("/")
 def index():
@@ -73,5 +61,10 @@ def level(level_id):
         # For levels not yet implemented, use generic template
         return render_template("levels/level.html", level_id=level_id)
 
+# For Vercel deployment
 if __name__ == "__main__":
     app.run(debug=True)
+
+# Export the app for Vercel
+def handler(request):
+    return app(request.environ, lambda status, headers: None)
