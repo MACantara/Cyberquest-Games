@@ -1,348 +1,386 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- Level 4: The Password Heist -->
-<div class="max-w-7xl mx-auto">
-    <!-- Opening Cutscene Modal -->
-    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl mx-4">
+<!-- Level 4: The Password Heist - Emergency Security Command Center -->
+<div class="h-screen bg-gray-900 relative overflow-hidden">
+    <!-- Animated Background - Cybersecurity Grid -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="grid-background animate-pulse"></div>
+    </div>
+
+    <!-- Critical Alert Banner -->
+    <div id="critical-banner" class="fixed top-0 left-0 right-0 bg-red-600 text-white p-2 z-50 animate-pulse">
+        <div class="flex items-center justify-center gap-3">
+            <i class="bi bi-exclamation-triangle-fill text-yellow-300 animate-bounce"></i>
+            <span class="font-bold">🚨 CRITICAL SECURITY BREACH IN PROGRESS 🚨</span>
+            <span id="breach-timer" class="bg-red-800 px-3 py-1 rounded font-mono">05:00</span>
+        </div>
+    </div>
+
+    <!-- Opening Emergency Modal -->
+    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50">
+        <div class="bg-red-900 border-2 border-red-500 rounded-lg p-8 max-w-3xl mx-4 shadow-2xl">
             <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold text-cyan-300 mb-4">Alumni Vault - Security Command Interface</h2>
-                <div class="bg-red-900 border border-red-600 rounded p-4 mb-4">
+                <h2 class="text-3xl font-bold text-red-300 mb-4 animate-pulse">⚠️ EMERGENCY PROTOCOL ACTIVATED ⚠️</h2>
+                <div class="bg-black border border-red-400 rounded p-4 mb-4">
                     <div class="flex items-center gap-3 mb-3">
-                        <i class="bi bi-shield-exclamation text-red-400 text-xl"></i>
-                        <span class="font-semibold text-red-300">INTRUSION DETECTED</span>
+                        <i class="bi bi-shield-exclamation text-red-400 text-2xl animate-spin"></i>
+                        <span class="font-semibold text-red-300 text-lg">BRUTE-FORCE ATTACK DETECTED</span>
                     </div>
-                    <p class="text-red-200 text-sm">
-                        Brute-force attack in progress on Alumni Vault. The Null is exploiting weak passwords from
-                        historical cadet records!
+                    <p class="text-red-200 text-sm leading-relaxed">
+                        <strong>The Null</strong> has breached the Alumni Credential Vault! They're exploiting weak passwords 
+                        from historical cadet records. <span class="text-yellow-300">Estimated time to full breach: 5 minutes!</span>
                     </p>
                 </div>
-                <div class="bg-gray-700 rounded p-4 mb-4">
+                <div class="bg-gray-800 border border-cyan-500 rounded p-4 mb-4">
                     <div class="flex items-center gap-3 mb-3">
-                        <div class="bg-cyan-400 rounded-full w-8 h-8 flex items-center justify-center">
-                            <i class="bi bi-robot text-gray-900 text-sm"></i>
+                        <div class="bg-cyan-400 rounded-full w-10 h-10 flex items-center justify-center animate-pulse">
+                            <i class="bi bi-robot text-gray-900"></i>
                         </div>
-                        <span class="font-semibold text-cyan-300">Mentor AI - Argus</span>
+                        <span class="font-semibold text-cyan-300">Emergency AI - AEGIS</span>
                     </div>
                     <p class="text-gray-200 text-sm italic">
-                        "Nova, they're targeting accounts with weak credentials. We need to identify vulnerabilities and
-                        implement strong defenses before they breach the vault."
+                        "Nova, we need immediate action! Secure the vulnerable accounts, deploy emergency countermeasures, 
+                        and stop The Null before they access our most sensitive alumni records!"
                     </p>
                 </div>
             </div>
-            <button id="start-mission"
-                class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded">
-                Enter Security Command
+            <button id="start-mission" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg animate-pulse text-lg">
+                🚨 INITIATE EMERGENCY RESPONSE 🚨
             </button>
         </div>
     </div>
 
-    <!-- Header with Mission Stats -->
-    <div class="bg-gray-800 rounded-lg p-6 mb-6 shadow">
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-4">
-                <i class="bi bi-key text-orange-400 text-3xl"></i>
-                <div>
-                    <h1 class="text-2xl font-bold text-cyan-300">Level 4: The Password Heist</h1>
-                    <p class="text-gray-300">Alumni Vault - Security Command Interface</p>
+    <!-- Main Command Center Interface -->
+    <div class="pt-16 h-screen flex flex-col">
+        <!-- Command Center Header -->
+        <div class="bg-gray-800 border-b-2 border-red-500 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="bg-red-600 p-3 rounded-full animate-pulse">
+                        <i class="bi bi-shield-exclamation text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-white">Emergency Security Command</h1>
+                        <p class="text-red-300">Alumni Vault - Breach Containment Protocol</p>
+                    </div>
                 </div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm text-gray-400">Security Progress</div>
-                <div class="text-lg font-semibold text-cyan-300">Vault Security: <span id="vault-security">45</span>%
+                <div class="text-right">
+                    <div class="text-sm text-gray-400">Vault Integrity</div>
+                    <div class="text-3xl font-bold text-red-400" id="vault-security">25%</div>
                 </div>
             </div>
         </div>
 
-        <!-- Mission Stats -->
-        <div class="grid grid-cols-4 gap-4 bg-gray-700 rounded p-4">
-            <div class="text-center">
-                <div class="text-2xl font-bold text-green-400" id="secured-accounts">0</div>
-                <div class="text-xs text-gray-400">Accounts Secured</div>
+        <!-- Real-time Attack Dashboard -->
+        <div class="bg-gray-800 border-b border-gray-700 p-4">
+            <div class="grid grid-cols-4 gap-4">
+                <div class="bg-red-900 border border-red-600 rounded-lg p-3 text-center">
+                    <div class="text-red-400 text-lg font-bold" id="login-attempts">1,247</div>
+                    <div class="text-xs text-red-300">Login Attempts</div>
+                    <div class="text-xs text-gray-400">+<span id="attempts-per-sec">47</span>/sec</div>
+                </div>
+                <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-3 text-center">
+                    <div class="text-yellow-400 text-lg font-bold" id="compromised-accounts">3</div>
+                    <div class="text-xs text-yellow-300">Compromised</div>
+                    <div class="text-xs text-gray-400">Critical Risk</div>
+                </div>
+                <div class="bg-green-900 border border-green-600 rounded-lg p-3 text-center">
+                    <div class="text-green-400 text-lg font-bold" id="secured-accounts">0</div>
+                    <div class="text-xs text-green-300">Secured</div>
+                    <div class="text-xs text-gray-400">MFA Enabled</div>
+                </div>
+                <div class="bg-purple-900 border border-purple-600 rounded-lg p-3 text-center">
+                    <div class="text-purple-400 text-lg font-bold" id="attack-intensity">85%</div>
+                    <div class="text-xs text-purple-300">Attack Intensity</div>
+                    <div class="bg-purple-500 h-1 rounded mt-1">
+                        <div id="intensity-bar" class="bg-red-500 h-1 rounded transition-all duration-1000" style="width: 85%"></div>
+                    </div>
+                </div>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-red-400" id="breached-accounts">0</div>
-                <div class="text-xs text-gray-400">Accounts Breached</div>
+        </div>
+
+        <!-- Main Interface Grid -->
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Left Panel: Vulnerable Accounts List -->
+            <div class="w-1/3 bg-gray-900 border-r border-gray-700 flex flex-col">
+                <div class="bg-red-800 px-4 py-3 border-b border-red-600">
+                    <h3 class="text-white font-bold flex items-center gap-2">
+                        <i class="bi bi-exclamation-triangle animate-bounce"></i>
+                        High-Risk Accounts
+                    </h3>
+                    <p class="text-red-200 text-sm">Click to analyze and secure</p>
+                </div>
+
+                <!-- Tutorial -->
+                <div id="tutorial-audit" class="bg-red-900 border-l-4 border-red-400 p-3 m-3 rounded hidden">
+                    <p class="text-red-200 text-sm">
+                        <i class="bi bi-clock mr-2"></i>
+                        Time is critical! Start with admin.legacy - it has the highest privileges and weakest security.
+                    </p>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-3 space-y-2">
+                    <!-- High Priority Admin Account -->
+                    <div class="account-item bg-red-900 border-2 border-red-500 rounded-lg p-4 cursor-pointer hover:bg-red-800 transition animate-pulse" data-account="1">
+                        <div class="flex items-start gap-3">
+                            <i class="bi bi-person-fill-exclamation text-red-400 text-2xl animate-bounce"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="text-red-200 font-bold text-sm">admin.legacy@alumni</h4>
+                                    <span class="bg-red-600 text-white text-xs px-2 py-1 rounded animate-pulse">CRITICAL</span>
+                                </div>
+                                <p class="text-red-300 text-xs mb-2">Legacy Admin • Full Vault Access</p>
+                                <div class="space-y-1 text-xs">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Password:</span>
+                                        <span class="text-red-400 font-mono">admin123 💀</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">MFA:</span>
+                                        <span class="text-red-400">DISABLED</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Last Login:</span>
+                                        <span class="text-yellow-400 animate-pulse">NOW</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-red-400 animate-spin">
+                                <i class="bi bi-arrow-repeat"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Risk Accounts -->
+                    <div class="account-item bg-yellow-900 border border-yellow-600 rounded-lg p-3 cursor-pointer hover:bg-yellow-800 transition" data-account="2">
+                        <div class="flex items-start gap-3">
+                            <i class="bi bi-person-exclamation text-yellow-400 text-lg"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="text-yellow-200 font-semibold text-sm">alex.wilson@alumni</h4>
+                                    <span class="bg-yellow-600 text-black text-xs px-2 py-1 rounded">HIGH</span>
+                                </div>
+                                <p class="text-yellow-300 text-xs mb-1">Class of 2019 • Weak Password</p>
+                                <div class="text-xs text-gray-400">Password: graduation2019</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="account-item bg-yellow-900 border border-yellow-600 rounded-lg p-3 cursor-pointer hover:bg-yellow-800 transition" data-account="3">
+                        <div class="flex items-start gap-3">
+                            <i class="bi bi-person-exclamation text-yellow-400 text-lg"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="text-yellow-200 font-semibold text-sm">m.chen@alumni</h4>
+                                    <span class="bg-yellow-600 text-black text-xs px-2 py-1 rounded">HIGH</span>
+                                </div>
+                                <p class="text-yellow-300 text-xs mb-1">Class of 2020 • Reused Password</p>
+                                <div class="text-xs text-gray-400">Password: Password123!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lower Risk Accounts -->
+                    <div class="account-item bg-green-900 border border-green-600 rounded-lg p-3 cursor-pointer hover:bg-green-800 transition" data-account="4">
+                        <div class="flex items-start gap-3">
+                            <i class="bi bi-person-check text-green-400 text-lg"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="text-green-200 font-semibold text-sm">j.torres@alumni</h4>
+                                    <span class="bg-green-600 text-black text-xs px-2 py-1 rounded">MEDIUM</span>
+                                </div>
+                                <p class="text-green-300 text-xs mb-1">Class of 2021 • Strong Password</p>
+                                <div class="text-xs text-gray-400">MFA: Partially Enabled</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-blue-400" id="mfa-enabled">0</div>
-                <div class="text-xs text-gray-400">MFA Enabled</div>
+
+            <!-- Center Panel: Account Analysis -->
+            <div class="flex-1 bg-gray-800 flex flex-col">
+                <!-- Default State -->
+                <div id="account-placeholder" class="flex-1 flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="bi bi-shield-exclamation text-6xl text-red-400 mb-4 animate-pulse"></i>
+                        <h3 class="text-xl font-bold text-red-300 mb-2">Select Account to Secure</h3>
+                        <p class="text-gray-400">Choose a vulnerable account from the list to analyze and protect</p>
+                        <div class="mt-4 bg-red-900 border border-red-600 rounded p-3 max-w-md mx-auto">
+                            <p class="text-red-200 text-sm">⏰ Every second counts - The Null is getting closer to a full breach!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Analysis Interface -->
+                <div id="account-details" class="flex-1 flex flex-col hidden">
+                    <!-- Account Header -->
+                    <div class="bg-red-900 border-b-2 border-red-600 p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i id="account-icon" class="bi bi-person-fill-exclamation text-red-400 text-2xl"></i>
+                                <div>
+                                    <h3 id="account-email" class="text-white font-bold text-lg">admin.legacy@alumni</h3>
+                                    <p id="account-role" class="text-red-300 text-sm">Legacy Administrator Account</p>
+                                </div>
+                            </div>
+                            <button id="close-details" class="text-gray-400 hover:text-white">
+                                <i class="bi bi-x-circle text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Real-time Attack Status -->
+                    <div class="bg-black border-b border-gray-700 p-4">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="text-red-400 text-lg font-bold" id="current-attempts">2,456</div>
+                                <div class="text-xs text-gray-400">Attempts on this account</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-yellow-400 text-lg font-bold" id="estimated-breach">02:34</div>
+                                <div class="text-xs text-gray-400">Est. time to breach</div>
+                            </div>
+                            <div class="text-center">
+                                <div id="risk-level" class="text-red-400 text-lg font-bold animate-pulse">CRITICAL</div>
+                                <div class="text-xs text-gray-400">Risk Level</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Analysis -->
+                    <div class="flex-1 overflow-y-auto p-4">
+                        <div class="space-y-4">
+                            <!-- Password Analysis -->
+                            <div class="bg-red-950 border border-red-600 rounded-lg p-4">
+                                <h4 class="text-red-300 font-bold mb-3 flex items-center gap-2">
+                                    <i class="bi bi-key"></i> Password Security Analysis
+                                </h4>
+                                <div id="password-analysis" class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Current Password:</span>
+                                        <span id="current-password" class="text-red-400 font-mono">admin123</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Strength:</span>
+                                        <span class="text-red-400">CRITICALLY WEAK</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Dictionary Word:</span>
+                                        <span class="text-red-400">YES ⚠️</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Crack Time:</span>
+                                        <span class="text-red-400 animate-pulse">0.003 seconds</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MFA Status -->
+                            <div class="bg-gray-900 border border-gray-600 rounded-lg p-4">
+                                <h4 class="text-gray-300 font-bold mb-3 flex items-center gap-2">
+                                    <i class="bi bi-shield-check"></i> Multi-Factor Authentication
+                                </h4>
+                                <div id="mfa-status" class="text-sm">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i class="bi bi-x-circle text-red-400"></i>
+                                        <span class="text-red-400">MFA DISABLED</span>
+                                    </div>
+                                    <p class="text-gray-400 text-xs">This account is vulnerable to password-only attacks.</p>
+                                </div>
+                            </div>
+
+                            <!-- Attack Activity -->
+                            <div class="bg-yellow-950 border border-yellow-600 rounded-lg p-4">
+                                <h4 class="text-yellow-300 font-bold mb-3 flex items-center gap-2">
+                                    <i class="bi bi-activity"></i> Live Attack Activity
+                                </h4>
+                                <div id="attack-activity" class="space-y-1 text-xs font-mono max-h-32 overflow-y-auto">
+                                    <div class="text-red-400">15:42:23 - Failed: admin123</div>
+                                    <div class="text-red-400">15:42:24 - Failed: admin1234</div>
+                                    <div class="text-red-400">15:42:25 - Failed: administrator</div>
+                                    <div class="text-yellow-400 animate-pulse">15:42:26 - Trying: password123...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Actions -->
+                    <div class="bg-gray-900 border-t-2 border-red-600 p-4">
+                        <h4 class="text-white font-bold mb-3">Emergency Security Actions</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="security-action bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-bold transition" data-action="enable-mfa">
+                                <i class="bi bi-shield-check mr-2"></i> Enable MFA
+                            </button>
+                            <button class="security-action bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded-lg font-bold transition" data-action="force-reset">
+                                <i class="bi bi-arrow-clockwise mr-2"></i> Force Reset
+                            </button>
+                            <button class="security-action bg-red-600 hover:bg-red-700 text-white p-3 rounded-lg font-bold transition" data-action="lockdown">
+                                <i class="bi bi-lock mr-2"></i> Emergency Lock
+                            </button>
+                            <button class="security-action bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg font-bold transition" data-action="verify-safe">
+                                <i class="bi bi-check-circle mr-2"></i> Verify Safe
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-yellow-400" id="attack-intensity">75</div>
-                <div class="text-xs text-gray-400">Attack Intensity (%)</div>
+
+            <!-- Right Panel: Live Attack Feed & Emergency Controls -->
+            <div class="w-1/3 bg-black border-l border-gray-700 flex flex-col">
+                <!-- Live Attack Feed -->
+                <div class="flex-1">
+                    <div class="bg-red-800 px-4 py-3 border-b border-red-600">
+                        <h3 class="text-white font-bold flex items-center gap-2">
+                            <i class="bi bi-activity animate-pulse"></i>
+                            Live Attack Feed
+                        </h3>
+                    </div>
+                    <div id="login-feed" class="h-64 overflow-y-auto p-3 space-y-1 font-mono text-xs">
+                        <!-- Real-time attack attempts will be populated here -->
+                    </div>
+                </div>
+
+                <!-- System-Wide Emergency Controls -->
+                <div class="bg-gray-900 border-t border-gray-700 p-4">
+                    <h4 class="text-red-300 font-bold mb-3 flex items-center gap-2">
+                        <i class="bi bi-exclamation-octagon"></i> Emergency Protocols
+                    </h4>
+                    <div class="space-y-3">
+                        <button id="vault-lockdown" class="w-full bg-red-700 hover:bg-red-800 text-white p-3 rounded-lg font-bold border-2 border-red-500 transition">
+                            🔒 VAULT LOCKDOWN
+                        </button>
+                        <button id="mass-reset" class="w-full bg-yellow-700 hover:bg-yellow-800 text-white p-3 rounded-lg font-bold transition">
+                            🔄 MASS PASSWORD RESET
+                        </button>
+                        <button id="deploy-mfa" class="w-full bg-blue-700 hover:bg-blue-800 text-white p-3 rounded-lg font-bold transition">
+                            🛡️ DEPLOY EMERGENCY MFA
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Network Trace -->
+                <div class="bg-gray-800 border-t border-gray-700 p-4">
+                    <h4 class="text-gray-300 font-bold mb-2 text-sm">Attack Source Trace</h4>
+                    <div class="text-xs space-y-1 font-mono">
+                        <div class="text-red-400">Origin: 185.220.101.45</div>
+                        <div class="text-yellow-400">Proxy Chain: 7 hops</div>
+                        <div class="text-gray-400">Location: Unknown</div>
+                        <div class="text-red-400 animate-pulse">Status: ACTIVE</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Game Interface -->
-    <div class="grid grid-cols-12 gap-6">
-        <!-- Left Panel: Credential Audit -->
-        <div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
-            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                <i class="bi bi-shield-check"></i> Credential Audit
-            </h3>
-
-            <!-- Tutorial Tooltip -->
-            <div id="tutorial-audit" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
-                <p class="text-blue-200 text-sm">
-                    <i class="bi bi-lightbulb mr-2"></i>
-                    Review alumni passwords and rate their strength. Flag weak ones for immediate update or lockdown.
-                </p>
-            </div>
-
-            <div class="space-y-3">
-                <!-- Account 1 - Weak -->
-                <div class="account-item bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition"
-                    data-account="1">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-person-exclamation text-red-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-1">
-                                <h4 class="text-sm font-semibold text-white">alex.wilson@alumni</h4>
-                                <span class="text-xs bg-red-600 text-white px-2 py-1 rounded">WEAK</span>
-                            </div>
-                            <p class="text-xs text-red-300 mb-1">Password: Summer2020!</p>
-                            <p class="text-xs text-gray-400">Last login: 2 hours ago</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account 2 - Moderate -->
-                <div class="account-item bg-yellow-900 border border-yellow-600 rounded p-3 cursor-pointer hover:bg-yellow-800 transition"
-                    data-account="2">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-person-dash text-yellow-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-1">
-                                <h4 class="text-sm font-semibold text-white">maria.chen@alumni</h4>
-                                <span class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">MODERATE</span>
-                            </div>
-                            <p class="text-xs text-yellow-300 mb-1">Password: MyDog2019#</p>
-                            <p class="text-xs text-gray-400">Last login: 1 day ago</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account 3 - Strong -->
-                <div class="account-item bg-green-900 border border-green-600 rounded p-3 cursor-pointer hover:bg-green-800 transition"
-                    data-account="3">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-person-check text-green-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-1">
-                                <h4 class="text-sm font-semibold text-white">j.torres@alumni</h4>
-                                <span class="text-xs bg-green-600 text-white px-2 py-1 rounded">STRONG</span>
-                            </div>
-                            <p class="text-xs text-green-300 mb-1">Password: ••••••••••••••••</p>
-                            <p class="text-xs text-gray-400">Last login: 3 days ago</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account 4 - Critical -->
-                <div class="account-item bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition animate-pulse"
-                    data-account="4">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-person-x text-red-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-1">
-                                <h4 class="text-sm font-semibold text-white">admin.legacy@alumni</h4>
-                                <span
-                                    class="text-xs bg-red-600 text-white px-2 py-1 rounded animate-pulse">CRITICAL</span>
-                            </div>
-                            <p class="text-xs text-red-300 mb-1">Password: password123</p>
-                            <p class="text-xs text-red-400">⚠️ ADMIN PRIVILEGES</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Center Panel: Live Attack Monitor -->
-        <div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
-            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                <i class="bi bi-activity"></i> Live Attack Monitor
-            </h3>
-
-            <!-- Attack Intensity Meter -->
-            <div class="bg-gray-700 rounded p-4 mb-4">
-                <div class="flex items-center justify-between mb-2">
-                    <h4 class="text-white font-semibold">Brute-Force Intensity</h4>
-                    <span id="attempts-per-sec" class="text-red-400 font-mono">1,247 attempts/sec</span>
-                </div>
-                <div class="bg-gray-600 rounded h-4 mb-2">
-                    <div id="intensity-bar" class="bg-red-500 h-4 rounded transition-all duration-1000"
-                        style="width: 75%">
-                    </div>
-                </div>
-                <p class="text-xs text-gray-400">Current target: Alumni credential database</p>
-            </div>
-
-            <!-- Real-time Login Attempts -->
-            <div class="bg-gray-700 rounded p-4 mb-4">
-                <h4 class="text-white font-semibold mb-3">Recent Login Attempts</h4>
-                <div id="login-feed" class="space-y-2 max-h-48 overflow-y-auto">
-                    <!-- Dynamic content populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Account Details Panel -->
-            <div id="account-details" class="bg-gray-700 rounded p-4 hidden">
-                <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-white font-semibold">Account Analysis</h4>
-                    <button id="close-details" class="text-gray-400 hover:text-white">
-                        <i class="bi bi-x-circle"></i>
-                    </button>
-                </div>
-                <div id="account-info"></div>
-
-                <!-- Security Actions -->
-                <div class="mt-4 grid grid-cols-2 gap-3">
-                    <button class="security-action bg-blue-600 hover:bg-blue-700 text-white p-2 rounded text-sm"
-                        data-action="enable-mfa">
-                        <i class="bi bi-shield-plus mr-2"></i> Enable MFA
-                    </button>
-                    <button class="security-action bg-orange-600 hover:bg-orange-700 text-white p-2 rounded text-sm"
-                        data-action="force-reset">
-                        <i class="bi bi-arrow-clockwise mr-2"></i> Force Reset
-                    </button>
-                    <button class="security-action bg-red-600 hover:bg-red-700 text-white p-2 rounded text-sm"
-                        data-action="lockdown">
-                        <i class="bi bi-lock mr-2"></i> Account Lockdown
-                    </button>
-                    <button class="security-action bg-green-600 hover:bg-green-700 text-white p-2 rounded text-sm"
-                        data-action="verify-safe">
-                        <i class="bi bi-check-circle mr-2"></i> Mark Secure
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Panel: Security Toolkit -->
-        <div class="col-span-3 space-y-4">
-            <!-- Password Strength Analyzer -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-cpu"></i> Password Analyzer
-                </h3>
-
-                <div class="space-y-3">
-                    <div class="bg-gray-700 rounded p-3">
-                        <h4 class="text-sm font-semibold text-white mb-2">Crack Time Estimates</h4>
-                        <div id="crack-times" class="text-xs space-y-1">
-                            <div class="flex justify-between">
-                                <span class="text-gray-400">"password123"</span>
-                                <span class="text-red-400">0.001 seconds</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-400">"Summer2020!"</span>
-                                <span class="text-yellow-400">2 hours</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-400">"C0mpl3x!Phrase#2025"</span>
-                                <span class="text-green-400">3.7 million years</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MFA Status -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-shield"></i> MFA Status
-                </h3>
-
-                <div class="space-y-2">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-400">SMS Auth</span>
-                        <span class="text-yellow-400">Available</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-400">Authenticator App</span>
-                        <span class="text-green-400">Recommended</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-400">Biometric</span>
-                        <span class="text-blue-400">Premium</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-400">Hardware Token</span>
-                        <span class="text-purple-400">Enterprise</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="bg-blue-900 border border-blue-600 rounded p-3">
-                <h4 class="text-sm font-semibold text-blue-300 mb-2">
-                    <i class="bi bi-lightning mr-1"></i> Emergency Actions
-                </h4>
-                <div class="space-y-2">
-                    <button class="w-full bg-red-700 hover:bg-red-600 text-white p-2 rounded text-xs"
-                        id="vault-lockdown">
-                        🔒 Emergency Vault Lockdown
-                    </button>
-                    <button class="w-full bg-orange-700 hover:bg-orange-600 text-white p-2 rounded text-xs"
-                        id="mass-reset">
-                        🔄 Mass Password Reset
-                    </button>
-                    <button class="w-full bg-green-700 hover:bg-green-600 text-white p-2 rounded text-xs"
-                        id="deploy-mfa">
-                        🛡️ Deploy MFA to All
-                    </button>
-                </div>
-            </div>
-
-            <!-- Threat Intelligence -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-graph-up"></i> Threat Intel
-                </h3>
-                <div class="space-y-2 text-sm">
-                    <div class="bg-red-900 border border-red-600 rounded p-2">
-                        <p class="text-red-300 font-semibold">Active Dictionary Attack</p>
-                        <p class="text-red-200 text-xs">Using 10M common passwords</p>
-                    </div>
-                    <div class="bg-yellow-900 border border-yellow-600 rounded p-2">
-                        <p class="text-yellow-300 font-semibold">Credential Stuffing</p>
-                        <p class="text-yellow-200 text-xs">Reusing leaked passwords</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mentor AI Panel -->
-    <div class="mt-6 bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-4 shadow border border-cyan-700">
-        <div class="flex items-start gap-4">
-            <div class="bg-cyan-400 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
-                <i class="bi bi-robot text-gray-900 text-lg"></i>
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-2">
-                    <h4 class="font-semibold text-cyan-300">Mentor AI - Argus</h4>
-                    <span class="text-xs bg-red-700 text-red-200 px-2 py-1 rounded">CRITICAL MODE</span>
-                </div>
-                <p id="mentor-message" class="text-gray-200 text-sm">
-                    Nova, start with the critical admin.legacy account - it has admin privileges and a catastrophically
-                    weak password. Enable MFA immediately to stop the breach.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
-    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-lg mx-4">
+    <!-- Results Modal -->
+    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-900 border-2 border-red-500 rounded-lg p-8 max-w-lg mx-4 shadow-2xl">
             <div class="text-center">
                 <div id="result-icon" class="text-6xl mb-4"></div>
-                <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
-                <p id="result-message" class="text-gray-200 mb-6"></p>
-                <div id="result-feedback" class="bg-gray-700 rounded p-4 mb-6 text-left"></div>
-                <button id="continue-btn"
-                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
+                <h3 id="result-title" class="text-2xl font-bold mb-4 text-white"></h3>
+                <p id="result-message" class="text-gray-300 mb-6"></p>
+                <div id="result-feedback" class="bg-gray-800 rounded p-4 mb-6 text-left border border-gray-600"></div>
+                <button id="continue-btn" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded font-medium">
                     Continue
                 </button>
             </div>
@@ -350,18 +388,158 @@
     </div>
 
     <!-- Navigation -->
-    <div class="mt-8 flex justify-between items-center">
-        <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm flex items-center gap-2">
-            <i class="bi bi-arrow-left"></i> Back to Campaign
+    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center z-30">
+        <a href="{{ url_for('campaign') }}" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm flex items-center gap-2">
+            <i class="bi bi-arrow-left"></i> Abort Emergency
         </a>
-        <button id="complete-level"
-            class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed"
-            disabled>
-            Complete Mission <i class="bi bi-arrow-right ml-2"></i>
+        <button id="complete-level" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>
+            Vault Secured <i class="bi bi-shield-check ml-2"></i>
         </button>
     </div>
 </div>
 
 <!-- Level 4 JavaScript -->
 <script type="module" src="{{ url_for('static', filename='js/levels/level-4/level-4.js') }}"></script>
+
+<style>
+.grid-background {
+    background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    width: 100%;
+    height: 100%;
+}
+
+.account-item {
+    transition: all 0.3s ease;
+}
+
+.account-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Real-time counter animations */
+@keyframes countUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-count {
+    animation: countUp 0.3s ease-out;
+}
+
+/* Pulse for critical elements */
+@keyframes criticalPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.animate-critical {
+    animation: criticalPulse 1s infinite;
+}
+</style>
+
+<script>
+// Emergency timer and real-time effects
+document.addEventListener('DOMContentLoaded', function() {
+    let timeRemaining = 300; // 5 minutes
+    let attackIntensity = 85;
+    let loginAttempts = 1247;
+    
+    // Emergency countdown timer
+    function updateTimer() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        document.getElementById('breach-timer').textContent = 
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeRemaining <= 60) {
+            document.getElementById('breach-timer').classList.add('animate-pulse', 'bg-red-600');
+        }
+        
+        if (timeRemaining <= 0) {
+            // Trigger emergency lockdown
+            handleEmergencyTimeout();
+        }
+        
+        timeRemaining--;
+    }
+    
+    // Real-time attack simulation
+    function simulateAttacks() {
+        loginAttempts += Math.floor(Math.random() * 50) + 20;
+        document.getElementById('login-attempts').textContent = loginAttempts.toLocaleString();
+        document.getElementById('login-attempts').classList.add('animate-count');
+        
+        setTimeout(() => {
+            document.getElementById('login-attempts').classList.remove('animate-count');
+        }, 300);
+        
+        // Update attack intensity
+        attackIntensity += (Math.random() - 0.5) * 5;
+        attackIntensity = Math.max(50, Math.min(100, attackIntensity));
+        document.getElementById('attack-intensity').textContent = Math.floor(attackIntensity) + '%';
+        document.getElementById('intensity-bar').style.width = attackIntensity + '%';
+    }
+    
+    // Live attack feed
+    function addAttackFeedEntry() {
+        const feed = document.getElementById('login-feed');
+        const now = new Date();
+        const timestamp = now.toLocaleTimeString();
+        
+        const attacks = [
+            { text: 'Failed login: admin123', class: 'text-red-400' },
+            { text: 'Failed login: password', class: 'text-red-400' },
+            { text: 'Failed login: administrator', class: 'text-red-400' },
+            { text: 'Blocked by MFA: j.torres@alumni', class: 'text-green-400' },
+            { text: 'Rate limited: too many attempts', class: 'text-yellow-400' },
+            { text: 'Dictionary attack detected', class: 'text-red-400' }
+        ];
+        
+        const attack = attacks[Math.floor(Math.random() * attacks.length)];
+        
+        const entry = document.createElement('div');
+        entry.className = `flex justify-between text-xs p-1 bg-gray-900 rounded ${attack.class}`;
+        entry.innerHTML = `
+            <span>${attack.text}</span>
+            <span class="text-gray-500">${timestamp}</span>
+        `;
+        
+        feed.insertBefore(entry, feed.firstChild);
+        
+        // Keep only last 20 entries
+        while (feed.children.length > 20) {
+            feed.removeChild(feed.lastChild);
+        }
+    }
+    
+    // Start real-time updates
+    setInterval(updateTimer, 1000);
+    setInterval(simulateAttacks, 2000);
+    setInterval(addAttackFeedEntry, 1500);
+    
+    // Make functions globally available
+    window.emergencyTimer = timeRemaining;
+    window.updateEmergencyStats = function(newStats) {
+        if (newStats.vaultSecurity !== undefined) {
+            document.getElementById('vault-security').textContent = newStats.vaultSecurity + '%';
+        }
+        if (newStats.securedAccounts !== undefined) {
+            document.getElementById('secured-accounts').textContent = newStats.securedAccounts;
+        }
+        if (newStats.compromisedAccounts !== undefined) {
+            document.getElementById('compromised-accounts').textContent = newStats.compromisedAccounts;
+        }
+    };
+    
+    function handleEmergencyTimeout() {
+        // Show emergency failure modal
+        alert('EMERGENCY TIMEOUT! The Null has breached the vault!');
+        window.location.reload();
+    }
+});
+</script>
 {% endblock %}

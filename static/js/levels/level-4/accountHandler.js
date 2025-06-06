@@ -1,12 +1,67 @@
 import { gameState } from './gameState.js';
 import { updateMentorMessage } from './uiUpdates.js';
 
-export let accounts = {};
+export let accounts = {
+    1: {
+        id: 1,
+        email: 'admin.legacy@alumni',
+        role: 'Legacy Administrator',
+        password: 'admin123',
+        strength: 'critical',
+        mfaEnabled: false,
+        adminPrivileges: true,
+        correctAction: 'lockdown',
+        riskLevel: 'CRITICAL',
+        vulnerabilities: ['Weak password', 'No MFA', 'Dictionary word', 'Admin privileges'],
+        status: 'vulnerable'
+    },
+    2: {
+        id: 2,
+        email: 'alex.wilson@alumni',
+        role: 'Class of 2019',
+        password: 'graduation2019',
+        strength: 'weak',
+        mfaEnabled: false,
+        adminPrivileges: false,
+        correctAction: 'force-reset',
+        riskLevel: 'HIGH',
+        vulnerabilities: ['Predictable password', 'No MFA'],
+        status: 'vulnerable'
+    },
+    3: {
+        id: 3,
+        email: 'm.chen@alumni',
+        role: 'Class of 2020',
+        password: 'Password123!',
+        strength: 'weak',
+        mfaEnabled: false,
+        adminPrivileges: false,
+        correctAction: 'enable-mfa',
+        riskLevel: 'HIGH',
+        vulnerabilities: ['Common password pattern', 'No MFA'],
+        status: 'vulnerable'
+    },
+    4: {
+        id: 4,
+        email: 'j.torres@alumni',
+        role: 'Class of 2021',
+        password: 'K9$mT@7pLx!2',
+        strength: 'strong',
+        mfaEnabled: true,
+        adminPrivileges: false,
+        correctAction: 'verify-safe',
+        riskLevel: 'MEDIUM',
+        vulnerabilities: ['MFA partially configured'],
+        status: 'secure'
+    }
+};
 
 export async function loadAccounts() {
+    // Accounts are now defined locally, but we can still simulate loading
     try {
-        const response = await fetch('/static/js/levels/level-4/data/accounts.json');
-        accounts = await response.json();
+        // Simulate loading delay
+        await new Promise(resolve => setTimeout(resolve, 100));
+        console.log('Accounts loaded successfully');
     } catch (error) {
         console.error('Failed to load accounts:', error);
     }
@@ -14,56 +69,109 @@ export async function loadAccounts() {
 
 export function selectAccount(accountId) {
     gameState.currentAccount = accounts[accountId];
-    displayAccountDetails(gameState.currentAccount);
-    document.getElementById('tutorial-audit').classList.add('hidden');
-    
-    if (accountId === 4) {
-        updateMentorMessage("Critical alert! This admin account has the weakest possible password and full system privileges. This is The Null's primary target - lock it down immediately!");
+    if (gameState.currentAccount) {
+        displayAccountDetails(gameState.currentAccount);
+        document.getElementById('tutorial-audit').classList.add('hidden');
+        document.getElementById('account-placeholder').classList.add('hidden');
+        
+        if (accountId === 1) {
+            updateMentorMessage("CRITICAL! This admin account has the weakest possible password and full system privileges. This is The Null's primary target - emergency lockdown is required immediately!");
+        }
     }
 }
 
 export function displayAccountDetails(account) {
     document.getElementById('account-details').classList.remove('hidden');
     
-    const strengthColors = {
-        'critical': 'text-red-400',
-        'weak': 'text-red-400',
-        'moderate': 'text-yellow-400',
-        'strong': 'text-green-400'
-    };
-
-    const adminBadge = account.adminPrivileges ? 
-        '<span class="bg-red-600 text-white px-2 py-1 rounded text-xs ml-2">ADMIN</span>' : '';
+    // Update account header
+    const emailElement = document.getElementById('account-email');
+    const roleElement = document.getElementById('account-role');
     
-    const mfaBadge = account.mfaEnabled ? 
-        '<span class="bg-green-600 text-white px-2 py-1 rounded text-xs ml-2">MFA</span>' : 
-        '<span class="bg-gray-600 text-white px-2 py-1 rounded text-xs ml-2">NO MFA</span>';
-
-    document.getElementById('account-info').innerHTML = `
-        <div class="space-y-3">
-            <div>
-                <h5 class="text-white font-semibold">${account.email}${adminBadge}${mfaBadge}</h5>
-                <p class="text-gray-400 text-sm">Password: ${account.password}</p>
+    if (emailElement) emailElement.textContent = account.email;
+    if (roleElement) roleElement.textContent = account.role;
+    
+    // Update password analysis
+    const passwordElement = document.getElementById('current-password');
+    if (passwordElement) {
+        passwordElement.textContent = account.password;
+    }
+    
+    // Update password analysis details
+    const analysisContainer = document.getElementById('password-analysis');
+    if (analysisContainer) {
+        const strengthColors = {
+            'critical': 'text-red-400',
+            'weak': 'text-red-400', 
+            'moderate': 'text-yellow-400',
+            'strong': 'text-green-400'
+        };
+        
+        analysisContainer.innerHTML = `
+            <div class="flex justify-between">
+                <span class="text-gray-400">Current Password:</span>
+                <span class="text-red-400 font-mono">${account.password}</span>
             </div>
-            <div>
-                <p class="text-sm">
-                    <span class="text-gray-400">Strength:</span>
-                    <span class="${strengthColors[account.strength]} font-semibold ml-2">${account.strength.toUpperCase()}</span>
-                </p>
+            <div class="flex justify-between">
+                <span class="text-gray-400">Strength:</span>
+                <span class="${strengthColors[account.strength]}">${account.strength.toUpperCase()}</span>
             </div>
-            ${account.vulnerabilities.length > 0 ? `
-            <div>
-                <p class="text-red-300 font-semibold text-sm mb-1">Vulnerabilities:</p>
-                <ul class="text-red-200 text-xs space-y-1">
-                    ${account.vulnerabilities.map(vuln => `<li>• ${vuln}</li>`).join('')}
-                </ul>
+            <div class="flex justify-between">
+                <span class="text-gray-400">Dictionary Word:</span>
+                <span class="text-red-400">${account.vulnerabilities.includes('Dictionary word') ? 'YES ⚠️' : 'NO'}</span>
             </div>
-            ` : '<p class="text-green-400 text-sm">No vulnerabilities detected</p>'}
-        </div>
-    `;
+            <div class="flex justify-between">
+                <span class="text-gray-400">Crack Time:</span>
+                <span class="text-red-400 animate-pulse">${account.strength === 'critical' ? '0.003 seconds' : '< 1 minute'}</span>
+            </div>
+        `;
+    }
+    
+    // Update MFA status
+    const mfaContainer = document.getElementById('mfa-status');
+    if (mfaContainer) {
+        if (account.mfaEnabled) {
+            mfaContainer.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="bi bi-check-circle text-green-400"></i>
+                    <span class="text-green-400">MFA ENABLED</span>
+                </div>
+                <p class="text-gray-400 text-xs">Account protected by multi-factor authentication.</p>
+            `;
+        } else {
+            mfaContainer.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="bi bi-x-circle text-red-400"></i>
+                    <span class="text-red-400">MFA DISABLED</span>
+                </div>
+                <p class="text-gray-400 text-xs">This account is vulnerable to password-only attacks.</p>
+            `;
+        }
+    }
+    
+    // Update risk indicators
+    const riskElement = document.getElementById('risk-level');
+    if (riskElement) {
+        riskElement.textContent = account.riskLevel;
+        riskElement.className = account.riskLevel === 'CRITICAL' ? 
+            'text-red-400 text-lg font-bold animate-pulse' : 
+            'text-yellow-400 text-lg font-bold';
+    }
+    
+    // Initialize attack simulation for this account
+    const attemptsElement = document.getElementById('current-attempts');
+    if (attemptsElement) {
+        attemptsElement.textContent = Math.floor(Math.random() * 1000 + 500).toLocaleString();
+    }
+    
+    const breachElement = document.getElementById('estimated-breach');
+    if (breachElement && account.riskLevel === 'CRITICAL') {
+        breachElement.textContent = '02:34';
+        breachElement.className = 'text-red-400 text-lg font-bold animate-pulse';
+    }
 }
 
 export function closeAccountDetails() {
     document.getElementById('account-details').classList.add('hidden');
+    document.getElementById('account-placeholder').classList.remove('hidden');
     gameState.currentAccount = null;
 }
