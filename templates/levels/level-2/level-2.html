@@ -3,22 +3,408 @@
 <!-- Level 2: Shadow in the Inbox -->
 <div class="max-w-7xl mx-auto">
     <!-- Opening Cutscene Modal -->
-    {% include 'levels/level-2/components/cutscene-modal.html' %}
+    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl mx-4">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-cyan-300 mb-4">InterWorld Academy Internal Comms Simulator</h2>
+                <div class="bg-red-900 border border-red-600 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="bi bi-exclamation-triangle text-red-400 text-xl"></i>
+                        <span class="font-semibold text-red-300">PRIORITY 1 ALERT</span>
+                    </div>
+                    <p class="text-red-200 text-sm">
+                        You've received what appears to be an urgent order from Commander Vega. Something feels... off.
+                    </p>
+                </div>
+                <div class="bg-gray-700 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-cyan-400 rounded-full w-8 h-8 flex items-center justify-center">
+                            <i class="bi bi-robot text-gray-900 text-sm"></i>
+                        </div>
+                        <span class="font-semibold text-cyan-300">Mentor AI - Argus</span>
+                    </div>
+                    <p class="text-gray-200 text-sm italic">
+                        "Nova, trust your instincts. Not every message is what it seems. Let's examine this together."
+                    </p>
+                </div>
+            </div>
+            <button id="start-mission"
+                class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded">
+                Enter Comms Simulator
+            </button>
+        </div>
+    </div>
 
     <!-- Header with Mission Stats -->
-    {% include 'levels/level-2/components/header.html' %}
+    <div class="bg-gray-800 rounded-lg p-6 mb-6 shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+                <i class="bi bi-envelope-exclamation text-red-400 text-3xl"></i>
+                <div>
+                    <h1 class="text-2xl font-bold text-cyan-300">Level 2: Shadow in the Inbox</h1>
+                    <p class="text-gray-300">Internal Comms Simulator - InterWorld Cyber Academy</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-gray-400">Mission Progress</div>
+                <div class="text-lg font-semibold text-cyan-300"><span id="emails-analyzed">0</span>/4 Emails Analyzed
+                </div>
+            </div>
+        </div>
+
+        <!-- Mission Stats -->
+        <div class="grid grid-cols-3 gap-4 bg-gray-700 rounded p-4">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-green-400" id="security-score">100</div>
+                <div class="text-xs text-gray-400">Security Score</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-red-400"><span id="threat-level">0</span>%</div>
+                <div class="text-xs text-gray-400">Threat Level</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-yellow-400" id="cadets-affected">0</div>
+                <div class="text-xs text-gray-400">Cadets Affected</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Game Interface -->
-    {% include 'levels/level-2/components/game-interface.html' %}
+    <div class="grid grid-cols-12 gap-6">
+        <!-- Left Panel: Email Inbox -->
+        <div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="bi bi-inbox"></i> Academy Inbox
+            </h3>
+
+            <!-- Tutorial Tooltip -->
+            <div id="tutorial-inbox" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
+                <p class="text-blue-200 text-sm">
+                    <i class="bi bi-lightbulb mr-2"></i>
+                    Click on emails to examine them. Look for suspicious elements like misspellings, urgent language, or
+                    unfamiliar senders.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <!-- Email 1 - Phishing Attempt -->
+                <div class="email-item bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition"
+                    data-email="1">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-exclamation-triangle text-red-400 text-lg flex-shrink-0 mt-1"></i>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-white">URGENT: Tactical Briefing Required</h4>
+                                <span class="text-xs text-red-300">2 min ago</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mb-1">From: vega@interw0r1d.net</p>
+                            <p class="text-xs text-red-200">⚠️ PRIORITY 1 - Download attachment immediately</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email 2 - Legitimate -->
+                <div class="email-item bg-gray-700 rounded p-3 cursor-pointer hover:bg-gray-600 transition"
+                    data-email="2">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-envelope text-blue-400 text-lg flex-shrink-0 mt-1"></i>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-white">Weekly Training Schedule</h4>
+                                <span class="text-xs text-gray-400">1 hour ago</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mb-1">From: admin@interworld.academy</p>
+                            <p class="text-xs text-gray-400">Your training schedule for next week...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email 3 - Suspicious -->
+                <div class="email-item bg-yellow-900 border border-yellow-600 rounded p-3 cursor-pointer hover:bg-yellow-800 transition"
+                    data-email="3">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-question-circle text-yellow-400 text-lg flex-shrink-0 mt-1"></i>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-white">Account Verificaton Needed</h4>
+                                <span class="text-xs text-yellow-300">30 min ago</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mb-1">From: security@inter-world.org</p>
+                            <p class="text-xs text-yellow-200">Click here to verify your account...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email 4 - Real Commander Vega -->
+                <div class="email-item bg-gray-700 rounded p-3 cursor-pointer hover:bg-gray-600 transition"
+                    data-email="4">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-shield-check text-green-400 text-lg flex-shrink-0 mt-1"></i>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-white">Confused about urgent message?</h4>
+                                <span class="text-xs text-gray-400">Just now</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mb-1">From: c.vega@interworld.academy ✓</p>
+                            <p class="text-xs text-gray-400">Nova, I didn't send any urgent briefing...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Email Detail View -->
+        <div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="bi bi-envelope-open"></i> Email Analysis
+            </h3>
+
+            <!-- Default State -->
+            <div id="email-placeholder"
+                class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-96 flex flex-col items-center justify-center">
+                <i class="bi bi-envelope text-4xl text-gray-500 mb-4"></i>
+                <p class="text-gray-400 text-center">
+                    <strong>Select an email from your inbox to analyze</strong><br>
+                    <span class="text-sm">Look for red flags in sender, content, and urgency</span>
+                </p>
+            </div>
+
+            <!-- Email Content Panel -->
+            <div id="email-content" class="hidden">
+                <div class="bg-gray-700 rounded p-4 mb-4">
+                    <!-- Email Header -->
+                    <div class="border-b border-gray-600 pb-3 mb-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 id="email-subject" class="font-semibold text-white text-lg"></h4>
+                            <button id="close-email" class="text-gray-400 hover:text-white">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-400">From:</span>
+                                <span id="email-from"
+                                    class="text-white ml-2 cursor-pointer hover:bg-gray-600 rounded px-1"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Time:</span>
+                                <span id="email-time" class="text-white ml-2"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email Body -->
+                    <div id="email-body" class="text-gray-200 text-sm whitespace-pre-line mb-4"></div>
+
+                    <!-- Interactive Elements -->
+                    <div id="email-attachments" class="hidden">
+                        <div class="bg-red-900 border border-red-600 rounded p-3 mb-3">
+                            <h5 class="text-red-300 font-semibold mb-2">📎 Attachments</h5>
+                            <div class="flex items-center gap-3">
+                                <i class="bi bi-file-earmark-zip text-red-400 text-lg"></i>
+                                <div class="flex-1">
+                                    <span class="text-white text-sm">TacticalBriefing.zip</span>
+                                    <p class="text-red-200 text-xs">Size: 2.3 MB • Type: Executable Archive</p>
+                                </div>
+                                <button id="download-attachment"
+                                    class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs">
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="email-links" class="hidden">
+                        <div class="bg-yellow-900 border border-yellow-600 rounded p-3">
+                            <h5 class="text-yellow-300 font-semibold mb-2">🔗 Links Found</h5>
+                            <div id="link-content"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Tools -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <button
+                        class="analysis-tool bg-blue-600 hover:bg-blue-700 text-white p-3 rounded text-sm font-medium"
+                        data-tool="headers">
+                        <i class="bi bi-code mr-2"></i> View Headers
+                    </button>
+                    <button
+                        class="analysis-tool bg-purple-600 hover:bg-purple-700 text-white p-3 rounded text-sm font-medium"
+                        data-tool="sender">
+                        <i class="bi bi-person-check mr-2"></i> Verify Sender
+                    </button>
+                    <button
+                        class="analysis-tool bg-green-600 hover:bg-green-700 text-white p-3 rounded text-sm font-medium"
+                        data-tool="links">
+                        <i class="bi bi-link-45deg mr-2"></i> Check Links
+                    </button>
+                    <button
+                        class="analysis-tool bg-orange-600 hover:bg-orange-700 text-white p-3 rounded text-sm font-medium"
+                        data-tool="content">
+                        <i class="bi bi-search mr-2"></i> Analyze Content
+                    </button>
+                </div>
+
+                <!-- Analysis Results -->
+                <div id="analysis-results" class="bg-gray-700 rounded p-4 mb-4 hidden">
+                    <h5 class="font-semibold text-cyan-300 mb-3">Analysis Results</h5>
+                    <div id="results-content" class="space-y-3"></div>
+                </div>
+
+                <!-- Response Actions -->
+                <div id="response-panel" class="hidden">
+                    <h5 class="font-semibold text-cyan-300 mb-3">Response Actions</h5>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button
+                            class="response-action bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
+                            data-action="report">
+                            <i class="bi bi-shield-exclamation mr-2"></i> Report Phishing
+                        </button>
+                        <button class="response-action bg-blue-600 hover:bg-blue-700 text-white p-3 rounded font-medium"
+                            data-action="escalate">
+                            <i class="bi bi-arrow-up-circle mr-2"></i> Escalate to Security
+                        </button>
+                        <button class="response-action bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium"
+                            data-action="ignore">
+                            <i class="bi bi-archive mr-2"></i> Mark as Spam
+                        </button>
+                        <button class="response-action bg-red-600 hover:bg-red-700 text-white p-3 rounded font-medium"
+                            data-action="open">
+                            <i class="bi bi-download mr-2"></i> Follow Instructions
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Tools & Progress -->
+        <div class="col-span-3 space-y-4">
+            <!-- Threat Meter -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-speedometer2"></i> Threat Meter
+                </h3>
+                <div class="space-y-3">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold mb-2" id="threat-display">🟢</div>
+                        <p id="threat-status" class="text-sm text-green-400">System Secure</p>
+                    </div>
+                    <div class="bg-gray-700 rounded h-4">
+                        <div id="threat-bar" class="bg-green-400 h-4 rounded transition-all duration-500"
+                            style="width: 0%">
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-400 space-y-1">
+                        <div class="flex justify-between">
+                            <span>Phishing Attempts</span>
+                            <span id="phishing-count">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Successful Blocks</span>
+                            <span id="blocks-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification Tools -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-tools"></i> Verification Tools
+                </h3>
+
+                <!-- Sender Lookup -->
+                <div class="bg-gray-700 rounded p-3 mb-3">
+                    <h4 class="text-sm font-semibold text-white flex items-center gap-2 mb-2">
+                        <i class="bi bi-person-badge text-blue-400"></i> Sender Lookup
+                    </h4>
+                    <div id="sender-info" class="text-xs text-gray-400">
+                        No sender selected
+                    </div>
+                </div>
+
+                <!-- Link Preview -->
+                <div class="bg-gray-700 rounded p-3 mb-3">
+                    <h4 class="text-sm font-semibold text-white flex items-center gap-2 mb-2">
+                        <i class="bi bi-link text-purple-400"></i> Link Preview
+                    </h4>
+                    <div id="link-info" class="text-xs text-gray-400">
+                        No links detected
+                    </div>
+                </div>
+
+                <!-- Header Decoder -->
+                <div class="bg-gray-700 rounded p-3">
+                    <h4 class="text-sm font-semibold text-white flex items-center gap-2 mb-2">
+                        <i class="bi bi-code-slash text-green-400"></i> Header Analysis
+                    </h4>
+                    <div id="header-info" class="text-xs text-gray-400">
+                        Select email to analyze headers
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escalation Guide -->
+            <div class="bg-blue-900 border border-blue-600 rounded p-3">
+                <h4 class="text-sm font-semibold text-blue-300 mb-2">
+                    <i class="bi bi-info-circle mr-1"></i> Escalation Guide
+                </h4>
+                <div class="text-xs text-blue-200 space-y-1">
+                    <div>🔴 <strong>Critical:</strong> ThreatOps Team</div>
+                    <div>🟡 <strong>Suspicious:</strong> AdminSec Team</div>
+                    <div>🟢 <strong>Technical:</strong> TechSupport</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Mentor AI Panel -->
-    {% include 'levels/level-2/components/mentor-panel.html' %}
+    <div class="mt-6 bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-4 shadow border border-cyan-700">
+        <div class="flex items-start gap-4">
+            <div class="bg-cyan-400 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-robot text-gray-900 text-lg"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                    <h4 class="font-semibold text-cyan-300">Mentor AI - Argus</h4>
+                    <span class="text-xs bg-cyan-700 text-cyan-200 px-2 py-1 rounded">ACTIVE</span>
+                </div>
+                <p id="mentor-message" class="text-gray-200 text-sm">
+                    Welcome to the Internal Comms Simulator, Nova. Start by examining the urgent message in your inbox.
+                    Trust your instincts—something doesn't feel right about it.
+                </p>
+            </div>
+        </div>
+    </div>
 
     <!-- Modals -->
-    {% include 'levels/level-2/components/results-modal.html' %}
+    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-lg mx-4">
+            <div class="text-center">
+                <div id="result-icon" class="text-6xl mb-4"></div>
+                <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
+                <p id="result-message" class="text-gray-200 mb-6"></p>
+                <div id="result-feedback" class="bg-gray-700 rounded p-4 mb-6 text-left"></div>
+                <button id="continue-btn"
+                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Navigation -->
-    {% include 'levels/level-2/components/navigation.html' %}
+    <div class="mt-8 flex justify-between items-center">
+        <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm flex items-center gap-2">
+            <i class="bi bi-arrow-left"></i> Back to Campaign
+        </a>
+        <button id="complete-level"
+            class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed"
+            disabled>
+            Complete Mission <i class="bi bi-arrow-right ml-2"></i>
+        </button>
+    </div>
 </div>
 
 <!-- Level 2 JavaScript -->
