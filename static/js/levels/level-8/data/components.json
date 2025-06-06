@@ -1,0 +1,82 @@
+{
+    "1": {
+        "id": 1,
+        "name": "Vote Processing Engine",
+        "vulnerability": "Session Hijacking",
+        "details": "The voting system generates predictable session tokens that can be hijacked to impersonate voters and manipulate their votes.",
+        "exploitation": [
+            "Intercept session token during vote submission",
+            "Generate predictable token for target voter",
+            "Submit altered vote using hijacked session",
+            "Original vote is overwritten without detection"
+        ],
+        "impact": [
+            "Complete vote manipulation capability",
+            "Undetectable vote alteration",
+            "Potential election fraud",
+            "Violation of voter privacy"
+        ],
+        "severity": "CRITICAL",
+        "correctAction": "responsible"
+    },
+    "2": {
+        "id": 2,
+        "name": "Blockchain Interface",
+        "vulnerability": "Weak Encryption",
+        "details": "Vote data is encrypted with deprecated algorithms before blockchain storage, making it vulnerable to decryption attacks.",
+        "exploitation": [
+            "Capture encrypted vote data from network traffic",
+            "Apply rainbow table attack on weak hash",
+            "Decrypt individual votes",
+            "Correlate voter identities with vote choices"
+        ],
+        "impact": [
+            "Voter privacy compromise",
+            "Secret ballot violation",
+            "Potential voter intimidation",
+            "Constitutional violations"
+        ],
+        "severity": "HIGH",
+        "correctAction": "responsible"
+    },
+    "3": {
+        "id": 3,
+        "name": "Authentication System",
+        "vulnerability": "Brute Force Susceptibility",
+        "details": "Login system lacks proper rate limiting, allowing automated attacks against voter credentials.",
+        "exploitation": [
+            "Enumerate valid voter IDs",
+            "Launch automated password attacks",
+            "Gain unauthorized access to voter accounts",
+            "Cast votes on behalf of compromised accounts"
+        ],
+        "impact": [
+            "Unauthorized vote casting",
+            "Voter account compromise",
+            "Election manipulation",
+            "Loss of election integrity"
+        ],
+        "severity": "MEDIUM",
+        "correctAction": "responsible"
+    },
+    "4": {
+        "id": 4,
+        "name": "Network Layer",
+        "vulnerability": "Traffic Interception",
+        "details": "Unencrypted communication channels allow man-in-the-middle attacks during vote transmission.",
+        "exploitation": [
+            "Position attacker on network path",
+            "Intercept vote transmission packets",
+            "Modify vote data in transit",
+            "Forward altered votes to destination"
+        ],
+        "impact": [
+            "Real-time vote manipulation",
+            "Network-wide attack capability",
+            "Scalable election fraud",
+            "Infrastructure compromise"
+        ],
+        "severity": "HIGH",
+        "correctAction": "responsible"
+    }
+}
