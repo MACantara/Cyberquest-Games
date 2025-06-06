@@ -8,6 +8,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen">
+    {% if is_level_page %}
+    <!-- Hamburger Navigation (for level pages) -->
+    <nav class="fixed top-4 right-4 z-40">
+        <div class="relative">
+            <!-- Hamburger Button -->
+            <button id="hamburger-btn" class="bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-lg shadow-lg border border-gray-600">
+                <i class="bi bi-list text-xl"></i>
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-600 py-2">
+                <div class="px-4 py-2 border-b border-gray-600">
+                    <div class="flex items-center gap-2">
+                        <i class="bi bi-shield-lock-fill text-cyan-400"></i>
+                        <span class="font-bold text-cyan-400">CyberQuest</span>
+                    </div>
+                </div>
+                <a href="{{ url_for('index') }}" class="block px-4 py-2 text-gray-200 hover:bg-gray-700 hover:text-cyan-400 flex items-center gap-2">
+                    <i class="bi bi-house"></i>
+                    Home
+                </a>
+                <a href="{{ url_for('campaign') }}" class="block px-4 py-2 text-gray-200 hover:bg-gray-700 hover:text-cyan-400 flex items-center gap-2">
+                    <i class="bi bi-map"></i>
+                    Campaign
+                </a>
+                <div class="border-t border-gray-600 mt-2 pt-2">
+                    <button onclick="location.reload()" class="block w-full text-left px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-white flex items-center gap-2 text-sm">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Restart Level
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% else %}
+    <!-- Regular Navigation (for non-level pages) -->
     <nav class="flex items-center justify-between px-6 py-4 bg-gray-800 shadow">
         <div class="flex items-center gap-2">
             <i class="bi bi-shield-lock-fill text-cyan-400 text-2xl"></i>
@@ -18,8 +54,51 @@
             <a href="{{ url_for('campaign') }}" class="text-gray-200 hover:text-cyan-400 px-3">Campaign</a>
         </div>
     </nav>
+    {% endif %}
+
     <main>
         {% block content %}{% endblock %}
     </main>
+
+    {% if is_level_page %}
+    <script>
+        // Hamburger menu functionality for level pages
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            
+            if (hamburgerBtn && dropdownMenu) {
+                hamburgerBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('hidden');
+                    
+                    // Change icon
+                    const icon = hamburgerBtn.querySelector('i');
+                    if (dropdownMenu.classList.contains('hidden')) {
+                        icon.className = 'bi bi-list text-xl';
+                    } else {
+                        icon.className = 'bi bi-x text-xl';
+                    }
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('nav')) {
+                        dropdownMenu.classList.add('hidden');
+                        hamburgerBtn.querySelector('i').className = 'bi bi-list text-xl';
+                    }
+                });
+
+                // Close dropdown when pressing Escape
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        dropdownMenu.classList.add('hidden');
+                        hamburgerBtn.querySelector('i').className = 'bi bi-list text-xl';
+                    }
+                });
+            }
+        });
+    </script>
+    {% endif %}
 </body>
 </html>
