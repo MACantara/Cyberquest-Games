@@ -166,7 +166,10 @@ export function handleVerificationTool(toolType) {
 }
 
 export function enableFinalDecision() {
+    document.getElementById('editorial-decision').classList.remove('hidden');
     document.getElementById('mark-fake').disabled = false;
     document.getElementById('mark-real').disabled = false;
+    document.getElementById('mark-fake').classList.remove('opacity-50');
+    document.getElementById('mark-real').classList.remove('opacity-50');
     updateMentorMessage("You've gathered enough evidence. Now make your decision: Is this story fake or real?");
 }

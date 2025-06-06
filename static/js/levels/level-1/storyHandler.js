@@ -15,16 +15,32 @@ export async function loadStories() {
 export function selectStory(storyId) {
     gameState.currentStory = stories[storyId];
     displayStoryInWorkspace(gameState.currentStory);
+    
+    // Show current article summary in left panel
+    document.getElementById('current-article-summary').classList.remove('hidden');
+    document.getElementById('article-title').textContent = gameState.currentStory.headline;
+    
+    // Enable verification tools
+    document.querySelectorAll('.verification-tool').forEach(tool => {
+        tool.disabled = false;
+        tool.classList.remove('opacity-50');
+    });
+    
+    // Hide tutorials
     document.getElementById('tutorial-inbox').classList.add('hidden');
+    document.getElementById('tutorial-workspace').classList.add('hidden');
+    
+    // Switch to full article view
+    document.getElementById('article-previews').classList.add('hidden');
+    document.getElementById('full-article-display').classList.remove('hidden');
     
     if (storyId === 1) {
-        updateMentorMessage("Good choice, Nova. This story has several red flags. Use the verification tools to analyze the headline, source, and any images. Start with the headline analyzer.");
+        updateMentorMessage("Good choice, Nova. This story has several red flags. Use the verification tools on the left to analyze the headline, source, and any images. Start with the headline analyzer.");
     }
 }
 
 export function displayStoryInWorkspace(story) {
     const workspace = document.getElementById('workspace');
-    const analysisPanel = document.getElementById('analysis-panel');
     
     // Format publish date for article display
     const publishDate = new Date();
@@ -126,14 +142,12 @@ export function displayStoryInWorkspace(story) {
                     <i class="bi bi-info-circle text-blue-600 mr-2 mt-0.5"></i>
                     <div class="text-sm">
                         <p class="font-semibold text-blue-800">Fact-Checking Required</p>
-                        <p class="text-blue-700">Use the verification tools below to analyze this article's credibility before making your editorial decision.</p>
+                        <p class="text-blue-700">Use the verification tools on the left to analyze this article's credibility before making your editorial decision.</p>
                     </div>
                 </div>
             </div>
         </div>
     `;
-    
-    analysisPanel.classList.remove('hidden');
 }
 
 function getStatusColor(status) {
@@ -155,21 +169,30 @@ function getStatusBadgeClass(status) {
 }
 
 export function resetWorkspace() {
-    document.getElementById('workspace').innerHTML = `
-        <div class="text-center text-gray-600">
-            <i class="bi bi-arrow-down-circle text-4xl text-amber-600 mb-4"></i>
-            <p class="text-gray-700 text-center font-serif">
-                <strong class="text-gray-900">Select your next story to analyze</strong><br>
-                <span class="text-sm">Keep up the good work, Nova!</span>
-            </p>
-        </div>
-    `;
-    document.getElementById('analysis-panel').classList.add('hidden');
-    gameState.currentStory = null;
+    // Reset to preview mode
+    document.getElementById('article-previews').classList.remove('hidden');
+    document.getElementById('full-article-display').classList.add('hidden');
     
-    // Reset verification tools
+    // Hide left panel elements
+    document.getElementById('current-article-summary').classList.add('hidden');
+    document.getElementById('verification-results').classList.add('hidden');
+    document.getElementById('editorial-decision').classList.add('hidden');
+    
+    // Reset and disable verification tools
     document.querySelectorAll('.verification-tool').forEach(tool => {
         tool.classList.remove('opacity-75');
-        tool.disabled = false;
+        tool.disabled = true;
+        tool.classList.add('opacity-50');
     });
+    
+    // Reset story selections
+    document.querySelectorAll('.story-item').forEach(item => {
+        item.classList.remove('border-blue-600', 'border-2', 'bg-amber-200');
+        item.classList.add('border-gray-400');
+    });
+    
+    // Clear results
+    document.getElementById('results-content').innerHTML = '';
+    
+    gameState.currentStory = null;
 }

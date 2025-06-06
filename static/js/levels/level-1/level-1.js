@@ -43,8 +43,34 @@ document.addEventListener('DOMContentLoaded', async function() {
             selectStory(storyId);
             
             // Visual feedback
-            document.querySelectorAll('.story-item').forEach(s => s.classList.remove('border-cyan-400'));
-            this.classList.add('border-cyan-400');
+            document.querySelectorAll('.story-item').forEach(s => {
+                s.classList.remove('border-blue-600', 'border-2');
+                s.classList.add('border-gray-400');
+            });
+            this.classList.remove('border-gray-400');
+            this.classList.add('border-blue-600', 'border-2');
+        });
+    });
+
+    // Back to previews button
+    document.getElementById('back-to-previews').addEventListener('click', function() {
+        document.getElementById('article-previews').classList.remove('hidden');
+        document.getElementById('full-article-display').classList.add('hidden');
+        
+        // Reset selection visuals
+        document.querySelectorAll('.story-item').forEach(s => {
+            s.classList.remove('border-blue-600', 'border-2');
+            s.classList.add('border-gray-400');
+        });
+        
+        // Clear current story
+        gameState.currentStory = null;
+        document.getElementById('current-article-summary').classList.add('hidden');
+        
+        // Disable tools
+        document.querySelectorAll('.verification-tool').forEach(tool => {
+            tool.disabled = true;
+            tool.classList.add('opacity-50');
         });
     });
 
