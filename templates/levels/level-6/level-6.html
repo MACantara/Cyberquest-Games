@@ -3,22 +3,423 @@
 <!-- Level 6: Digital Gold Rush -->
 <div class="max-w-7xl mx-auto">
     <!-- Opening Cutscene Modal -->
-    {% include 'levels/level-6/components/cutscene-modal.html' %}
+    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl mx-4">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-cyan-300 mb-4">StartUp Simulator - Business Accelerator</h2>
+                <div class="bg-green-900 border border-green-600 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="bi bi-briefcase text-green-400 text-xl"></i>
+                        <span class="font-semibold text-green-300">STARTUP OPPORTUNITY</span>
+                    </div>
+                    <p class="text-green-200 text-sm">
+                        You've been selected to launch "NeuroLink.ai" - an AI mental health assistant. Investors are
+                        lining up, but one offer seems too good to be true...
+                    </p>
+                </div>
+                <div class="bg-red-900 border border-red-600 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="bi bi-exclamation-triangle text-red-400 text-xl"></i>
+                        <span class="font-semibold text-red-300">ANONYMOUS WARNING</span>
+                    </div>
+                    <p class="text-red-200 text-sm">
+                        "That's not capital—it's capture. Check the address." The Null is targeting your startup!
+                    </p>
+                </div>
+                <div class="bg-gray-700 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-cyan-400 rounded-full w-8 h-8 flex items-center justify-center">
+                            <i class="bi bi-robot text-gray-900 text-sm"></i>
+                        </div>
+                        <span class="font-semibold text-cyan-300">Mentor AI - Argus</span>
+                    </div>
+                    <p class="text-gray-200 text-sm italic">
+                        "Nova, in the digital economy, financial predators disguise themselves as opportunities. Trust
+                        but verify—always."
+                    </p>
+                </div>
+            </div>
+            <button id="start-mission"
+                class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded">
+                Enter StartUp Simulator
+            </button>
+        </div>
+    </div>
 
     <!-- Header with Mission Stats -->
-    {% include 'levels/level-6/components/header.html' %}
+    <div class="bg-gray-800 rounded-lg p-6 mb-6 shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+                <i class="bi bi-bank text-green-400 text-3xl"></i>
+                <div>
+                    <h1 class="text-2xl font-bold text-cyan-300">Level 6: Digital Gold Rush</h1>
+                    <p class="text-gray-300">StartUp Simulator - Financial Security Training</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-gray-400">Startup Status</div>
+                <div class="text-lg font-semibold text-cyan-300">Funds: <span id="startup-funds">$500K</span></div>
+            </div>
+        </div>
+
+        <!-- Mission Stats -->
+        <div class="grid grid-cols-4 gap-4 bg-gray-700 rounded p-4">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-green-400" id="verified-investors">0</div>
+                <div class="text-xs text-gray-400">Verified Investors</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-red-400" id="scams-detected">0</div>
+                <div class="text-xs text-gray-400">Scams Detected</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-blue-400" id="contracts-analyzed">0</div>
+                <div class="text-xs text-gray-400">Contracts Analyzed</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-purple-400" id="trust-rating">85</div>
+                <div class="text-xs text-gray-400">Trust Rating (%)</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Game Interface -->
-    {% include 'levels/level-6/components/game-interface.html' %}
+    <div class="grid grid-cols-12 gap-6">
+        <!-- Left Panel: Investor Communications -->
+        <div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="bi bi-mailbox2"></i> Investor Inbox
+            </h3>
+
+            <!-- Tutorial Tooltip -->
+            <div id="tutorial-inbox" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
+                <p class="text-blue-200 text-sm">
+                    <i class="bi bi-lightbulb mr-2"></i>
+                    Review investor pitches carefully. Look for domain spoofing, suspicious terms, and verification
+                    status.
+                </p>
+            </div>
+
+            <div class="space-y-3 max-h-96 overflow-y-auto">
+                <!-- Legitimate Investor -->
+                <div class="investor-item bg-green-900 border border-green-600 rounded p-3 cursor-pointer hover:bg-green-800 transition"
+                    data-investor="1">
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                            V</div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-white">Venture Dynamics</h4>
+                                <span class="text-xs bg-green-600 text-white px-2 py-1 rounded">VERIFIED</span>
+                            </div>
+                            <p class="text-xs text-green-300 mb-1">From: alex@venturedynamics.com</p>
+                            <p class="text-xs text-gray-400">"$2M Series A for NeuroLink.ai"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suspicious Investor -->
+                <div class="investor-item bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition animate-pulse"
+                    data-investor="2">
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                            M</div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-white">Mercurial Capital</h4>
+                                <span
+                                    class="text-xs bg-red-600 text-white px-2 py-1 rounded animate-pulse">URGENT</span>
+                            </div>
+                            <p class="text-xs text-red-300 mb-1">From: admin@mercurial-capit4l.co</p>
+                            <p class="text-xs text-yellow-400">"$10M instant crypto transfer!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Moderate Risk Investor -->
+                <div class="investor-item bg-yellow-900 border border-yellow-600 rounded p-3 cursor-pointer hover:bg-yellow-800 transition"
+                    data-investor="3">
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                            T</div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-white">TechSeed Partners</h4>
+                                <span class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">REVIEW</span>
+                            </div>
+                            <p class="text-xs text-yellow-300 mb-1">From: investment@techseed.ai</p>
+                            <p class="text-xs text-gray-400">"$5M conditional funding..."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fake Angel Investor -->
+                <div class="investor-item bg-purple-900 border border-purple-600 rounded p-3 cursor-pointer hover:bg-purple-800 transition"
+                    data-investor="4">
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                            A</div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-white">Angel Group Elite</h4>
+                                <span class="text-xs bg-purple-600 text-white px-2 py-1 rounded">EXCLUSIVE</span>
+                            </div>
+                            <p class="text-xs text-purple-300 mb-1">From: noreply@angel-group-elite.net</p>
+                            <p class="text-xs text-gray-400">"Pre-approved $50M mega round"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Investment Analysis -->
+        <div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="bi bi-search-heart"></i> Investment Analyzer
+            </h3>
+
+            <!-- Default State -->
+            <div id="analyzer-placeholder"
+                class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-96 flex flex-col items-center justify-center">
+                <i class="bi bi-graph-up text-4xl text-gray-500 mb-4"></i>
+                <p class="text-gray-400 text-center">
+                    <strong>Select an investor from your inbox to analyze</strong><br>
+                    <span class="text-sm">Verify credentials, check domains, and analyze contract terms</span>
+                </p>
+            </div>
+
+            <!-- Investment Analysis Panel -->
+            <div id="investment-analysis" class="hidden">
+                <div class="bg-gray-700 rounded p-4 mb-4">
+                    <!-- Investor Header -->
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 id="investor-name" class="font-semibold text-white text-lg"></h4>
+                        <button id="close-analysis" class="text-gray-400 hover:text-white">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                    </div>
+
+                    <!-- Email Content -->
+                    <div class="bg-gray-800 rounded p-3 mb-4">
+                        <h5 class="text-cyan-300 font-semibold mb-2">Investment Offer</h5>
+                        <div id="email-content" class="text-gray-200 text-sm"></div>
+                    </div>
+
+                    <!-- Domain Analysis -->
+                    <div class="bg-gray-800 rounded p-3 mb-4">
+                        <h5 class="text-cyan-300 font-semibold mb-2">Domain Verification</h5>
+                        <div id="domain-analysis" class="space-y-2"></div>
+                    </div>
+
+                    <!-- Contract Terms -->
+                    <div class="bg-gray-800 rounded p-3 mb-4">
+                        <h5 class="text-cyan-300 font-semibold mb-2">Contract Analysis</h5>
+                        <div id="contract-terms" class="space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- Analysis Tools -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <button
+                        class="analysis-tool bg-blue-600 hover:bg-blue-700 text-white p-3 rounded text-sm font-medium"
+                        data-tool="domain">
+                        <i class="bi bi-globe mr-2"></i> Domain Check
+                    </button>
+                    <button
+                        class="analysis-tool bg-purple-600 hover:bg-purple-700 text-white p-3 rounded text-sm font-medium"
+                        data-tool="headers">
+                        <i class="bi bi-envelope-open mr-2"></i> Email Headers
+                    </button>
+                    <button
+                        class="analysis-tool bg-orange-600 hover:bg-orange-700 text-white p-3 rounded text-sm font-medium"
+                        data-tool="contract">
+                        <i class="bi bi-file-text mr-2"></i> Smart Contract
+                    </button>
+                    <button
+                        class="analysis-tool bg-green-600 hover:bg-green-700 text-white p-3 rounded text-sm font-medium"
+                        data-tool="reputation">
+                        <i class="bi bi-award mr-2"></i> Reputation Check
+                    </button>
+                </div>
+
+                <!-- Analysis Results -->
+                <div id="analysis-results" class="bg-gray-700 rounded p-4 mb-4 hidden">
+                    <h5 class="font-semibold text-cyan-300 mb-3">Analysis Results</h5>
+                    <div id="results-content" class="space-y-3"></div>
+                </div>
+
+                <!-- Investment Decision -->
+                <div id="decision-panel" class="hidden">
+                    <h5 class="font-semibold text-cyan-300 mb-3">Investment Decision</h5>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button
+                            class="decision-action bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
+                            data-action="accept">
+                            <i class="bi bi-check-circle mr-2"></i> Accept Offer
+                        </button>
+                        <button class="decision-action bg-red-600 hover:bg-red-700 text-white p-3 rounded font-medium"
+                            data-action="reject">
+                            <i class="bi bi-x-circle mr-2"></i> Reject & Report
+                        </button>
+                        <button
+                            class="decision-action bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded font-medium"
+                            data-action="negotiate">
+                            <i class="bi bi-chat-dots mr-2"></i> Request Verification
+                        </button>
+                        <button class="decision-action bg-blue-600 hover:bg-blue-700 text-white p-3 rounded font-medium"
+                            data-action="investigate">
+                            <i class="bi bi-search mr-2"></i> Further Investigation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: WireTrace & Security Tools -->
+        <div class="col-span-3 space-y-4">
+            <!-- WireTrace Visualization -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-diagram-3"></i> WireTrace
+                </h3>
+
+                <div class="bg-gray-900 rounded p-3 mb-3">
+                    <div class="space-y-2">
+                        <!-- Money Flow Visualization -->
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-gray-400">Your Wallet</span>
+                            <span class="text-green-400">$500K</span>
+                        </div>
+                        <div class="bg-gray-700 h-1 rounded">
+                            <div class="bg-cyan-400 h-1 rounded w-full transition-all"></div>
+                        </div>
+                        <div id="wire-trace-flow" class="space-y-1 text-xs">
+                            <div class="text-gray-500">No active transactions</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-gray-400">
+                    <p><span class="text-green-400">●</span> Verified Path</p>
+                    <p><span class="text-red-400">●</span> Suspicious Route</p>
+                    <p><span class="text-yellow-400">●</span> Under Review</p>
+                </div>
+            </div>
+
+            <!-- Security Alerts -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-shield-exclamation"></i> Security Alerts
+                </h3>
+
+                <div id="security-alerts" class="space-y-2">
+                    <div class="bg-yellow-900 border border-yellow-600 rounded p-2">
+                        <p class="text-yellow-300 font-semibold text-sm">Domain Spoofing Detected</p>
+                        <p class="text-yellow-200 text-xs">mercurial-capit4l.co suspicious</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Assessment -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-speedometer2"></i> Risk Assessment
+                </h3>
+
+                <div class="space-y-3">
+                    <div class="bg-gray-700 rounded p-3">
+                        <h4 class="text-sm font-semibold text-white mb-2">Financial Risk</h4>
+                        <div class="bg-gray-600 rounded h-2 mb-1">
+                            <div id="financial-risk" class="bg-yellow-400 h-2 rounded transition-all duration-500"
+                                style="width: 30%"></div>
+                        </div>
+                        <p class="text-xs text-gray-400">Moderate exposure</p>
+                    </div>
+
+                    <div class="bg-gray-700 rounded p-3">
+                        <h4 class="text-sm font-semibold text-white mb-2">Reputation Risk</h4>
+                        <div class="bg-gray-600 rounded h-2 mb-1">
+                            <div id="reputation-risk" class="bg-green-400 h-2 rounded transition-all duration-500"
+                                style="width: 15%"></div>
+                        </div>
+                        <p class="text-xs text-gray-400">Low risk</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-blue-900 border border-blue-600 rounded p-3">
+                <h4 class="text-sm font-semibold text-blue-300 mb-2">
+                    <i class="bi bi-lightning mr-1"></i> Quick Actions
+                </h4>
+                <div class="space-y-2">
+                    <button class="w-full bg-red-700 hover:bg-red-600 text-white p-2 rounded text-xs"
+                        id="emergency-freeze">
+                        🔒 Emergency Fund Freeze
+                    </button>
+                    <button class="w-full bg-orange-700 hover:bg-orange-600 text-white p-2 rounded text-xs"
+                        id="report-scam">
+                        🚨 Report Suspicious Activity
+                    </button>
+                    <button class="w-full bg-green-700 hover:bg-green-600 text-white p-2 rounded text-xs"
+                        id="verify-all">
+                        ✅ Mass Verification Check
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Mentor AI Panel -->
-    {% include 'levels/level-6/components/mentor-panel.html' %}
+    <div class="mt-6 bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-4 shadow border border-cyan-700">
+        <div class="flex items-start gap-4">
+            <div class="bg-cyan-400 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-robot text-gray-900 text-lg"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                    <h4 class="font-semibold text-cyan-300">Mentor AI - Argus</h4>
+                    <span class="text-xs bg-orange-700 text-orange-200 px-2 py-1 rounded">FINANCIAL ALERT</span>
+                </div>
+                <p id="mentor-message" class="text-gray-200 text-sm">
+                    Nova, start with Mercurial Capital - the urgent offer. The domain looks suspicious and the terms are
+                    too aggressive. Remember: if it seems too good to be true, it probably is.
+                </p>
+            </div>
+        </div>
+    </div>
 
     <!-- Modals -->
-    {% include 'levels/level-6/components/results-modal.html' %}
+    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-lg mx-4">
+            <div class="text-center">
+                <div id="result-icon" class="text-6xl mb-4"></div>
+                <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
+                <p id="result-message" class="text-gray-200 mb-6"></p>
+                <div id="result-feedback" class="bg-gray-700 rounded p-4 mb-6 text-left"></div>
+                <button id="continue-btn"
+                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Navigation -->
-    {% include 'levels/level-6/components/navigation.html' %}
+    <div class="mt-8 flex justify-between items-center">
+        <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm flex items-center gap-2">
+            <i class="bi bi-arrow-left"></i> Back to Campaign
+        </a>
+        <button id="complete-level"
+            class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed"
+            disabled>
+            Complete Mission <i class="bi bi-arrow-right ml-2"></i>
+        </button>
+    </div>
 </div>
 
 <!-- Level 6 JavaScript -->
