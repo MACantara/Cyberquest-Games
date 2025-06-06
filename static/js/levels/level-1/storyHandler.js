@@ -28,21 +28,47 @@ export function displayStoryInWorkspace(story) {
     
     workspace.innerHTML = `
         <div class="text-center p-4">
-            <h4 class="text-gray-900 font-bold font-serif mb-2">${story.headline}</h4>
-            <p class="text-gray-700 text-sm font-serif">Source: ${story.source}</p>
-            <div class="mt-3 flex items-center justify-center gap-4 text-sm">
-                <span class="text-gray-600 font-serif">Click verification tools below to analyze</span>
+            <h4 class="text-gray-900 font-bold font-serif mb-3">${story.headline}</h4>
+            <div class="bg-amber-200 border border-amber-400 rounded p-3 mb-3 text-left">
+                <p class="text-gray-800 text-sm font-serif leading-relaxed">${story.fullContent}</p>
+            </div>
+            <div class="flex justify-center items-center gap-4 text-sm">
+                <span class="text-gray-600 font-serif">Use verification tools below to analyze this story</span>
             </div>
         </div>
     `;
     
     analysisPanel.classList.remove('hidden');
+    
+    // Update story details with comprehensive information
     document.getElementById('story-details').innerHTML = `
         <div class="bg-amber-100 border border-amber-300 rounded p-3">
             <h5 class="font-bold font-serif text-gray-900 mb-2">${story.headline}</h5>
-            <p class="text-gray-700 text-sm font-serif">Source: ${story.source}</p>
+            <div class="grid grid-cols-2 gap-4 text-xs font-serif text-gray-700">
+                <div>
+                    <p><strong>Source:</strong> ${story.source}</p>
+                    <p><strong>Published:</strong> ${story.publishTime}</p>
+                    <p><strong>Domain:</strong> ${story.domain}</p>
+                    <p><strong>Content:</strong> ${story.fullContent.substring(0, 100)}...</p>
+                </div>
+                <div>
+                    <p><strong>Shares:</strong> ${story.shares}</p>
+                    <p><strong>Status:</strong> <span class="px-1 py-0.5 rounded text-white text-xs ${getStatusColor(story.verification)}">${story.verification}</span></p>
+                    <p><strong>Category:</strong> ${story.category}</p>
+                    <p><strong>Images:</strong> ${story.images.hasImages ? 'Yes' : 'No'}</p>
+                </div>
+            </div>
         </div>
     `;
+}
+
+function getStatusColor(status) {
+    switch(status) {
+        case 'VERIFIED': return 'bg-green-600';
+        case 'UNVERIFIED': return 'bg-red-600';
+        case 'CLICKBAIT': return 'bg-yellow-600';
+        default: return 'bg-gray-600';
+    }
 }
 
 export function resetWorkspace() {
