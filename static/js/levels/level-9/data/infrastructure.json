@@ -1,0 +1,30 @@
+{
+    "hospital": {
+        "id": "hospital",
+        "name": "Medical Centers",
+        "priority": 1,
+        "attacks": ["volumetric", "application"],
+        "description": "Patient records and emergency medical services"
+    },
+    "power": {
+        "id": "power",
+        "name": "Power Grid",
+        "priority": 2,
+        "attacks": ["protocol", "volumetric"],
+        "description": "City electrical infrastructure and IoT systems"
+    },
+    "emergency": {
+        "id": "emergency",
+        "name": "Emergency Services",
+        "priority": 1,
+        "attacks": ["application", "volumetric", "protocol"],
+        "description": "911 dispatch and emergency response coordination"
+    },
+    "transport": {
+        "id": "transport",
+        "name": "Transportation",
+        "priority": 3,
+        "attacks": ["protocol"],
+        "description": "Traffic control and public transit systems"
+    }
+}
