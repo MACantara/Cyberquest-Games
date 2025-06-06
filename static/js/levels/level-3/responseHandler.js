@@ -56,33 +56,81 @@ export function handleCorrectResponse(system, action) {
     system.malwareType = null;
     gameState.cleanSystems++;
 
-    showResultModal('✅', 'Containment Successful!', 
-        `${system.name} has been successfully secured.`,
-        `<div class="text-green-400">System cleaned and returned to normal operation. Threat eliminated.</div>`
+    // Stop corruption effects for this system
+    if (window.stopCorruptionEffects) {
+        window.stopCorruptionEffects();
+    }
+    
+    // Create success notification
+    createNotification(
+        'Containment Successful',
+        `${system.name} has been cleaned and secured. Threat eliminated.`,
+        'success'
     );
     
-    updateMentorMessage("Excellent work! Threat contained successfully. The system is now secure.");
+    // Show system restoration effects
+    setTimeout(() => {
+        // Reset CPU usage
+        const cpuBar = document.getElementById('cpu-bar');
+        cpuBar.style.width = '15%';
+        cpuBar.textContent = '15%';
+        
+        // Reset memory usage
+        const memoryBar = document.getElementById('memory-bar');
+        memoryBar.style.width = '45%';
+        memoryBar.textContent = '45%';
+        
+        // Clear corruption overlay
+        document.getElementById('corruption-overlay').style.opacity = '0';
+        
+        createNotification(
+            'System Restored',
+            'All files have been decrypted and system performance restored.',
+            'success'
+        );
+    }, 1000);
+    
+    showResultModal('🧹', 'System Cleaned!', 
+        `${system.name} has been successfully decontaminated.`,
+        `<div class="text-green-400">✅ Malware removed<br>✅ Files restored<br>✅ Network secured</div>`
+    );
 }
 
 export function handleWrongResponse(system, action) {
     if (action === 'shutdown' && system.status === 'infected') {
-        // Emergency shutdown - partial success but system offline
+        // Emergency shutdown - system offline but contained
         gameState.infectedSystems--;
         system.status = 'offline';
-        showResultModal('⚠️', 'Emergency Shutdown', 
-            'System offline but threat contained.',
-            '<div class="text-yellow-400">System secured but player disconnected from tournament.</div>'
+        
+        createNotification(
+            'Emergency Shutdown',
+            `${system.name} has been forcibly disconnected. Player session terminated.`,
+            'warning'
+        );
+        
+        showResultModal('⚡', 'Emergency Shutdown', 
+            'System secured but player disconnected from tournament.',
+            '<div class="text-yellow-400">⚠️ System offline but threat contained</div>'
         );
     } else {
-        // Wrong action - spread infection
+        // Wrong action - trigger spread
+        simulateSystemSlowdown(system.id);
+        simulateDataExfiltration(system.id);
+        showFileEncryption(['player_profile.dat', 'game_settings.cfg', 'tournament_stats.json']);
+        
         spreadInfection();
-        showResultModal('❌', 'Containment Failed!', 
-            'Incorrect response allowed malware to spread.',
-            '<div class="text-red-400">The malware adapted to your response and infected additional systems.</div>'
+        
+        createNotification(
+            'Containment Failed',
+            'Incorrect response allowed malware to adapt and spread to adjacent systems!',
+            'error'
+        );
+        
+        showResultModal('💀', 'Containment Failed!', 
+            'The malware evolved and infected additional systems.',
+            '<div class="text-red-400">❌ Malware adapted<br>❌ Spread to new systems<br>❌ Data compromised</div>'
         );
     }
-    
-    updateMentorMessage("That wasn't the optimal response. Learn from this and choose more carefully next time.");
 }
 
 export function spreadInfection() {
@@ -94,12 +142,27 @@ export function spreadInfection() {
         systems[targetId].malwareType = 'worm';
         gameState.infectedSystems++;
         gameState.cleanSystems--;
+        
+        // Trigger visual corruption effects
+        if (window.startCorruptionEffects) {
+            window.startCorruptionEffects();
+        }
+        
+        // Simulate infection spread visually
+        simulateSystemSlowdown(targetId);
+        
+        createNotification(
+            'Infection Spread!',
+            `Terminal-${targetId.padStart(2, '0')} has been compromised! The malware is spreading rapidly through the network.`,
+            'error'
+        );
+        
         updateSystemVisuals();
         updateGameStats();
         
-        showResultModal('⚠️', 'Infection Spread!', 
-            `Terminal-${targetId.padStart(2, '0')} has been infected. Contain the outbreak faster!`,
-            '<div class="text-red-400">The malware is evolving and spreading to new systems.</div>'
+        showResultModal('🦠', 'Malware Spread!', 
+            `Terminal-${targetId.padStart(2, '0')} infected. Contain the outbreak faster!`,
+            '<div class="text-red-400">🚨 Network propagation detected<br>🚨 Additional systems compromised<br>🚨 Escalating threat level</div>'
         );
     }
 }

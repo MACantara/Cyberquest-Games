@@ -18,21 +18,29 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Tutorial system
     function showTutorial() {
         setTimeout(() => {
-            document.getElementById('tutorial-systems').classList.remove('hidden');
-            updateMentorMessage("Start with Terminal-02, Nova. It's showing classic trojan symptoms - system lag and unauthorized processes. Click on it to begin analysis.");
+            createNotification(
+                'Emergency Protocol Activated',
+                'Multiple VR terminals showing infection signs. Start with Terminal-02 - critical threat detected!',
+                'warning'
+            );
         }, 2000);
+        
+        // Start corruption effects immediately
+        if (window.startCorruptionEffects) {
+            window.startCorruptionEffects();
+        }
     }
 
     // Event Listeners
-    // System selection
+    // System selection from file explorer
     document.querySelectorAll('.system-item').forEach(item => {
         item.addEventListener('click', function() {
             const systemId = parseInt(this.dataset.system);
             selectSystem(systemId);
             
-            // Visual feedback
-            document.querySelectorAll('.system-item').forEach(s => s.classList.remove('ring-2', 'ring-cyan-400'));
-            this.classList.add('ring-2', 'ring-cyan-400');
+            // Visual feedback in file explorer
+            document.querySelectorAll('.system-item').forEach(s => s.classList.remove('bg-blue-200'));
+            this.classList.add('bg-blue-200');
         });
     });
 
@@ -44,6 +52,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 handleAnalysisTool(toolType);
                 this.classList.add('opacity-50');
                 this.disabled = true;
+                
+                // Visual feedback
+                this.innerHTML = '<i class="bi bi-check-lg mr-1"></i> Completed';
             }
         });
     });
@@ -53,31 +64,49 @@ document.addEventListener('DOMContentLoaded', async function() {
         button.addEventListener('click', function() {
             const action = this.dataset.action;
             handleResponse(action);
+            
+            // Disable all response buttons
+            document.querySelectorAll('.response-action').forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-50');
+            });
         });
     });
 
-    // Modal and UI event handlers
+    // Close analysis window
+    document.getElementById('close-analysis').addEventListener('click', closeSystem);
+
+    // Modal handlers
     document.getElementById('start-mission').addEventListener('click', function() {
         document.getElementById('cutscene-modal').classList.add('hidden');
         initGame();
+        
+        createNotification(
+            'Emergency Response Active',
+            'Containment protocol initiated. Analyze infected systems and deploy countermeasures.',
+            'info'
+        );
     });
 
     document.getElementById('continue-btn').addEventListener('click', function() {
         document.getElementById('results-modal').classList.add('hidden');
     });
 
-    document.getElementById('close-system').addEventListener('click', closeSystem);
-
     document.getElementById('complete-level').addEventListener('click', function() {
+        // Stop all effects
+        if (window.stopCorruptionEffects) {
+            window.stopCorruptionEffects();
+        }
+        
         showResultModal(
-            '🚨',
-            'New Security Alert',
-            'As the VR arena returns to normal, a critical alert appears...',
+            '🛡️',
+            'VR Arena Secured',
+            'Emergency containment successful. All systems restored to normal operation.',
             `
-                <div class="text-left bg-red-900 border border-red-600 rounded p-3">
-                    <p class="text-red-300 font-semibold">🚨 PRIORITY ALERT</p>
-                    <p class="text-red-200 text-sm mt-2">"Nova—unauthorized login attempt detected at Academy's Credential Vault. Brute-force protocol in progress."</p>
-                    <p class="text-gray-400 text-xs mt-2">Commander Vega</p>
+                <div class="text-left bg-green-900 border border-green-600 rounded p-3">
+                    <p class="text-green-300 font-semibold">🏆 MISSION COMPLETE</p>
+                    <p class="text-green-200 text-sm mt-2">VR tournament can resume safely. All player data recovered and systems hardened against future attacks.</p>
+                    <p class="text-gray-400 text-xs mt-2">Next: Password security protocols require immediate attention...</p>
                 </div>
                 <p class="text-cyan-400 text-sm mt-3">Ready for Level 4: The Password Heist?</p>
             `

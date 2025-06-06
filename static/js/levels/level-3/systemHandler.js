@@ -15,116 +15,152 @@ export async function loadSystems() {
 export function selectSystem(systemId) {
     gameState.currentSystem = systems[systemId];
     displaySystemAnalysis(gameState.currentSystem);
-    document.getElementById('tutorial-systems').classList.add('hidden');
+    
+    // Start corruption effects if infected system
+    if (gameState.currentSystem.status === 'infected' && window.startCorruptionEffects) {
+        window.startCorruptionEffects();
+    }
     
     if (systemId === 2) {
-        updateMentorMessage("Good choice! This system is clearly compromised. Use the analysis tools to identify the malware type and find the best containment method.");
+        updateMentorMessage("Critical infection detected! Notice the high CPU usage and file encryption. This system needs immediate containment.");
     }
 }
 
 export function displaySystemAnalysis(system) {
-    document.getElementById('system-placeholder').classList.add('hidden');
     document.getElementById('system-analysis').classList.remove('hidden');
     
-    document.getElementById('system-name').textContent = `${system.name} (${system.player})`;
+    // Update window title and system info
+    document.getElementById('analysis-title').textContent = `${system.name} - Analysis`;
+    document.getElementById('system-name').textContent = system.name;
+    document.getElementById('player-name').textContent = system.player;
+    document.getElementById('system-status').textContent = system.status.toUpperCase();
     
-    // Update status icon
-    const statusIcon = document.getElementById('system-status-icon');
+    // Update status indicator
+    const statusIndicator = document.getElementById('status-indicator');
+    const threatLevel = document.getElementById('threat-level');
+    
     switch(system.status) {
         case 'clean':
-            statusIcon.className = 'w-4 h-4 rounded-full bg-green-400 animate-pulse';
+            statusIndicator.className = 'w-3 h-3 rounded-full bg-green-500';
+            threatLevel.textContent = 'LOW';
+            threatLevel.className = 'text-green-600';
             break;
         case 'infected':
-            statusIcon.className = 'w-4 h-4 rounded-full bg-red-400 animate-ping';
+            statusIndicator.className = 'w-3 h-3 rounded-full bg-red-500 animate-ping';
+            threatLevel.textContent = 'CRITICAL';
+            threatLevel.className = 'text-red-600';
             break;
         case 'suspicious':
-            statusIcon.className = 'w-4 h-4 rounded-full bg-yellow-400';
+            statusIndicator.className = 'w-3 h-3 rounded-full bg-yellow-500';
+            threatLevel.textContent = 'MEDIUM';
+            threatLevel.className = 'text-yellow-600';
             break;
     }
     
-    // Populate process list
-    populateProcessList(system);
-    populateFileList(system);
+    // Update process monitor with real-time effect
+    updateProcessMonitor(system);
+    
+    // Update file corruption display
+    updateFileCorruption(system);
     
     // Reset analysis state
     gameState.analysisSteps[system.id] = {};
     document.getElementById('analysis-results').classList.add('hidden');
     document.getElementById('response-panel').classList.add('hidden');
     
-    // Reset tool states
+    // Reset tools
     document.querySelectorAll('.analysis-tool').forEach(tool => {
         tool.classList.remove('opacity-50');
         tool.disabled = false;
     });
 }
 
-export function populateProcessList(system) {
-    const processList = document.getElementById('process-list');
+function updateProcessMonitor(system) {
+    const monitor = document.getElementById('process-monitor');
     let processes = [];
     
     if (system.status === 'infected') {
         if (system.malwareType === 'trojan') {
             processes = [
-                { name: 'vr_engine.exe', status: 'normal', pid: '1024' },
-                { name: 'performance_boost.exe', status: 'suspicious', pid: '2456' },
-                { name: 'system32.exe', status: 'malicious', pid: '3789' }
+                'vr_engine.exe        PID:1024   CPU: 12%',
+                '<span class="text-red-400 animate-pulse">Performance_Boost.exe  PID:2456   CPU: 95%</span>',
+                'system_service.exe   PID:1256   CPU: 3%',
+                '<span class="text-yellow-400">malware_dropper.exe   PID:3789   CPU: 45%</span>',
+                '<span class="text-red-400">crypto_miner.exe      PID:4012   CPU: 78%</span>'
             ];
         } else if (system.malwareType === 'spyware') {
             processes = [
-                { name: 'vr_engine.exe', status: 'normal', pid: '1024' },
-                { name: 'keylogger.dll', status: 'malicious', pid: '2234' },
-                { name: 'vroptimizer.dll', status: 'suspicious', pid: '3456' }
+                'vr_engine.exe        PID:1024   CPU: 12%',
+                '<span class="text-red-400 animate-pulse">keylogger.exe        PID:2234   CPU: 25%</span>',
+                'system_service.exe   PID:1256   CPU: 3%',
+                '<span class="text-yellow-400">data_harvester.exe   PID:3456   CPU: 35%</span>'
             ];
         }
     } else {
         processes = [
-            { name: 'vr_engine.exe', status: 'normal', pid: '1024' },
-            { name: 'graphics_driver.dll', status: 'normal', pid: '1256' },
-            { name: 'audio_service.exe', status: 'normal', pid: '1789' }
+            'vr_engine.exe        PID:1024   CPU: 12%',
+            'graphics_driver.dll  PID:1256   CPU: 8%',
+            'audio_service.exe    PID:1789   CPU: 3%',
+            'system_idle_process  PID:0      CPU: 77%'
         ];
     }
     
-    processList.innerHTML = processes.map(proc => `
-        <div class="flex justify-between items-center text-xs p-2 rounded ${
-            proc.status === 'malicious' ? 'bg-red-800' : 
-            proc.status === 'suspicious' ? 'bg-yellow-800' : 'bg-gray-700'
-        }">
-            <span class="text-white">${proc.name}</span>
-            <span class="text-gray-400">PID: ${proc.pid}</span>
-        </div>
-    `).join('');
+    monitor.innerHTML = processes.join('<br>');
+    
+    // Animate process updates
+    if (system.status === 'infected') {
+        setInterval(() => {
+            const maliciousProcesses = monitor.querySelectorAll('.text-red-400');
+            maliciousProcesses.forEach(proc => {
+                const cpuMatch = proc.textContent.match(/CPU: (\d+)%/);
+                if (cpuMatch) {
+                    const newCpu = Math.min(parseInt(cpuMatch[1]) + Math.floor(Math.random() * 10), 99);
+                    proc.innerHTML = proc.innerHTML.replace(/CPU: \d+%/, `CPU: ${newCpu}%`);
+                }
+            });
+        }, 2000);
+    }
 }
 
-export function populateFileList(system) {
-    const fileList = document.getElementById('file-list');
+function updateFileCorruption(system) {
+    const fileCorruption = document.getElementById('file-corruption');
     let files = [];
     
     if (system.status === 'infected') {
         files = [
-            { name: 'Performance_Boost.exe', hash: 'a3f5d9c2e1...', threat: 'HIGH' },
-            { name: 'temp_cache.tmp', hash: 'b7e2c1a9f3...', threat: 'MEDIUM' }
+            { name: 'player_data.json', status: 'OK', class: 'text-green-600' },
+            { name: 'game_save.dat.locked', status: 'ENCRYPTED', class: 'text-red-600 line-through' },
+            { name: 'config.ini', status: 'MODIFIED', class: 'text-yellow-600' },
+            { name: 'credentials.txt.enc', status: 'ENCRYPTED', class: 'text-red-600 line-through' }
         ];
     } else if (system.status === 'suspicious') {
         files = [
-            { name: 'VROptimizer.dll', hash: 'b7e2c1a9f3...', threat: 'MEDIUM' }
+            { name: 'player_data.json', status: 'OK', class: 'text-green-600' },
+            { name: 'game_save.dat', status: 'OK', class: 'text-green-600' },
+            { name: 'config.ini', status: 'MODIFIED', class: 'text-yellow-600' }
+        ];
+    } else {
+        files = [
+            { name: 'player_data.json', status: 'OK', class: 'text-green-600' },
+            { name: 'game_save.dat', status: 'OK', class: 'text-green-600' },
+            { name: 'config.ini', status: 'OK', class: 'text-green-600' }
         ];
     }
     
-    fileList.innerHTML = files.length > 0 ? files.map(file => `
-        <div class="bg-red-800 border border-red-600 rounded p-2">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h6 class="text-red-300 font-semibold text-xs">${file.name}</h6>
-                    <p class="text-red-200 text-xs">Hash: ${file.hash}</p>
-                </div>
-                <span class="text-xs bg-red-600 text-white px-2 py-1 rounded">${file.threat}</span>
-            </div>
+    fileCorruption.innerHTML = files.map(file => `
+        <div class="flex justify-between">
+            <span class="${file.class}">${file.name}</span>
+            <span class="${file.class}">${file.status}</span>
         </div>
-    `).join('') : '<p class="text-gray-400 text-xs">No suspicious files detected</p>';
+    `).join('');
 }
 
 export function closeSystem() {
     document.getElementById('system-analysis').classList.add('hidden');
-    document.getElementById('system-placeholder').classList.remove('hidden');
     gameState.currentSystem = null;
+    
+    // Stop corruption effects
+    if (window.stopCorruptionEffects) {
+        window.stopCorruptionEffects();
+    }
 }
