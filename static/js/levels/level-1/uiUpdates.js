@@ -1,12 +1,34 @@
 export function updateMentorMessage(message) {
-    document.getElementById('mentor-message').textContent = message;
-    
-    // Add subtle animation for new messages
     const messageElement = document.getElementById('mentor-message');
-    messageElement.style.opacity = '0.7';
+    const toast = document.getElementById('editor-toast');
+    
+    // Show toast if it's hidden
+    if (toast.classList.contains('-translate-y-full') || toast.classList.contains('opacity-0')) {
+        if (window.showEditorToast) {
+            window.showEditorToast();
+        }
+    }
+    
+    // Update message with smooth transition
+    messageElement.style.opacity = '0.6';
     setTimeout(() => {
+        messageElement.textContent = message;
         messageElement.style.opacity = '1';
-    }, 300);
+    }, 200);
+    
+    // Add subtle glow effect for new messages
+    toast.style.boxShadow = '0 10px 30px rgba(245, 158, 11, 0.4), 0 0 20px rgba(245, 158, 11, 0.2)';
+    setTimeout(() => {
+        toast.style.boxShadow = '';
+    }, 2000);
+    
+    // Reset auto-hide timer when new message comes in
+    clearTimeout(window.toastAutoHideTimer);
+    window.toastAutoHideTimer = setTimeout(() => {
+        if (window.hideEditorToast) {
+            window.hideEditorToast();
+        }
+    }, 8000);
 }
 
 export function updateCredibilityMeter(score) {
@@ -85,7 +107,7 @@ export function updateProgressTrackers(headlinesCount, sourcesCount, imagesCount
     // Update progress bar
     const totalTasks = 9; // 3 stories × 3 verification types
     const completedTasks = headlinesCount + sourcesCount + imagesCount;
-    const progressPercentage = (completedTasks / totalTasks) * 100;
+    const progressPercentage = (completedTasks / totalTasks) + 0.1;
     
     document.getElementById('progress-bar').style.width = progressPercentage + '%';
 }
