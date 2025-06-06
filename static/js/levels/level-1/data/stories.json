@@ -1,39 +1,66 @@
 {
     "1": {
         "id": 1,
-        "headline": "🚨 BREAKING: Senator Williams' PRIVATE Files LEAKED by Anonymous Hackers!",
-        "source": "@CyberNewsNow",
+        "headline": "🚨 SENATOR WILLIAMS' PRIVATE FILES LEAKED BY ANONYMOUS HACKERS",
+        "source": "CyberNewsNow",
+        "publishTime": "2 hours ago",
+        "shares": "50,000+ (Viral)",
+        "verification": "UNVERIFIED",
+        "domain": "cybernewsnow.net",
         "isFake": true,
         "credibilityScore": 15,
+        "viralRisk": 85,
         "redFlags": [
             "Excessive emotional language (🚨, PRIVATE, LEAKED)",
-            "Unverified source with no badge",
-            "Sensational headline designed for clicks",
-            "No official confirmation or sources cited"
+            "Unverified source with no official badge",
+            "Sensational headline designed for clicks and shares",
+            "No official confirmation or credible sources cited",
+            "Domain registered only 3 months ago",
+            "Anonymous tip with no verifiable evidence"
         ],
-        "correctAnswer": "fake"
+        "correctAnswer": "fake",
+        "newsType": "BREAKING",
+        "category": "Political Misinformation"
     },
     "2": {
         "id": 2,
         "headline": "Election Security Measures Enhanced for Upcoming Digital Vote",
-        "source": "@OfficialGovNews",
+        "source": "Official Government News",
+        "publishTime": "4 hours ago",
+        "shares": "2,500 (Moderate)",
+        "verification": "VERIFIED",
+        "domain": "gov.official",
         "isFake": false,
         "credibilityScore": 95,
+        "viralRisk": 5,
         "redFlags": [],
-        "correctAnswer": "real"
+        "correctAnswer": "real",
+        "newsType": "OFFICIAL",
+        "category": "Government Announcement",
+        "verificationBadge": true,
+        "officialSource": true
     },
     "3": {
         "id": 3,
         "headline": "SHOCKING: You Won't Believe What Hackers Found in Williams' Computer!",
-        "source": "@ViralNewsHub",
+        "source": "ViralNewsHub",
+        "publishTime": "1 hour ago",
+        "shares": "15,000+ (Rising)",
+        "verification": "CLICKBAIT",
+        "domain": "viralnewshub.click",
         "isFake": true,
         "credibilityScore": 10,
+        "viralRisk": 90,
         "redFlags": [
             "Classic clickbait structure ('You Won't Believe')",
-            "Vague, sensational claims",
-            "Suspicious domain name",
-            "Designed to generate shares, not inform"
+            "Vague, sensational claims with no specifics",
+            "Suspicious .click domain extension",
+            "Designed to generate shares, not inform readers",
+            "No journalistic credentials or author byline",
+            "Similar content pattern to known fake news sites"
         ],
-        "correctAnswer": "fake"
+        "correctAnswer": "fake",
+        "newsType": "VIRAL",
+        "category": "Clickbait Misinformation"
     }
 }
