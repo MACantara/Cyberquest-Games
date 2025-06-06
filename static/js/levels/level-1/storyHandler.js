@@ -26,14 +26,109 @@ export function displayStoryInWorkspace(story) {
     const workspace = document.getElementById('workspace');
     const analysisPanel = document.getElementById('analysis-panel');
     
+    // Format publish date for article display
+    const publishDate = new Date();
+    const formattedDate = publishDate.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    
     workspace.innerHTML = `
-        <div class="text-center p-4">
-            <h4 class="text-gray-900 font-bold font-serif mb-3">${story.headline}</h4>
-            <div class="bg-amber-200 border border-amber-400 rounded p-3 mb-3 text-left">
-                <p class="text-gray-800 text-sm font-serif leading-relaxed">${story.fullContent}</p>
+        <div class="bg-white text-gray-900 p-6 rounded border border-amber-300 font-serif">
+            <!-- Article Header -->
+            <div class="border-b-2 border-gray-800 pb-4 mb-4">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-xs font-bold bg-red-600 text-white px-2 py-1 rounded">${story.newsType}</span>
+                    <span class="text-xs text-gray-600">${story.category}</span>
+                </div>
+                
+                <!-- Headline -->
+                <h1 class="text-2xl font-bold leading-tight mb-3">${story.headline}</h1>
+                
+                <!-- Byline and Metadata -->
+                <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 border-b border-gray-300 pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold">By ${story.source}</span>
+                        <span class="px-2 py-1 rounded text-xs ${getStatusBadgeClass(story.verification)}">${story.verification}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <i class="bi bi-clock text-xs"></i>
+                        <span>Published ${story.publishTime}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <i class="bi bi-globe text-xs"></i>
+                        <span class="font-mono text-xs">${story.domain}</span>
+                    </div>
+                </div>
+                
+                <!-- Social Stats -->
+                <div class="flex items-center gap-4 text-xs text-gray-500 mt-2">
+                    <div class="flex items-center gap-1">
+                        <i class="bi bi-share"></i>
+                        <span>${story.shares}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <i class="bi bi-eye"></i>
+                        <span>Reading time: ~2 min</span>
+                    </div>
+                    ${story.images.hasImages ? '<div class="flex items-center gap-1"><i class="bi bi-image"></i><span>Contains media</span></div>' : ''}
+                </div>
             </div>
-            <div class="flex justify-center items-center gap-4 text-sm">
-                <span class="text-gray-600 font-serif">Use verification tools below to analyze this story</span>
+
+            <!-- Article Body -->
+            <div class="space-y-4">
+                <!-- Lead paragraph -->
+                <p class="text-lg leading-relaxed font-medium text-gray-800 border-l-4 border-amber-400 pl-4 bg-amber-50 py-2">
+                    ${story.fullContent.split('.')[0]}.
+                </p>
+                
+                <!-- Image placeholder if article has images -->
+                ${story.images.hasImages ? `
+                <div class="my-6 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                    <i class="bi bi-image text-4xl text-gray-400 mb-2"></i>
+                    <div class="text-sm text-gray-600">
+                        <p class="font-semibold">[IMAGE: ${story.images.imageDescription}]</p>
+                        <p class="text-xs mt-1 italic">Click "IMAGE VERIFY" tool to analyze this media</p>
+                    </div>
+                </div>
+                ` : ''}
+                
+                <!-- Remaining content -->
+                <div class="prose prose-sm max-w-none">
+                    ${story.fullContent.split('.').slice(1).join('.').trim() ? 
+                        '<p class="leading-relaxed">' + story.fullContent.split('.').slice(1).join('.').trim() + '</p>' : 
+                        '<p class="leading-relaxed text-gray-600 italic">[Article content continues...]</p>'
+                    }
+                </div>
+                
+                <!-- Article Footer Metadata -->
+                <div class="border-t border-gray-300 pt-4 mt-6">
+                    <div class="grid grid-cols-2 gap-4 text-xs text-gray-500">
+                        <div>
+                            <p><strong>Source Domain:</strong> <span class="font-mono">${story.domain}</span></p>
+                            <p><strong>Article ID:</strong> #${story.id}${Math.random().toString(36).substr(2, 6)}</p>
+                            <p><strong>Last Updated:</strong> ${story.publishTime}</p>
+                        </div>
+                        <div>
+                            <p><strong>Category:</strong> ${story.category}</p>
+                            <p><strong>Language:</strong> English (US)</p>
+                            <p><strong>Word Count:</strong> ~${story.fullContent.split(' ').length} words</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Verification Notice -->
+            <div class="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r">
+                <div class="flex items-start">
+                    <i class="bi bi-info-circle text-blue-600 mr-2 mt-0.5"></i>
+                    <div class="text-sm">
+                        <p class="font-semibold text-blue-800">Fact-Checking Required</p>
+                        <p class="text-blue-700">Use the verification tools below to analyze this article's credibility before making your editorial decision.</p>
+                    </div>
+                </div>
             </div>
         </div>
     `;
@@ -43,13 +138,13 @@ export function displayStoryInWorkspace(story) {
     // Update story details with comprehensive information
     document.getElementById('story-details').innerHTML = `
         <div class="bg-amber-100 border border-amber-300 rounded p-3">
-            <h5 class="font-bold font-serif text-gray-900 mb-2">${story.headline}</h5>
+            <h5 class="font-bold font-serif text-gray-900 mb-2">Article Analysis Summary</h5>
             <div class="grid grid-cols-2 gap-4 text-xs font-serif text-gray-700">
                 <div>
                     <p><strong>Source:</strong> ${story.source}</p>
                     <p><strong>Published:</strong> ${story.publishTime}</p>
                     <p><strong>Domain:</strong> ${story.domain}</p>
-                    <p><strong>Content:</strong> ${story.fullContent.substring(0, 100)}...</p>
+                    <p><strong>Word Count:</strong> ~${story.fullContent.split(' ').length}</p>
                 </div>
                 <div>
                     <p><strong>Shares:</strong> ${story.shares}</p>
@@ -57,6 +152,9 @@ export function displayStoryInWorkspace(story) {
                     <p><strong>Category:</strong> ${story.category}</p>
                     <p><strong>Images:</strong> ${story.images.hasImages ? 'Yes' : 'No'}</p>
                 </div>
+            </div>
+            <div class="mt-3 pt-3 border-t border-amber-300">
+                <p class="text-xs"><strong>Preview:</strong> ${story.fullContent.substring(0, 120)}...</p>
             </div>
         </div>
     `;
@@ -68,6 +166,15 @@ function getStatusColor(status) {
         case 'UNVERIFIED': return 'bg-red-600';
         case 'CLICKBAIT': return 'bg-yellow-600';
         default: return 'bg-gray-600';
+    }
+}
+
+function getStatusBadgeClass(status) {
+    switch(status) {
+        case 'VERIFIED': return 'bg-green-100 text-green-800 border border-green-300';
+        case 'UNVERIFIED': return 'bg-red-100 text-red-800 border border-red-300';
+        case 'CLICKBAIT': return 'bg-yellow-100 text-yellow-800 border border-yellow-300';
+        default: return 'bg-gray-100 text-gray-800 border border-gray-300';
     }
 }
 
