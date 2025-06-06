@@ -461,7 +461,16 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         
-        popupContainer.appendChild(popup);
+        if (!popupContainer) {
+            // Create popup container if it doesn't exist
+            const container = document.createElement('div');
+            container.id = 'malware-popups';
+            container.className = 'fixed inset-0 pointer-events-none z-40';
+            document.body.appendChild(container);
+            container.appendChild(popup);
+        } else {
+            popupContainer.appendChild(popup);
+        }
         
         // Auto-remove after 8 seconds
         setTimeout(() => {
@@ -492,7 +501,10 @@ document.addEventListener('DOMContentLoaded', function() {
         clearInterval(popupInterval);
         
         // Clear existing popups
-        document.getElementById('malware-popups').innerHTML = '';
+        const popupContainer = document.getElementById('malware-popups');
+        if (popupContainer) {
+            popupContainer.innerHTML = '';
+        }
         
         // Reset corruption
         document.getElementById('corruption-overlay').style.opacity = '0';
