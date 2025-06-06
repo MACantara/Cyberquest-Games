@@ -2,6 +2,32 @@
 {% block content %}
 <!-- Level 2: Shadow in the Inbox -->
 <div class="h-screen bg-gray-50 flex flex-col">
+    <!-- Floating Mentor AI Toast Notification -->
+    <div id="mentor-toast" class="fixed top-4 left-4 right-4 z-50 max-w-2xl mx-auto transform -translate-y-full opacity-0 transition-all duration-500 ease-out">
+        <div class="bg-blue-50 border-2 border-blue-300 rounded-lg shadow-2xl backdrop-blur-sm">
+            <div class="flex items-start gap-4 p-4">
+                <div class="bg-blue-600 text-white rounded-full p-3 flex-shrink-0 shadow-lg">
+                    <i class="bi bi-robot text-lg"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-2">
+                        <h4 class="font-semibold text-blue-900">Mentor AI - Argus</h4>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-bold border border-green-300">
+                            <span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-1 animate-pulse"></span>
+                            ACTIVE
+                        </span>
+                    </div>
+                    <p id="mentor-message" class="text-sm leading-relaxed text-blue-800 border-l-4 border-blue-400 pl-3 italic">
+                        "Welcome to the InterWorld Mail portal, Nova. Start by examining the urgent message in your inbox. Trust your instincts—something doesn't feel right about it."
+                    </p>
+                </div>
+                <button id="close-mentor-toast" class="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0">
+                    <i class="bi bi-x-lg text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Opening Cutscene Modal -->
     <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-8 max-w-2xl mx-4 shadow-2xl border">
@@ -380,24 +406,6 @@
         </div>
     </div>
 
-    <!-- Mentor AI Panel -->
-    <div class="bg-blue-50 border-t border-blue-200 p-4">
-        <div class="max-w-7xl mx-auto flex items-start gap-4">
-            <div class="bg-blue-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
-                <i class="bi bi-robot text-white"></i>
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-1">
-                    <h4 class="font-semibold text-blue-900">Mentor AI - Argus</h4>
-                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">ACTIVE</span>
-                </div>
-                <p id="mentor-message" class="text-blue-800 text-sm">
-                    Welcome to the InterWorld Mail portal, Nova. Start by examining the urgent message in your inbox. Trust your instincts—something doesn't feel right about it.
-                </p>
-            </div>
-        </div>
-    </div>
-
     <!-- Results Modal -->
     <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg p-8 max-w-lg mx-4 shadow-2xl">
@@ -426,4 +434,55 @@
 
 <!-- Level 2 JavaScript -->
 <script type="module" src="{{ url_for('static', filename='js/levels/level-2/level-2.js') }}"></script>
+
+<script>
+    // Floating toast notification functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const toast = document.getElementById('mentor-toast');
+        const closeButton = document.getElementById('close-mentor-toast');
+        
+        // Show toast with smooth animation
+        function showToast() {
+            toast.classList.remove('-translate-y-full', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+        }
+        
+        // Hide toast with smooth animation
+        function hideToast() {
+            toast.classList.remove('translate-y-0', 'opacity-100');
+            toast.classList.add('-translate-y-full', 'opacity-0');
+        }
+        
+        // Close toast when X button is clicked
+        closeButton.addEventListener('click', function() {
+            hideToast();
+        });
+        
+        // Auto-hide toast after 10 seconds
+        let autoHideTimer = setTimeout(() => {
+            hideToast();
+        }, 10000);
+        
+        // Reset auto-hide timer when hovering over toast
+        toast.addEventListener('mouseenter', () => {
+            clearTimeout(autoHideTimer);
+        });
+        
+        toast.addEventListener('mouseleave', () => {
+            autoHideTimer = setTimeout(() => {
+                hideToast();
+            }, 5000);
+        });
+        
+        // Show toast on page load with delay
+        setTimeout(() => {
+            showToast();
+        }, 1000);
+        
+        // Make toast functions globally available for the game
+        window.showMentorToast = showToast;
+        window.hideMentorToast = hideToast;
+        window.toastAutoHideTimer = autoHideTimer;
+    });
+</script>
 {% endblock %}
