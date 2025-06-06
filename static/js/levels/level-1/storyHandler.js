@@ -28,30 +28,32 @@ export function displayStoryInWorkspace(story) {
     
     workspace.innerHTML = `
         <div class="text-center p-4">
-            <h4 class="text-white font-semibold mb-2">${story.headline}</h4>
-            <p class="text-gray-400 text-sm">Source: ${story.source}</p>
+            <h4 class="text-gray-900 font-bold font-serif mb-2">${story.headline}</h4>
+            <p class="text-gray-700 text-sm font-serif">Source: ${story.source}</p>
             <div class="mt-3 flex items-center justify-center gap-4 text-sm">
-                <span class="text-gray-500">Click verification tools below to analyze</span>
+                <span class="text-gray-600 font-serif">Click verification tools below to analyze</span>
             </div>
         </div>
     `;
     
     analysisPanel.classList.remove('hidden');
     document.getElementById('story-details').innerHTML = `
-        <div class="bg-gray-600 rounded p-3">
-            <h5 class="font-medium text-white mb-2">${story.headline}</h5>
-            <p class="text-gray-400 text-sm">Source: ${story.source}</p>
+        <div class="bg-amber-100 border border-amber-300 rounded p-3">
+            <h5 class="font-bold font-serif text-gray-900 mb-2">${story.headline}</h5>
+            <p class="text-gray-700 text-sm font-serif">Source: ${story.source}</p>
         </div>
     `;
 }
 
 export function resetWorkspace() {
     document.getElementById('workspace').innerHTML = `
-        <i class="bi bi-arrow-down-circle text-4xl text-gray-500 mb-4"></i>
-        <p class="text-gray-400 text-center">
-            <strong>Select your next story to analyze</strong><br>
-            <span class="text-sm">Keep up the good work, Nova!</span>
-        </p>
+        <div class="text-center text-gray-600">
+            <i class="bi bi-arrow-down-circle text-4xl text-amber-600 mb-4"></i>
+            <p class="text-gray-700 text-center font-serif">
+                <strong class="text-gray-900">Select your next story to analyze</strong><br>
+                <span class="text-sm">Keep up the good work, Nova!</span>
+            </p>
+        </div>
     `;
     document.getElementById('analysis-panel').classList.add('hidden');
     gameState.currentStory = null;

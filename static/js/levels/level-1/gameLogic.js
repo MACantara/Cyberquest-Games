@@ -35,12 +35,12 @@ export function handleCorrectAnswer(story) {
         'You correctly identified this story. Truth needs guardians like you.',
         `
             <div class="text-left space-y-2">
-                <p class="text-green-400 font-semibold">✅ Correct Decision</p>
-                <p class="text-sm text-gray-300">Key evidence you found:</p>
-                <ul class="text-sm text-gray-400 space-y-1">
+                <p class="text-green-600 font-bold font-serif">✅ Correct Decision</p>
+                <p class="text-sm text-gray-700 font-serif">Key evidence you found:</p>
+                <ul class="text-sm text-gray-600 space-y-1 font-serif">
                     ${story.redFlags.map(flag => `<li>• ${flag}</li>`).join('')}
                 </ul>
-                <p class="text-cyan-400 text-sm mt-3">+20 Credibility Points</p>
+                <p class="text-green-700 text-sm mt-3 font-bold">+20 Credibility Points</p>
             </div>
         `
     );
@@ -58,12 +58,12 @@ export function handleWrongAnswer(story) {
         'The story went viral before you could stop it. Learn from this mistake.',
         `
             <div class="text-left space-y-2">
-                <p class="text-red-400 font-semibold">❌ Incorrect Decision</p>
-                <p class="text-sm text-gray-300">What you missed:</p>
-                <ul class="text-sm text-gray-400 space-y-1">
+                <p class="text-red-600 font-bold font-serif">❌ Incorrect Decision</p>
+                <p class="text-sm text-gray-700 font-serif">What you missed:</p>
+                <ul class="text-sm text-gray-600 space-y-1 font-serif">
                     ${story.redFlags.map(flag => `<li>• ${flag}</li>`).join('')}
                 </ul>
-                <p class="text-red-400 text-sm mt-3">-15 Credibility Points, +25% Viral Impact</p>
+                <p class="text-red-700 text-sm mt-3 font-bold">-15 Credibility Points, +25% Viral Impact</p>
             </div>
         `
     );
@@ -83,14 +83,14 @@ export function endGame(success, message = null) {
             'You\'ve successfully completed the Misinformation Maze and earned the Fact Hunter badge.',
             `
                 <div class="text-left space-y-3">
-                    <div class="bg-yellow-900 border border-yellow-600 rounded p-3">
-                        <p class="text-yellow-300 font-semibold">🏆 Digital Badge Earned</p>
-                        <p class="text-yellow-200 text-sm">Fact Hunter - Level 1 Cleared</p>
+                    <div class="bg-amber-100 border-2 border-amber-400 rounded p-3">
+                        <p class="text-amber-800 font-bold font-serif">🏆 Digital Badge Earned</p>
+                        <p class="text-amber-700 text-sm font-serif">Fact Hunter - Level 1 Cleared</p>
                     </div>
-                    <div class="text-sm space-y-1">
-                        <p><strong>Final Score:</strong> ${gameState.credibilityScore}/100</p>
-                        <p><strong>Viral Impact:</strong> ${gameState.viralImpact}% (${gameState.viralImpact < 30 ? 'Contained' : 'Needs improvement'})</p>
-                        <p><strong>Stories Analyzed:</strong> ${gameState.storiesAnalyzed}/3</p>
+                    <div class="text-sm space-y-1 font-serif text-gray-700">
+                        <p><strong class="text-gray-900">Final Score:</strong> ${gameState.credibilityScore}/100</p>
+                        <p><strong class="text-gray-900">Viral Impact:</strong> ${gameState.viralImpact}% (${gameState.viralImpact < 30 ? 'Contained' : 'Needs improvement'})</p>
+                        <p><strong class="text-gray-900">Stories Analyzed:</strong> ${gameState.storiesAnalyzed}/3</p>
                     </div>
                 </div>
             `
