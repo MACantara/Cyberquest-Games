@@ -1,0 +1,23 @@
+{
+    "1": {
+        "name": "Dr. Alexis Reeves",
+        "background": "Former AI Ethics Professor dismissed for conducting unauthorized experiments on student behavioral data",
+        "motive": "Revenge against Academy leadership and exposure of unethical practices",
+        "evidence": ["ssh_anomaly", "doc_metadata", "image_metadata"],
+        "alibi": "Claims to have been at home during the incident"
+    },
+    "2": {
+        "name": "Marcus Chen",
+        "background": "Current Security Administrator with full system access and knowledge of all protocols",
+        "motive": "Financial gain through selling Academy security intelligence",
+        "evidence": ["failed_login", "privilege_escalation"],
+        "alibi": "Was working late shift, has security badge logs"
+    },
+    "3": {
+        "name": "Zara Khan",
+        "background": "Former Lead Penetration Tester who resigned citing ethical concerns about Academy practices",
+        "motive": "Whistleblowing to expose Academy corruption and protect students",
+        "evidence": ["malware_hash", "email_metadata"],
+        "alibi": "Traveling abroad during the incident with passport stamps"
+    }
+}

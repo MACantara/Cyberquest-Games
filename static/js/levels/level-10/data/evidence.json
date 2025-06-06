@@ -1,0 +1,80 @@
+{
+    "logs": [
+        {
+            "id": "ssh_anomaly",
+            "type": "SSH Log",
+            "description": "Unusual late-night access from Dr. Reeves account",
+            "timestamp": "2024-03-15 02:47:33",
+            "indicator": true
+        },
+        {
+            "id": "failed_login",
+            "type": "Auth Log",
+            "description": "Multiple failed login attempts to Marcus Chen account",
+            "timestamp": "2024-03-14 23:15:22",
+            "indicator": false
+        },
+        {
+            "id": "privilege_escalation",
+            "type": "System Log",
+            "description": "Unauthorized root access from guest account",
+            "timestamp": "2024-03-15 03:22:18",
+            "indicator": true
+        },
+        {
+            "id": "data_exfiltration",
+            "type": "Network Log",
+            "description": "Large data transfer to external server",
+            "timestamp": "2024-03-15 04:15:45",
+            "indicator": true
+        }
+    ],
+    "hashes": [
+        {
+            "id": "malware_hash",
+            "file": "system_update.exe",
+            "hash": "a7f5c9e2b4d8f1a3c6e9b2d5f8a1c4e7",
+            "status": "MALICIOUS",
+            "indicator": true
+        },
+        {
+            "id": "clean_hash",
+            "file": "backup_tool.exe",
+            "hash": "f8a1c4e7b2d5f9a2c5e8b1d4f7a0c3e6",
+            "status": "CLEAN",
+            "indicator": false
+        },
+        {
+            "id": "modified_hash",
+            "file": "security_patch.exe",
+            "hash": "c4e7b2d5f8a1c9e2b4d8f1a3c6e9b2d5",
+            "status": "MODIFIED",
+            "indicator": true
+        }
+    ],
+    "metadata": [
+        {
+            "id": "doc_metadata",
+            "file": "project_notes.docx",
+            "author": "A.Reeves",
+            "created": "2024-03-10 18:30:00",
+            "modified": "2024-03-15 02:45:12",
+            "indicator": true
+        },
+        {
+            "id": "image_metadata",
+            "file": "academy_layout.jpg",
+            "camera": "Internal Security Cam 7",
+            "location": "Server Room B",
+            "timestamp": "2024-03-15 02:50:33",
+            "indicator": true
+        },
+        {
+            "id": "email_metadata",
+            "file": "encrypted_message.eml",
+            "sender": "masked.sender@darknet.onion",
+            "encryption": "PGP 4096-bit",
+            "indicator": true
+        }
+    ]
+}
