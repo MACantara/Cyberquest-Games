@@ -35,9 +35,9 @@ export function handleCorrectAnswer(story) {
         'You correctly identified this story. Truth needs guardians like you.',
         `
             <div class="text-left space-y-2">
-                <p class="text-green-600 font-bold font-serif">✅ Correct Decision</p>
-                <p class="text-sm text-gray-700 font-serif">Key evidence you found:</p>
-                <ul class="text-sm text-gray-600 space-y-1 font-serif">
+                <p class="text-green-700 font-bold font-serif">✅ Correct Decision</p>
+                <p class="text-sm text-gray-800 font-serif">Key evidence you found:</p>
+                <ul class="text-sm text-gray-700 space-y-1 font-serif">
                     ${story.redFlags.map(flag => `<li>• ${flag}</li>`).join('')}
                 </ul>
                 <p class="text-green-700 text-sm mt-3 font-bold">+20 Credibility Points</p>
@@ -58,9 +58,9 @@ export function handleWrongAnswer(story) {
         'The story went viral before you could stop it. Learn from this mistake.',
         `
             <div class="text-left space-y-2">
-                <p class="text-red-600 font-bold font-serif">❌ Incorrect Decision</p>
-                <p class="text-sm text-gray-700 font-serif">What you missed:</p>
-                <ul class="text-sm text-gray-600 space-y-1 font-serif">
+                <p class="text-red-700 font-bold font-serif">❌ Incorrect Decision</p>
+                <p class="text-sm text-gray-800 font-serif">What you missed:</p>
+                <ul class="text-sm text-gray-700 space-y-1 font-serif">
                     ${story.redFlags.map(flag => `<li>• ${flag}</li>`).join('')}
                 </ul>
                 <p class="text-red-700 text-sm mt-3 font-bold">-15 Credibility Points, +25% Viral Impact</p>
@@ -83,9 +83,9 @@ export function endGame(success, message = null) {
             'You\'ve successfully completed the Misinformation Maze and earned the Fact Hunter badge.',
             `
                 <div class="text-left space-y-3">
-                    <div class="bg-amber-100 border-2 border-amber-400 rounded p-3">
-                        <p class="text-amber-800 font-bold font-serif">🏆 Digital Badge Earned</p>
-                        <p class="text-amber-700 text-sm font-serif">Fact Hunter - Level 1 Cleared</p>
+                    <div class="bg-amber-200 border-2 border-amber-500 rounded p-3">
+                        <p class="text-amber-900 font-bold font-serif">🏆 Digital Badge Earned</p>
+                        <p class="text-amber-800 text-sm font-serif">Fact Hunter - Level 1 Cleared</p>
                     </div>
                     <div class="text-sm space-y-1 font-serif text-gray-700">
                         <p><strong class="text-gray-900">Final Score:</strong> ${gameState.credibilityScore}/100</p>

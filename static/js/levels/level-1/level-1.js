@@ -109,12 +109,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             'Incoming Message',
             'As you finish scrubbing the false story, you receive a new email...',
             `
-                <div class="text-left bg-gray-700 rounded p-3">
-                    <p class="text-red-400 font-semibold">🚨 URGENT MESSAGE</p>
-                    <p class="text-gray-300 text-sm mt-2">"Commander X wants immediate action—check your inbox now."</p>
-                    <p class="text-gray-500 text-xs mt-2">Sender: Unknown</p>
+                <div class="text-left bg-gray-800 border-2 border-gray-700 rounded p-3">
+                    <p class="text-red-400 font-semibold font-serif">🚨 URGENT MESSAGE</p>
+                    <p class="text-amber-100 text-sm mt-2 font-serif">"Commander X wants immediate action—check your inbox now."</p>
+                    <p class="text-gray-400 text-xs mt-2 font-serif">Sender: Unknown</p>
                 </div>
-                <p class="text-cyan-400 text-sm mt-3">Ready for Level 2: Shadow in the Inbox?</p>
+                <p class="text-gray-800 text-sm mt-3 font-serif font-bold">Ready for Level 2: Shadow in the Inbox?</p>
             `
         );
         
