@@ -134,30 +134,6 @@ export function displayStoryInWorkspace(story) {
     `;
     
     analysisPanel.classList.remove('hidden');
-    
-    // Update story details with comprehensive information
-    document.getElementById('story-details').innerHTML = `
-        <div class="bg-amber-100 border border-amber-300 rounded p-3">
-            <h5 class="font-bold font-serif text-gray-900 mb-2">Article Analysis Summary</h5>
-            <div class="grid grid-cols-2 gap-4 text-xs font-serif text-gray-700">
-                <div>
-                    <p><strong>Source:</strong> ${story.source}</p>
-                    <p><strong>Published:</strong> ${story.publishTime}</p>
-                    <p><strong>Domain:</strong> ${story.domain}</p>
-                    <p><strong>Word Count:</strong> ~${story.fullContent.split(' ').length}</p>
-                </div>
-                <div>
-                    <p><strong>Shares:</strong> ${story.shares}</p>
-                    <p><strong>Status:</strong> <span class="px-1 py-0.5 rounded text-white text-xs ${getStatusColor(story.verification)}">${story.verification}</span></p>
-                    <p><strong>Category:</strong> ${story.category}</p>
-                    <p><strong>Images:</strong> ${story.images.hasImages ? 'Yes' : 'No'}</p>
-                </div>
-            </div>
-            <div class="mt-3 pt-3 border-t border-amber-300">
-                <p class="text-xs"><strong>Preview:</strong> ${story.fullContent.substring(0, 120)}...</p>
-            </div>
-        </div>
-    `;
 }
 
 function getStatusColor(status) {
