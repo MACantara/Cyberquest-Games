@@ -1,0 +1,37 @@
+{
+    "1": {
+        "id": 1,
+        "name": "Terminal-01",
+        "player": "Alex_VR",
+        "status": "clean",
+        "malwareType": null
+    },
+    "2": {
+        "id": 2,
+        "name": "Terminal-02",
+        "player": "CyberNinja",
+        "status": "infected",
+        "malwareType": "trojan"
+    },
+    "3": {
+        "id": 3,
+        "name": "Terminal-03",
+        "player": "Cipher",
+        "status": "suspicious",
+        "malwareType": "spyware"
+    },
+    "4": {
+        "id": 4,
+        "name": "Terminal-04",
+        "player": "Phoenix",
+        "status": "clean",
+        "malwareType": null
+    },
+    "5": {
+        "id": 5,
+        "name": "Terminal-05",
+        "player": "AdminUser",
+        "status": "infected",
+        "malwareType": "worm"
+    }
+}
