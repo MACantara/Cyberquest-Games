@@ -1,0 +1,53 @@
+{
+    "1": {
+        "id": 1,
+        "email": "alex.wilson@alumni",
+        "password": "Summer2020!",
+        "strength": "weak",
+        "adminPrivileges": false,
+        "mfaEnabled": false,
+        "vulnerabilities": [
+            "Common seasonal pattern",
+            "Year in password",
+            "Single special character"
+        ],
+        "correctAction": "force-reset"
+    },
+    "2": {
+        "id": 2,
+        "email": "maria.chen@alumni",
+        "password": "MyDog2019#",
+        "strength": "moderate",
+        "adminPrivileges": false,   
+        "mfaEnabled": false,
+        "vulnerabilities": [
+            "Personal information",
+            "Predictable pattern"
+        ],
+        "correctAction": "enable-mfa"
+    },
+    "3": {
+        "id": 3,
+        "email": "j.torres@alumni",
+        "password": "C0mpl3x!Phrase#2025",
+        "strength": "strong",
+        "adminPrivileges": false,
+        "mfaEnabled": true,
+        "vulnerabilities": [],
+        "correctAction": "verify-safe"
+    },
+    "4": {
+        "id": 4,
+        "email": "admin.legacy@alumni",
+        "password": "password123",
+        "strength": "critical",
+        "adminPrivileges": true,
+        "mfaEnabled": false,
+        "vulnerabilities": [
+            "Default password",
+            "No complexity",
+            "Admin privileges at risk"
+        ],
+        "correctAction": "lockdown"
+    }
+}
