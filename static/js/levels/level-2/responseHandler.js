@@ -43,13 +43,20 @@ export function handleCorrectResponse(email, action) {
             title = "Threat Contained!";
             message = "You correctly identified and reported the phishing attempt.";
             feedback = `
-                <div class="space-y-2">
-                    <p class="text-green-400 font-semibold">✅ Correct Action: Report Phishing</p>
-                    <p class="text-sm text-gray-300">Evidence you found:</p>
-                    <ul class="text-sm text-gray-400 space-y-1">
-                        ${email.redFlags.map(flag => `<li>• ${flag}</li>`).join('')}
-                    </ul>
-                    <p class="text-cyan-400 text-sm mt-3">+25 Security Points • Threat Blocked</p>
+                <div class="space-y-3">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                        <p class="text-green-800 font-semibold">✅ Correct Action: Report Phishing</p>
+                        <p class="text-green-700 text-sm mt-1">Your quick action prevented a security breach.</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <p class="text-blue-800 text-sm font-medium">Evidence you found:</p>
+                        <ul class="text-blue-700 text-sm space-y-1 mt-2">
+                            ${email.redFlags.map(flag => `<li class="flex items-start gap-2"><i class="bi bi-dot text-blue-600 mt-1"></i>${flag}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">+25 Security Points</span>
+                    </div>
                 </div>
             `;
             break;
@@ -57,10 +64,14 @@ export function handleCorrectResponse(email, action) {
             title = "Proper Escalation!";
             message = "You correctly escalated this to the security team.";
             feedback = `
-                <div class="space-y-2">
-                    <p class="text-green-400 font-semibold">✅ Correct Action: Security Escalation</p>
-                    <p class="text-sm text-gray-300">This legitimate concern was properly escalated to investigate the impersonation attack.</p>
-                    <p class="text-cyan-400 text-sm mt-3">+25 Security Points</p>
+                <div class="space-y-3">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                        <p class="text-green-800 font-semibold">✅ Correct Action: Security Escalation</p>
+                        <p class="text-green-700 text-sm mt-1">This legitimate concern was properly escalated to investigate the impersonation attack.</p>
+                    </div>
+                    <div class="text-center">
+                        <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">+25 Security Points</span>
+                    </div>
                 </div>
             `;
             break;

@@ -28,9 +28,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             const emailId = parseInt(this.dataset.email);
             selectEmail(emailId);
             
-            // Visual feedback
-            document.querySelectorAll('.email-item').forEach(e => e.classList.remove('ring-2', 'ring-cyan-400'));
-            this.classList.add('ring-2', 'ring-cyan-400');
+            // Remove previous selection styling
+            document.querySelectorAll('.email-item').forEach(e => {
+                e.classList.remove('bg-blue-100', 'border-l-blue-500');
+            });
+            
+            // Add selection styling
+            this.classList.add('bg-blue-100', 'border-l-blue-500');
         });
     });
 
@@ -78,12 +82,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             'Incoming Alert',
             'As you file your security report, a new emergency alert appears...',
             `
-                <div class="text-left bg-red-900 border border-red-600 rounded p-3">
-                    <p class="text-red-300 font-semibold">🚨 EMERGENCY ALERT</p>
-                    <p class="text-red-200 text-sm mt-2">"Nova—come quickly. Malware has been detected in the Academy's VR Gaming Arena. Tournament players are reporting system crashes."</p>
-                    <p class="text-gray-400 text-xs mt-2">Source: Academy Emergency Response</p>
+                <div class="text-left bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-exclamation-triangle text-red-600 text-lg"></i>
+                        <div>
+                            <p class="text-red-800 font-semibold">🚨 EMERGENCY ALERT</p>
+                            <p class="text-red-700 text-sm mt-2">"Nova—come quickly. Malware has been detected in the Academy's VR Gaming Arena. Tournament players are reporting system crashes."</p>
+                            <p class="text-gray-600 text-xs mt-2">Source: Academy Emergency Response</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-cyan-400 text-sm mt-3">Ready for Level 3: Malware Mayhem?</p>
+                <p class="text-blue-600 text-sm mt-3 text-center font-medium">Ready for Level 3: Malware Mayhem?</p>
             `
         );
         

@@ -26,27 +26,42 @@ export function displayEmail(email) {
     document.getElementById('email-placeholder').classList.add('hidden');
     document.getElementById('email-content').classList.remove('hidden');
     
+    // Update email header information
     document.getElementById('email-subject').textContent = email.subject;
+    document.getElementById('email-sender-name').textContent = email.senderName || 'Commander Vega';
     document.getElementById('email-from').textContent = email.from;
     document.getElementById('email-time').textContent = email.time;
-    document.getElementById('email-body').textContent = email.body;
     
-    // Show attachments if present
+    // Show verification badge for legitimate emails
+    const verificationBadge = document.getElementById('email-verification');
+    if (email.verified) {
+        verificationBadge.classList.remove('hidden');
+    } else {
+        verificationBadge.classList.add('hidden');
+    }
+    
+    // Format email body with proper line breaks
+    document.getElementById('email-body').innerHTML = email.body.replace(/\n/g, '<br>');
+    
+    // Handle attachments
     if (email.hasAttachment) {
         document.getElementById('email-attachments').classList.remove('hidden');
     } else {
         document.getElementById('email-attachments').classList.add('hidden');
     }
     
-    // Show links if present
+    // Handle links
     if (email.hasLinks) {
         document.getElementById('email-links').classList.remove('hidden');
         document.getElementById('link-content').innerHTML = `
-            <div class="bg-red-800 rounded p-2 mb-2">
-                <a href="#" class="text-red-300 text-sm hover:underline" onclick="return false;">
+            <div class="bg-white border border-yellow-300 rounded-lg p-3">
+                <a href="#" class="text-blue-600 text-sm hover:underline font-mono" onclick="return false;">
                     https://secure-academy-login.suspicious-site.com/verify
                 </a>
-                <p class="text-red-200 text-xs mt-1">⚠️ Suspicious external domain</p>
+                <p class="text-yellow-700 text-xs mt-1 flex items-center gap-1">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    External domain - verify before clicking
+                </p>
             </div>
         `;
     } else {
@@ -58,11 +73,17 @@ export function displayEmail(email) {
     document.getElementById('analysis-results').classList.add('hidden');
     document.getElementById('response-panel').classList.add('hidden');
     
-    // Reset tool states
+    // Reset analysis tools
     document.querySelectorAll('.analysis-tool').forEach(tool => {
-        tool.classList.remove('opacity-50');
+        tool.classList.remove('opacity-50', 'cursor-not-allowed');
         tool.disabled = false;
     });
+    
+    // Highlight selected email in list
+    document.querySelectorAll('.email-item').forEach(item => {
+        item.classList.remove('bg-blue-100', 'border-l-blue-500');
+    });
+    document.querySelector(`[data-email="${email.id}"]`).classList.add('bg-blue-100', 'border-l-blue-500');
 }
 
 export function closeEmail() {

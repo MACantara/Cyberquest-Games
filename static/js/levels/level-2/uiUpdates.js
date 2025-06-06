@@ -1,5 +1,12 @@
 export function updateMentorMessage(message) {
-    document.getElementById('mentor-message').textContent = message;
+    const messageElement = document.getElementById('mentor-message');
+    
+    // Smooth message transition
+    messageElement.style.opacity = '0.6';
+    setTimeout(() => {
+        messageElement.textContent = message;
+        messageElement.style.opacity = '1';
+    }, 200);
 }
 
 export function updateSenderInfo(info) {
