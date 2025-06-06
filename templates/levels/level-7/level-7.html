@@ -3,22 +3,401 @@
 <!-- Level 7: The Adaptive Adversary -->
 <div class="max-w-7xl mx-auto">
     <!-- Opening Cutscene Modal -->
-    {% include 'levels/level-7/components/cutscene-modal.html' %}
+    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl mx-4">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-cyan-300 mb-4">Academy Mainframe - Corrupted Simulator Core</h2>
+                <div class="bg-purple-900 border border-purple-600 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="bi bi-robot text-purple-400 text-xl animate-pulse"></i>
+                        <span class="font-semibold text-purple-300">ADAPTIVE AI DETECTED</span>
+                    </div>
+                    <p class="text-purple-200 text-sm">
+                        The Null left behind a learning worm. Cadets report seeing "ghost versions" of themselves
+                        failing missions before they even start!
+                    </p>
+                </div>
+                <div class="bg-red-900 border border-red-600 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="bi bi-exclamation-triangle text-red-400 text-xl"></i>
+                        <span class="font-semibold text-red-300">SYSTEM CORRUPTION</span>
+                    </div>
+                    <p class="text-red-200 text-sm">
+                        The AI is analyzing your behavior patterns and adapting its attacks in real-time. Your past
+                        strategies won't work here.
+                    </p>
+                </div>
+                <div class="bg-gray-700 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-cyan-400 rounded-full w-8 h-8 flex items-center justify-center">
+                            <i class="bi bi-robot text-gray-900 text-sm"></i>
+                        </div>
+                        <span class="font-semibold text-cyan-300">Mentor AI - Argus</span>
+                    </div>
+                    <p class="text-gray-200 text-sm italic">
+                        "Nova, this isn't just any AI—it's learned from watching you. Break your patterns. Be
+                        unpredictable. That's the only way to beat it."
+                    </p>
+                </div>
+            </div>
+            <button id="start-mission"
+                class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded">
+                Enter Corrupted Core
+            </button>
+        </div>
+    </div>
 
     <!-- Header with Mission Stats -->
-    {% include 'levels/level-7/components/header.html' %}
+    <div class="bg-gray-800 rounded-lg p-6 mb-6 shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+                <i class="bi bi-robot text-pink-400 text-3xl animate-pulse"></i>
+                <div>
+                    <h1 class="text-2xl font-bold text-cyan-300">Level 7: The Adaptive Adversary</h1>
+                    <p class="text-gray-300">Corrupted Simulator Core - AI Behavior Analysis</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-gray-400">AI Adaptation Status</div>
+                <div class="text-lg font-semibold text-cyan-300">Predictability: <span
+                        id="predictability-score">75</span>%</div>
+            </div>
+        </div>
+
+        <!-- Mission Stats -->
+        <div class="grid grid-cols-4 gap-4 bg-gray-700 rounded p-4">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-green-400" id="patterns-broken">0</div>
+                <div class="text-xs text-gray-400">Patterns Broken</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-red-400" id="ai-predictions">0</div>
+                <div class="text-xs text-gray-400">AI Predictions</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-blue-400" id="system-integrity">100</div>
+                <div class="text-xs text-gray-400">System Integrity (%)</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-purple-400" id="adaptation-cycles">1</div>
+                <div class="text-xs text-gray-400">Adaptation Cycles</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Game Interface -->
-    {% include 'levels/level-7/components/game-interface.html' %}
+    <div class="grid grid-cols-12 gap-6">
+        <!-- Left Panel: Your Behavior Profile -->
+        <div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="bi bi-person-check"></i> Your Profile
+            </h3>
+
+            <!-- Tutorial Tooltip -->
+            <div id="tutorial-behavior" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
+                <p class="text-blue-200 text-sm">
+                    <i class="bi bi-lightbulb mr-2"></i>
+                    The AI has analyzed your past decisions. Review your habits and deliberately choose different
+                    approaches.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <!-- Behavior Pattern 1 -->
+                <div class="behavior-item bg-blue-900 border border-blue-600 rounded p-3" data-pattern="1">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-clock-history text-blue-400 text-lg flex-shrink-0 mt-1"></i>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-white mb-1">Quick Email Response</h4>
+                            <p class="text-xs text-blue-300 mb-2">You typically click email links within 3 seconds</p>
+                            <div class="bg-blue-800 rounded p-2">
+                                <p class="text-xs text-blue-200"><strong>AI Prediction:</strong> Will click suspicious
+                                    links
+                                    immediately</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Behavior Pattern 2 -->
+                <div class="behavior-item bg-yellow-900 border border-yellow-600 rounded p-3" data-pattern="2">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-shield text-yellow-400 text-lg flex-shrink-0 mt-1"></i>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-white mb-1">Security First Approach</h4>
+                            <p class="text-xs text-yellow-300 mb-2">You always secure email before checking other
+                                vectors
+                            </p>
+                            <div class="bg-yellow-800 rounded p-2">
+                                <p class="text-xs text-yellow-200"><strong>AI Prediction:</strong> Will ignore
+                                    DNS/network
+                                    attacks</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Behavior Pattern 3 -->
+                <div class="behavior-item bg-green-900 border border-green-600 rounded p-3" data-pattern="3">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-search text-green-400 text-lg flex-shrink-0 mt-1"></i>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-white mb-1">Thorough Analysis</h4>
+                            <p class="text-xs text-green-300 mb-2">You analyze all evidence before making decisions</p>
+                            <div class="bg-green-800 rounded p-2">
+                                <p class="text-xs text-green-200"><strong>AI Prediction:</strong> Vulnerable to
+                                    time-pressure attacks</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Behavior Pattern 4 -->
+                <div class="behavior-item bg-red-900 border border-red-600 rounded p-3" data-pattern="4">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-lightning text-red-400 text-lg flex-shrink-0 mt-1"></i>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-white mb-1">Decisive Action</h4>
+                            <p class="text-xs text-red-300 mb-2">You prefer quick, decisive responses</p>
+                            <div class="bg-red-800 rounded p-2">
+                                <p class="text-xs text-red-200"><strong>AI Prediction:</strong> Won't verify complex
+                                    scenarios</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Mirror Interface -->
+        <div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="bi bi-arrows"></i> Mirror Interface
+            </h3>
+
+            <!-- Default State -->
+            <div id="mirror-placeholder"
+                class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-96 flex flex-col items-center justify-center">
+                <i class="bi bi-cpu text-4xl text-gray-500 mb-4 animate-pulse"></i>
+                <p class="text-gray-400 text-center">
+                    <strong>AI is analyzing your behavioral patterns</strong><br>
+                    <span class="text-sm">Choose a scenario to face your adaptive adversary</span>
+                </p>
+            </div>
+
+            <!-- Active Scenario Panel -->
+            <div id="scenario-panel" class="hidden">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <!-- Your Side -->
+                    <div class="bg-gray-700 rounded p-4">
+                        <h4 class="text-cyan-300 font-semibold mb-3 text-center">You</h4>
+                        <div id="player-action" class="text-center">
+                            <div
+                                class="w-16 h-16 bg-cyan-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                <i class="bi bi-person text-white text-xl"></i>
+                            </div>
+                            <p class="text-gray-300 text-sm">Awaiting decision...</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Side -->
+                    <div class="bg-gray-700 rounded p-4">
+                        <h4 class="text-purple-300 font-semibold mb-3 text-center">AI Adversary</h4>
+                        <div id="ai-action" class="text-center">
+                            <div
+                                class="w-16 h-16 bg-purple-500 rounded-full mx-auto mb-2 flex items-center justify-center animate-pulse">
+                                <i class="bi bi-robot text-white text-xl"></i>
+                            </div>
+                            <p id="ai-prediction" class="text-purple-300 text-sm">Analyzing patterns...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario Content -->
+                <div class="bg-gray-700 rounded p-4 mb-4">
+                    <h5 class="text-white font-semibold mb-3">Current Scenario</h5>
+                    <div id="scenario-content" class="text-gray-200 text-sm mb-4"></div>
+
+                    <!-- Challenge Options -->
+                    <div id="challenge-options" class="grid grid-cols-2 gap-3">
+                        <!-- Options populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- AI Adaptation Display -->
+                <div class="bg-purple-900 border border-purple-600 rounded p-3">
+                    <h5 class="text-purple-300 font-semibold mb-2">AI Adaptation Status</h5>
+                    <div id="adaptation-status" class="space-y-2 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Learning Rate:</span>
+                            <span id="learning-rate" class="text-purple-400">High</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Prediction Confidence:</span>
+                            <span id="prediction-confidence" class="text-purple-400">75%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Next Expected Move:</span>
+                            <span id="next-move" class="text-purple-400">Standard Response</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: System Status & Tools -->
+        <div class="col-span-3 space-y-4">
+            <!-- System Corruption Monitor -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-cpu-fill"></i> System Status
+                </h3>
+
+                <div class="space-y-3">
+                    <div class="bg-gray-700 rounded p-3">
+                        <h4 class="text-sm font-semibold text-white mb-2">Core Integrity</h4>
+                        <div class="bg-gray-600 rounded h-3 mb-1">
+                            <div id="core-integrity" class="bg-green-400 h-3 rounded transition-all duration-500"
+                                style="width: 100%"></div>
+                        </div>
+                        <p class="text-xs text-gray-400">Stable</p>
+                    </div>
+
+                    <div class="bg-gray-700 rounded p-3">
+                        <h4 class="text-sm font-semibold text-white mb-2">AI Confidence</h4>
+                        <div class="bg-gray-600 rounded h-3 mb-1">
+                            <div id="ai-confidence" class="bg-purple-400 h-3 rounded transition-all duration-500"
+                                style="width: 75%"></div>
+                        </div>
+                        <p class="text-xs text-gray-400">High prediction accuracy</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario Selector -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-list-task"></i> Scenarios
+                </h3>
+
+                <div class="space-y-2">
+                    <button
+                        class="scenario-btn w-full bg-blue-700 hover:bg-blue-600 text-white p-3 rounded text-sm text-left"
+                        data-scenario="1">
+                        <div class="flex items-center gap-3">
+                            <i class="bi bi-envelope"></i>
+                            <div>
+                                <p class="font-semibold">Adaptive Phishing</p>
+                                <p class="text-xs opacity-75">Emails that change based on your habits</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button
+                        class="scenario-btn w-full bg-green-700 hover:bg-green-600 text-white p-3 rounded text-sm text-left"
+                        data-scenario="2">
+                        <div class="flex items-center gap-3">
+                            <i class="bi bi-bug"></i>
+                            <div>
+                                <p class="font-semibold">Behavior-Based Malware</p>
+                                <p class="text-xs opacity-75">Malware that activates on your patterns</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button
+                        class="scenario-btn w-full bg-purple-700 hover:bg-purple-600 text-white p-3 rounded text-sm text-left"
+                        data-scenario="3">
+                        <div class="flex items-center gap-3">
+                            <i class="bi bi-clock"></i>
+                            <div>
+                                <p class="font-semibold">Time-Pressure Attack</p>
+                                <p class="text-xs opacity-75">Exploits your decision speed</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pattern Breaker Tools -->
+            <div class="bg-blue-900 border border-blue-600 rounded p-3">
+                <h4 class="text-sm font-semibold text-blue-300 mb-2">
+                    <i class="bi bi-shuffle mr-1"></i> Pattern Breakers
+                </h4>
+                <div class="space-y-2">
+                    <button class="w-full bg-orange-700 hover:bg-orange-600 text-white p-2 rounded text-xs"
+                        id="randomize-approach">
+                        🎲 Randomize Approach
+                    </button>
+                    <button class="w-full bg-green-700 hover:bg-green-600 text-white p-2 rounded text-xs"
+                        id="delay-response">
+                        ⏱️ Deliberate Delay
+                    </button>
+                    <button class="w-full bg-purple-700 hover:bg-purple-600 text-white p-2 rounded text-xs"
+                        id="reverse-logic">
+                        🔄 Reverse Expected Logic
+                    </button>
+                </div>
+            </div>
+
+            <!-- Glitch Effects Monitor -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-exclamation-triangle"></i> Glitch Monitor
+                </h3>
+                <div id="glitch-monitor" class="space-y-2 text-xs">
+                    <div class="text-yellow-400">System nominal</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Mentor AI Panel -->
-    {% include 'levels/level-7/components/mentor-panel.html' %}
+    <div class="mt-6 bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-4 shadow border border-cyan-700">
+        <div class="flex items-start gap-4">
+            <div class="bg-cyan-400 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-robot text-gray-900 text-lg"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                    <h4 class="font-semibold text-cyan-300">Mentor AI - Argus</h4>
+                    <span class="text-xs bg-purple-700 text-purple-200 px-2 py-1 rounded">ADAPTIVE MODE</span>
+                </div>
+                <p id="mentor-message" class="text-gray-200 text-sm">
+                    Nova, this AI has studied every move you've made. Your usual strategies won't work. Think
+                    differently, act unpredictably, and break your own patterns.
+                </p>
+            </div>
+        </div>
+    </div>
 
     <!-- Modals -->
-    {% include 'levels/level-7/components/results-modal.html' %}
+    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-lg mx-4">
+            <div class="text-center">
+                <div id="result-icon" class="text-6xl mb-4"></div>
+                <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
+                <p id="result-message" class="text-gray-200 mb-6"></p>
+                <div id="result-feedback" class="bg-gray-700 rounded p-4 mb-6 text-left"></div>
+                <button id="continue-btn"
+                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Navigation -->
-    {% include 'levels/level-7/components/navigation.html' %}
+    <div class="mt-8 flex justify-between items-center">
+        <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm flex items-center gap-2">
+            <i class="bi bi-arrow-left"></i> Back to Campaign
+        </a>
+        <button id="complete-level"
+            class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed"
+            disabled>
+            Complete Mission <i class="bi bi-arrow-right ml-2"></i>
+        </button>
+    </div>
 </div>
 
 <!-- Level 7 JavaScript -->
