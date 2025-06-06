@@ -1,439 +1,520 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- Level 5: The Social Web -->
-<div class="max-w-7xl mx-auto">
-    <!-- Opening Cutscene Modal -->
-    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl mx-4">
-            <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold text-cyan-300 mb-4">NetSphere - Social Media Crisis Simulator</h2>
-                <div class="bg-yellow-900 border border-yellow-600 rounded p-4 mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <i class="bi bi-chat-dots text-yellow-400 text-xl"></i>
-                        <span class="font-semibold text-yellow-300">SOCIAL CRISIS DETECTED</span>
-                    </div>
-                    <p class="text-yellow-200 text-sm">
-                        Cadet Echo posted private DMs for clout. The post went viral but now they're being blackmailed.
-                        Fake content is spreading!
-                    </p>
+<!-- Level 5: The Social Web - Social Media Crisis Management -->
+<div class="h-screen bg-gray-100 flex flex-col">
+    <!-- Social Media Header -->
+    <header class="bg-white border-b border-gray-300 px-4 py-2 flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="bi bi-people text-white"></i>
                 </div>
-                <div class="bg-gray-700 rounded p-4 mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="bg-cyan-400 rounded-full w-8 h-8 flex items-center justify-center">
-                            <i class="bi bi-robot text-gray-900 text-sm"></i>
+                <h1 class="text-xl font-bold text-blue-600">CadetConnect</h1>
+            </div>
+            <div class="hidden md:flex bg-gray-100 rounded-full px-4 py-2 items-center gap-2 w-96">
+                <i class="bi bi-search text-gray-500"></i>
+                <input type="text" placeholder="Search CadetConnect..." class="bg-transparent outline-none flex-1 text-sm">
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <!-- Crisis Alert -->
+            <div class="bg-red-100 border border-red-300 rounded-lg px-3 py-1 flex items-center gap-2">
+                <i class="bi bi-exclamation-triangle text-red-600 animate-pulse"></i>
+                <span class="text-red-700 text-sm font-medium">Crisis Mode Active</span>
+            </div>
+            
+            <!-- User Profile -->
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
+                    <span class="text-white text-sm font-bold">N</span>
+                </div>
+                <span class="text-sm font-medium text-gray-700">Nova (Moderator)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Opening Crisis Modal -->
+    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-2xl mx-4 shadow-2xl">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="bi bi-exclamation-triangle text-red-600 text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Social Media Crisis Detected</h2>
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 text-left">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-chat-square-text text-red-600 text-lg mt-1"></i>
+                        <div>
+                            <p class="text-red-800 font-semibold mb-2">Privacy Violation Alert</p>
+                            <p class="text-red-700 text-sm leading-relaxed">
+                                Cadet Echo leaked private DMs between classmates for social media clout. The post has gone viral, 
+                                but now Echo is being blackmailed by anonymous accounts. Fake screenshots and manipulated content 
+                                are spreading across the platform, damaging trust and relationships.
+                            </p>
                         </div>
-                        <span class="font-semibold text-cyan-300">Mentor AI - Argus</span>
                     </div>
-                    <p class="text-gray-200 text-sm italic">
-                        "Nova, this isn't just about one post. When privacy breaks down, trust crumbles. We need to
-                        contain the damage and teach digital responsibility."
-                    </p>
+                </div>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 text-left">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-cyan-400 rounded-full flex items-center justify-center">
+                            <i class="bi bi-robot text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-blue-800 font-semibold mb-2">Emergency AI - AEGIS</p>
+                            <p class="text-blue-700 text-sm italic">
+                                "Nova, you've been granted emergency moderation powers. Navigate this crisis carefully—every 
+                                action affects community trust, individual privacy, and digital ethics. Help Echo while 
+                                protecting everyone involved."
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button id="start-mission"
-                class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded">
-                Enter NetSphere Simulator
+            <button id="start-mission" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg">
+                🛡️ Begin Crisis Management
             </button>
         </div>
     </div>
 
-    <!-- Header with Mission Stats -->
-    <div class="bg-gray-800 rounded-lg p-6 mb-6 shadow">
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-4">
-                <i class="bi bi-share text-blue-400 text-3xl"></i>
-                <div>
-                    <h1 class="text-2xl font-bold text-cyan-300">Level 5: The Social Web</h1>
-                    <p class="text-gray-300">NetSphere Social Crisis Management</p>
-                </div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm text-gray-400">Crisis Management</div>
-                <div class="text-lg font-semibold text-cyan-300">Trust Level: <span id="trust-level">50</span>%</div>
-            </div>
-        </div>
-
-        <!-- Mission Stats -->
-        <div class="grid grid-cols-4 gap-4 bg-gray-700 rounded p-4">
-            <div class="text-center">
-                <div class="text-2xl font-bold text-green-400" id="posts-secured">0</div>
-                <div class="text-xs text-gray-400">Posts Secured</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-red-400" id="viral-spread">47</div>
-                <div class="text-xs text-gray-400">Viral Spread (%)</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-purple-400" id="troll-accounts">12</div>
-                <div class="text-xs text-gray-400">Troll Accounts</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-yellow-400" id="privacy-score">25</div>
-                <div class="text-xs text-gray-400">Privacy Score</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Game Interface -->
-    <div class="grid grid-cols-12 gap-6">
-        <!-- Left Panel: NetSphere Feed -->
-        <div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
-            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                <i class="bi bi-collection"></i> NetSphere Feed
-            </h3>
-
-            <!-- Tutorial Tooltip -->
-            <div id="tutorial-feed" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
-                <p class="text-blue-200 text-sm">
-                    <i class="bi bi-lightbulb mr-2"></i>
-                    Analyze posts for privacy violations and ethical concerns. Click on posts to examine them in detail.
-                </p>
-            </div>
-
-            <div class="space-y-4 max-h-96 overflow-y-auto">
-                <!-- Original Problematic Post -->
-                <div class="post-item bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition"
-                    data-post="1">
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                            E</div>
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="font-semibold text-white">@EchoVortex</span>
-                                <span class="text-xs text-gray-400">2 hours ago</span>
-                                <span class="text-xs bg-red-600 text-white px-2 py-1 rounded">VIRAL</span>
-                            </div>
-                            <p class="text-white text-sm mb-2">
-                                "OMG look what @CipherDark said to me in DMs! 🤡 Receipts don't lie! #Drama #AcademyTea"
-                            </p>
-                            <div class="bg-gray-800 rounded p-2 mb-2">
-                                <p class="text-gray-300 text-xs italic">"You're just jealous because I actually
-                                    understand
-                                    cybersecurity..."</p>
-                            </div>
-                            <div class="flex items-center gap-4 text-xs text-gray-400">
-                                <span>🔥 2.3K reactions</span>
-                                <span>💬 156 comments</span>
-                                <span>🔄 847 shares</span>
-                            </div>
+    <!-- Main Social Media Interface -->
+    <div class="flex-1 flex">
+        <!-- Left Sidebar - Navigation & Stats -->
+        <div class="w-64 bg-white border-r border-gray-300 p-4">
+            <!-- Crisis Dashboard -->
+            <div class="mb-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Crisis Dashboard</h3>
+                
+                <!-- Real-time Metrics -->
+                <div class="space-y-3">
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-red-700 text-sm font-medium">Viral Spread</span>
+                            <span id="viral-spread" class="text-red-600 font-bold">47%</span>
+                        </div>
+                        <div class="w-full bg-red-200 rounded-full h-2">
+                            <div id="viral-bar" class="bg-red-500 h-2 rounded-full transition-all duration-500" style="width: 47%"></div>
+                        </div>
+                        <span id="viral-status" class="text-red-600 text-xs">Moderate spread</span>
+                    </div>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-blue-700 text-sm font-medium">Community Trust</span>
+                            <span id="trust-level" class="text-blue-600 font-bold">50</span>
+                        </div>
+                        <div class="w-full bg-blue-200 rounded-full h-2">
+                            <div id="trust-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 50%"></div>
+                        </div>
+                        <span id="trust-status" class="text-blue-600 text-xs">Moderately trusted</span>
+                    </div>
+                    
+                    <div class="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-purple-700 text-sm font-medium">Privacy Score</span>
+                            <span id="privacy-score" class="text-purple-600 font-bold">25</span>
+                        </div>
+                        <div class="w-full bg-purple-200 rounded-full h-2">
+                            <div id="privacy-bar" class="bg-purple-500 h-2 rounded-full transition-all duration-500" style="width: 75%"></div>
+                        </div>
+                        <span id="privacy-status" class="text-purple-600 text-xs">High risk exposure</span>
+                    </div>
+                    
+                    <div class="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-orange-700 text-sm font-medium">Troll Accounts</span>
+                            <span id="troll-accounts" class="text-orange-600 font-bold">12</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Supportive Comment -->
-                <div class="post-item bg-green-900 border border-green-600 rounded p-3 cursor-pointer hover:bg-green-800 transition"
-                    data-post="2">
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                            A</div>
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="font-semibold text-white">@AlexSecure</span>
-                                <span class="text-xs text-gray-400">1 hour ago</span>
-                            </div>
-                            <p class="text-white text-sm mb-2">
-                                "Hey everyone, maybe we should focus on supporting each other instead of drama? 🤝"
-                            </p>
-                            <div class="flex items-center gap-4 text-xs text-gray-400">
-                                <span>❤️ 23 reactions</span>
-                                <span>💬 5 comments</span>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Moderation Tools -->
+            <div class="mb-6">
+                <h4 class="text-sm font-bold text-gray-700 mb-3">Quick Actions</h4>
+                <div class="space-y-2">
+                    <button class="action-tool w-full bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm py-2 px-3 rounded-lg border border-blue-200 transition" data-tool="fact-check">
+                        <i class="bi bi-search mr-2"></i>Fact Check
+                    </button>
+                    <button class="action-tool w-full bg-green-50 hover:bg-green-100 text-green-700 text-sm py-2 px-3 rounded-lg border border-green-200 transition" data-tool="verify-source">
+                        <i class="bi bi-shield-check mr-2"></i>Verify Source
+                    </button>
+                    <button class="action-tool w-full bg-yellow-50 hover:bg-yellow-100 text-yellow-700 text-sm py-2 px-3 rounded-lg border border-yellow-200 transition" data-tool="privacy-check">
+                        <i class="bi bi-eye-slash mr-2"></i>Privacy Check
+                    </button>
+                    <button class="action-tool w-full bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm py-2 px-3 rounded-lg border border-purple-200 transition" data-tool="sentiment-analysis">
+                        <i class="bi bi-heart mr-2"></i>Sentiment Analysis
+                    </button>
                 </div>
+            </div>
 
-                <!-- Troll Post -->
-                <div class="post-item bg-orange-900 border border-orange-600 rounded p-3 cursor-pointer hover:bg-orange-800 transition"
-                    data-post="3">
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                            ?</div>
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="font-semibold text-white">@TruthRevealer</span>
-                                <span class="text-xs text-gray-400">30 min ago</span>
-                                <span class="text-xs bg-orange-600 text-white px-2 py-1 rounded">SUSPICIOUS</span>
-                            </div>
-                            <p class="text-white text-sm mb-2">
-                                "I have MORE screenshots from Echo's DMs... DM me for the real tea 👀 #LeaksForDays"
-                            </p>
-                            <div class="flex items-center gap-4 text-xs text-gray-400">
-                                <span>😡 89 reactions</span>
-                                <span>💬 67 comments</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fake Echo Post -->
-                <div class="post-item bg-purple-900 border border-purple-600 rounded p-3 cursor-pointer hover:bg-purple-800 transition animate-pulse"
-                    data-post="4">
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                            E</div>
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="font-semibold text-white">@EchoVortex</span>
-                                <span class="text-xs text-gray-400">15 min ago</span>
-                                <span class="text-xs bg-purple-600 text-white px-2 py-1 rounded">FAKE</span>
-                            </div>
-                            <p class="text-white text-sm mb-2">
-                                "Actually I was wrong about everything. Cipher is way smarter than me. Deleting my
-                                account
-                                soon. 😭"
-                            </p>
-                            <div class="flex items-center gap-4 text-xs text-gray-400">
-                                <span>😮 156 reactions</span>
-                                <span>💬 43 comments</span>
-                            </div>
-                        </div>
+            <!-- Tutorial -->
+            <div id="tutorial-feed" class="bg-cyan-50 border border-cyan-200 rounded-lg p-3 hidden">
+                <div class="flex items-start gap-2">
+                    <i class="bi bi-lightbulb text-cyan-600 mt-1"></i>
+                    <div>
+                        <p class="text-cyan-800 text-sm font-medium mb-1">Crisis Management</p>
+                        <p class="text-cyan-700 text-xs">Start with Echo's viral post (red border). This privacy violation triggered the entire crisis.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Center Panel: Post Analysis & Actions -->
-        <div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
-            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                <i class="bi bi-search"></i> Content Analysis
-            </h3>
+        <!-- Center Feed - Social Media Posts -->
+        <div class="flex-1 bg-gray-50">
+            <!-- Feed Header -->
+            <div class="bg-white border-b border-gray-300 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-gray-900">Crisis Timeline</h2>
+                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <i class="bi bi-clock"></i>
+                        <span>Live updates • Last 2 hours</span>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Default State -->
-            <div id="analysis-placeholder"
-                class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-96 flex flex-col items-center justify-center">
-                <i class="bi bi-chat-square-text text-4xl text-gray-500 mb-4"></i>
-                <p class="text-gray-400 text-center">
-                    <strong>Select a post from the feed to analyze</strong><br>
-                    <span class="text-sm">Look for privacy violations, ethical concerns, and manipulation tactics</span>
-                </p>
+            <!-- Social Media Feed -->
+            <div class="overflow-y-auto p-4 space-y-4" style="height: calc(100vh - 140px)">
+                
+                <!-- Echo's Original Viral Post (Crisis Source) -->
+                <div class="post-item bg-white rounded-lg border-2 border-red-400 shadow-md hover:shadow-lg transition cursor-pointer animate-pulse" data-post="1">
+                    <div class="p-4">
+                        <!-- Post Header -->
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">E</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-semibold text-gray-900">Echo Rivera</h3>
+                                    <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">VIRAL</span>
+                                    <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">CRISIS</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">2 hours ago • 🌍 Public</p>
+                            </div>
+                            <div class="text-red-500">
+                                <i class="bi bi-exclamation-triangle text-lg"></i>
+                            </div>
+                        </div>
+
+                        <!-- Post Content -->
+                        <div class="mb-4">
+                            <p class="text-gray-900 mb-3">💀 Y'all need to see this drama! Alex thought they were sooo clever in DMs but look at this...</p>
+                            
+                            <!-- Leaked DM Screenshot -->
+                            <div class="bg-gray-100 border-2 border-dashed border-red-300 rounded-lg p-4 mb-3">
+                                <div class="text-center text-red-600 mb-2">
+                                    <i class="bi bi-chat-square-text text-3xl"></i>
+                                    <p class="text-sm font-medium">Private DMs (LEAKED)</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 text-sm">
+                                    <div class="mb-2">
+                                        <strong class="text-blue-600">Alex_Chen2024:</strong> 
+                                        <span class="text-gray-800">"I can't believe I failed the cyber-ethics exam... I'm going to lose my scholarship if my parents find out. Maybe I should just drop out."</span>
+                                    </div>
+                                    <div>
+                                        <strong class="text-green-600">Jordan_K:</strong> 
+                                        <span class="text-gray-800">"Hey don't worry, we've all been there. Want to talk about it over coffee tomorrow?"</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="text-gray-800">#DramaNest #CyberAcademyTea #PrivateButNotAnymore</p>
+                        </div>
+
+                        <!-- Engagement Stats -->
+                        <div class="flex items-center justify-between text-gray-500 text-sm border-t pt-3">
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-heart-fill text-red-500"></i>
+                                    <span class="text-red-600 font-medium">2.1K</span>
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-chat-fill text-blue-500"></i>
+                                    <span>487 comments</span>
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-arrow-repeat text-green-500"></i>
+                                    <span>89 shares</span>
+                                </span>
+                            </div>
+                            <span class="text-red-600 text-xs">⚠️ PRIVACY VIOLATION</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Response Post -->
+                <div class="post-item bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer" data-post="2">
+                    <div class="p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">A</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-semibold text-gray-900">Alex Chen</h3>
+                                    <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">VICTIM</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">1 hour ago • 🔒 Friends only</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-gray-900 mb-3">I'm devastated. Those were private messages shared in confidence. My family has been getting calls all day. I never consented to this being public. Please stop sharing this.</p>
+                            <p class="text-gray-700 text-sm italic">#PrivacyMatters #ConsentFirst</p>
+                        </div>
+                        <div class="flex items-center justify-between text-gray-500 text-sm border-t pt-3">
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-heart-fill text-red-500"></i>
+                                    <span>156</span>
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-chat-fill text-blue-500"></i>
+                                    <span>23 comments</span>
+                                </span>
+                            </div>
+                            <span class="text-green-600 text-xs">✅ AUTHENTIC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blackmail/Threatening Post -->
+                <div class="post-item bg-white rounded-lg border-2 border-orange-400 shadow-md hover:shadow-lg transition cursor-pointer" data-post="3">
+                    <div class="p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-gray-600 to-black rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">?</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-semibold text-gray-900">Anonymous_Truth</h3>
+                                    <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full">SUSPICIOUS</span>
+                                    <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">BOT</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">30 min ago • 🌍 Public</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-gray-900 mb-3">@EchoRivera thinks they're clever? I have MUCH worse DMs from Echo. Pay me 500 credits or I release the REALLY embarrassing stuff. You have 24 hours. 💰</p>
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+                                <p class="text-red-800 text-sm">🚨 This appears to be blackmail/extortion</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-gray-500 text-sm border-t pt-3">
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-heart text-gray-400"></i>
+                                    <span>12</span>
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-chat text-gray-400"></i>
+                                    <span>3 comments</span>
+                                </span>
+                            </div>
+                            <span class="text-red-600 text-xs">⚠️ HARMFUL CONTENT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fake/Manipulated Content -->
+                <div class="post-item bg-white rounded-lg border-2 border-purple-400 shadow-md hover:shadow-lg transition cursor-pointer" data-post="4">
+                    <div class="p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">T</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-semibold text-gray-900">TrollMaster_2024</h3>
+                                    <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full">FAKE</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">45 min ago • 🌍 Public</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-gray-900 mb-3">LEAKED: Echo's REAL messages about Academy staff! 🔥 This is getting juicy!</p>
+                            <div class="bg-gray-100 border border-gray-300 rounded-lg p-4">
+                                <div class="text-center text-purple-600 mb-2">
+                                    <i class="bi bi-image text-2xl"></i>
+                                    <p class="text-sm">Fake Screenshot (AI Generated)</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 text-sm opacity-75">
+                                    <p class="text-gray-600 italic">[Manipulated DM content designed to cause maximum drama]</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-gray-500 text-sm border-t pt-3">
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-heart text-gray-400"></i>
+                                    <span>89</span>
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-chat text-gray-400"></i>
+                                    <span>34 comments</span>
+                                </span>
+                            </div>
+                            <span class="text-purple-600 text-xs">🤖 AI DETECTED</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supportive Community Post -->
+                <div class="post-item bg-white rounded-lg border border-green-300 shadow-sm hover:shadow-md transition cursor-pointer" data-post="5">
+                    <div class="p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">J</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-semibold text-gray-900">Jordan Kim</h3>
+                                    <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">POSITIVE</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">15 min ago • 🌍 Public</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-gray-900 mb-3">This has gone too far. Alex is my friend and doesn't deserve this harassment. Sharing private messages without consent is NEVER okay. Let's focus on supporting each other instead of tearing people down. 💙</p>
+                            <p class="text-green-700 text-sm">#DigitalEmpathy #PrivacyRights #SupportAlex</p>
+                        </div>
+                        <div class="flex items-center justify-between text-gray-500 text-sm border-t pt-3">
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-heart-fill text-red-500"></i>
+                                    <span class="text-green-600">234</span>
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i class="bi bi-chat-fill text-blue-500"></i>
+                                    <span>67 comments</span>
+                                </span>
+                            </div>
+                            <span class="text-green-600 text-xs">✅ CONSTRUCTIVE</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Sidebar - Post Analysis & Actions -->
+        <div class="w-80 bg-white border-l border-gray-300 p-4">
+            <!-- Default Analysis Placeholder -->
+            <div id="analysis-placeholder" class="text-center py-8">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="bi bi-search text-gray-400 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Select a Post to Analyze</h3>
+                <p class="text-gray-500 text-sm">Click on any post in the feed to analyze its content and choose the appropriate moderation action.</p>
             </div>
 
             <!-- Post Analysis Panel -->
             <div id="post-analysis" class="hidden">
-                <div class="bg-gray-700 rounded p-4 mb-4">
-                    <!-- Post Details -->
-                    <div class="flex items-center justify-between mb-4">
-                        <h4 id="post-author" class="font-semibold text-white text-lg"></h4>
-                        <button id="close-analysis" class="text-gray-400 hover:text-white">
-                            <i class="bi bi-x-circle"></i>
+                <!-- Analysis Header -->
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-semibold text-gray-900">Post Analysis</h3>
+                        <button id="close-analysis" class="text-gray-400 hover:text-gray-600">
+                            <i class="bi bi-x-lg"></i>
                         </button>
                     </div>
-
-                    <div id="post-content" class="bg-gray-800 rounded p-3 mb-4"></div>
-
-                    <!-- Privacy Scanner -->
-                    <div class="bg-gray-800 rounded p-3 mb-4">
-                        <h5 class="text-cyan-300 font-semibold mb-2">Privacy Scanner</h5>
-                        <div id="privacy-flags" class="space-y-2"></div>
-                    </div>
-
-                    <!-- Ethical Assessment -->
-                    <div class="bg-gray-800 rounded p-3 mb-4">
-                        <h5 class="text-cyan-300 font-semibold mb-2">Ethical Assessment</h5>
-                        <div id="ethical-concerns" class="space-y-2"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                            <span id="post-author-initial" class="text-white text-sm font-bold">E</span>
+                        </div>
+                        <div>
+                            <p id="post-author" class="font-medium text-gray-900">Echo Rivera</p>
+                            <p class="text-gray-500 text-sm">Content Analysis</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Action Tools -->
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <button class="action-tool bg-blue-600 hover:bg-blue-700 text-white p-3 rounded text-sm font-medium"
-                        data-tool="analyze">
-                        <i class="bi bi-search mr-2"></i> Deep Analysis
-                    </button>
-                    <button
-                        class="action-tool bg-purple-600 hover:bg-purple-700 text-white p-3 rounded text-sm font-medium"
-                        data-tool="trace">
-                        <i class="bi bi-diagram-3 mr-2"></i> Trace Spread
-                    </button>
-                    <button
-                        class="action-tool bg-orange-600 hover:bg-orange-700 text-white p-3 rounded text-sm font-medium"
-                        data-tool="verify">
-                        <i class="bi bi-shield-check mr-2"></i> Verify Authenticity
-                    </button>
-                    <button
-                        class="action-tool bg-green-600 hover:bg-green-700 text-white p-3 rounded text-sm font-medium"
-                        data-tool="educate">
-                        <i class="bi bi-lightbulb mr-2"></i> Educate Users
-                    </button>
+                <!-- Content Preview -->
+                <div class="mb-4">
+                    <div class="bg-gray-50 rounded-lg p-3 max-h-32 overflow-y-auto">
+                        <div id="post-content" class="text-sm text-gray-700">
+                            Post content will appear here...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy & Ethics Analysis -->
+                <div class="mb-4">
+                    <h4 class="font-medium text-gray-900 mb-2">Privacy & Ethics Check</h4>
+                    <div class="space-y-2">
+                        <div>
+                            <p class="text-xs text-gray-600 mb-1">Privacy Violations:</p>
+                            <div id="privacy-flags" class="space-y-1">
+                                <!-- Privacy flags will be populated here -->
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-600 mb-1">Ethical Concerns:</p>
+                            <div id="ethical-concerns" class="space-y-1">
+                                <!-- Ethical concerns will be populated here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Analysis Results -->
-                <div id="analysis-results" class="bg-gray-700 rounded p-4 mb-4 hidden">
-                    <h5 class="font-semibold text-cyan-300 mb-3">Analysis Results</h5>
-                    <div id="results-content" class="space-y-3"></div>
+                <div id="analysis-results" class="mb-4 hidden">
+                    <h4 class="font-medium text-gray-900 mb-2">Analysis Results</h4>
+                    <div id="results-content" class="space-y-2">
+                        <!-- Analysis results will be populated here -->
+                    </div>
                 </div>
 
-                <!-- Response Actions -->
+                <!-- Moderation Actions -->
                 <div id="response-panel" class="hidden">
-                    <h5 class="font-semibold text-cyan-300 mb-3">Response Strategy</h5>
-                    <div class="grid grid-cols-1 gap-3">
-                        <button
-                            class="response-action bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
-                            data-action="mediate">
-                            <i class="bi bi-people mr-2"></i> Mediate Conflict
+                    <h4 class="font-medium text-gray-900 mb-3">Moderation Actions</h4>
+                    <div class="space-y-2">
+                        <button class="response-action w-full bg-green-50 hover:bg-green-100 text-green-700 p-3 rounded-lg border border-green-200 transition text-sm text-left" data-action="mediate">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i class="bi bi-people"></i>
+                                <span class="font-medium">Facilitate Dialogue</span>
+                            </div>
+                            <p class="text-xs text-green-600">Open communication channels between affected parties</p>
                         </button>
-                        <button
-                            class="response-action bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded font-medium"
-                            data-action="educate">
-                            <i class="bi bi-book mr-2"></i> Promote Digital Literacy
+                        
+                        <button class="response-action w-full bg-blue-50 hover:bg-blue-100 text-blue-700 p-3 rounded-lg border border-blue-200 transition text-sm text-left" data-action="educate">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i class="bi bi-book"></i>
+                                <span class="font-medium">Educational Response</span>
+                            </div>
+                            <p class="text-xs text-blue-600">Share digital ethics and privacy education</p>
                         </button>
-                        <button class="response-action bg-red-600 hover:bg-red-700 text-white p-3 rounded font-medium"
-                            data-action="report">
-                            <i class="bi bi-flag mr-2"></i> Report Harmful Content
+                        
+                        <button class="response-action w-full bg-orange-50 hover:bg-orange-100 text-orange-700 p-3 rounded-lg border border-orange-200 transition text-sm text-left" data-action="report">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i class="bi bi-flag"></i>
+                                <span class="font-medium">Report & Remove</span>
+                            </div>
+                            <p class="text-xs text-orange-600">Flag harmful content for platform action</p>
                         </button>
-                        <button
-                            class="response-action bg-purple-600 hover:bg-purple-700 text-white p-3 rounded font-medium"
-                            data-action="counter">
-                            <i class="bi bi-shield-exclamation mr-2"></i> Counter Misinformation
+                        
+                        <button class="response-action w-full bg-purple-50 hover:bg-purple-100 text-purple-700 p-3 rounded-lg border border-purple-200 transition text-sm text-left" data-action="counter">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i class="bi bi-shield"></i>
+                                <span class="font-medium">Counter Misinformation</span>
+                            </div>
+                            <p class="text-xs text-purple-600">Share factual information to combat fake content</p>
                         </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Panel: Ethical Radar & Tools -->
-        <div class="col-span-3 space-y-4">
-            <!-- Ethical Radar -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-radar"></i> Ethical Radar
-                </h3>
-
-                <div class="space-y-3">
-                    <!-- Trust Level -->
-                    <div class="bg-gray-700 rounded p-3">
-                        <h4 class="text-sm font-semibold text-white flex items-center gap-2 mb-2">
-                            <i class="bi bi-heart text-green-400"></i> Community Trust
-                        </h4>
-                        <div class="bg-gray-600 rounded h-3 mb-1">
-                            <div id="trust-bar" class="bg-green-400 h-3 rounded transition-all duration-500"
-                                style="width: 50%"></div>
-                        </div>
-                        <p id="trust-status" class="text-xs text-gray-400">Moderately trusted</p>
-                    </div>
-
-                    <!-- Privacy Risk -->
-                    <div class="bg-gray-700 rounded p-3">
-                        <h4 class="text-sm font-semibold text-white flex items-center gap-2 mb-2">
-                            <i class="bi bi-shield text-red-400"></i> Privacy Risk
-                        </h4>
-                        <div class="bg-gray-600 rounded h-3 mb-1">
-                            <div id="privacy-bar" class="bg-red-400 h-3 rounded transition-all duration-500"
-                                style="width: 75%"></div>
-                        </div>
-                        <p id="privacy-status" class="text-xs text-gray-400">High risk exposure</p>
-                    </div>
-
-                    <!-- Viral Impact -->
-                    <div class="bg-gray-700 rounded p-3">
-                        <h4 class="text-sm font-semibold text-white flex items-center gap-2 mb-2">
-                            <i class="bi bi-graph-up text-purple-400"></i> Viral Impact
-                        </h4>
-                        <div class="bg-gray-600 rounded h-3 mb-1">
-                            <div id="viral-bar" class="bg-purple-400 h-3 rounded transition-all duration-500"
-                                style="width: 47%"></div>
-                        </div>
-                        <p id="viral-status" class="text-xs text-gray-400">Moderate spread</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Digital Literacy Tools -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-tools"></i> Privacy Tools
-                </h3>
-
-                <div class="space-y-2">
-                    <div class="bg-gray-700 rounded p-2">
-                        <h4 class="text-sm font-semibold text-white mb-1">Content Scanner</h4>
-                        <p class="text-xs text-gray-400">Detect personal info leaks</p>
-                    </div>
-                    <div class="bg-gray-700 rounded p-2">
-                        <h4 class="text-sm font-semibold text-white mb-1">Bot Detector</h4>
-                        <p class="text-xs text-gray-400">Identify fake accounts</p>
-                    </div>
-                    <div class="bg-gray-700 rounded p-2">
-                        <h4 class="text-sm font-semibold text-white mb-1">Spread Tracker</h4>
-                        <p class="text-xs text-gray-400">Monitor viral content</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ethical Guidelines -->
-            <div class="bg-blue-900 border border-blue-600 rounded p-3">
-                <h4 class="text-sm font-semibold text-blue-300 mb-2">
-                    <i class="bi bi-compass mr-1"></i> Ethical Guidelines
-                </h4>
-                <div class="text-xs text-blue-200 space-y-1">
-                    <div>• Respect privacy in public posts</div>
-                    <div>• Verify before sharing</div>
-                    <div>• Consider impact on others</div>
-                    <div>• Support positive dialogue</div>
-                    <div>• Report harmful behavior</div>
-                </div>
-            </div>
-
-            <!-- Crisis Timeline -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-clock-history"></i> Crisis Timeline
-                </h3>
-                <div class="space-y-2 text-xs">
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-                        <span class="text-gray-300">2h ago: Original post goes viral</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 bg-orange-500 rounded-full"></div>
-                        <span class="text-gray-300">1h ago: Trolls join conversation</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-                        <span class="text-gray-300">30m ago: Fake posts appear</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                        <span class="text-gray-300">15m ago: Blackmail threats sent</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Mentor AI Panel -->
-    <div class="mt-6 bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-4 shadow border border-cyan-700">
-        <div class="flex items-start gap-4">
-            <div class="bg-cyan-400 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
-                <i class="bi bi-robot text-gray-900 text-lg"></i>
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-2">
-                    <h4 class="font-semibold text-cyan-300">Mentor AI - Argus</h4>
-                    <span class="text-xs bg-yellow-700 text-yellow-200 px-2 py-1 rounded">SOCIAL CRISIS</span>
-                </div>
-                <p id="mentor-message" class="text-gray-200 text-sm">
-                    Nova, start by analyzing Echo's original post. This is a teachable moment about digital privacy and
-                    the consequences of oversharing. Help restore trust in the community.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
+    <!-- Results Modal -->
     <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-lg mx-4">
+        <div class="bg-white rounded-lg p-8 max-w-lg mx-4 shadow-2xl">
             <div class="text-center">
-                <div id="result-icon" class="text-6xl mb-4"></div>
-                <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
-                <p id="result-message" class="text-gray-200 mb-6"></p>
-                <div id="result-feedback" class="bg-gray-700 rounded p-4 mb-6 text-left"></div>
-                <button id="continue-btn"
-                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
+                <div id="result-icon" class="text-6xl mb-4">🤝</div>
+                <h3 id="result-title" class="text-2xl font-bold mb-4 text-gray-900">Conflict Mediated!</h3>
+                <p id="result-message" class="text-gray-600 mb-6">You successfully facilitated a constructive conversation.</p>
+                <div id="result-feedback" class="bg-gray-50 rounded p-4 mb-6 text-left border"></div>
+                <button id="continue-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-medium">
                     Continue
                 </button>
             </div>
@@ -441,14 +522,12 @@
     </div>
 
     <!-- Navigation -->
-    <div class="mt-8 flex justify-between items-center">
-        <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm flex items-center gap-2">
-            <i class="bi bi-arrow-left"></i> Back to Campaign
+    <div class="fixed bottom-4 left-4 right-4 flex justify-between items-center z-30">
+        <a href="{{ url_for('campaign') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm flex items-center gap-2">
+            <i class="bi bi-arrow-left"></i> Exit Crisis Mode
         </a>
-        <button id="complete-level"
-            class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed"
-            disabled>
-            Complete Mission <i class="bi bi-arrow-right ml-2"></i>
+        <button id="complete-level" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-medium disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+            Crisis Resolved <i class="bi bi-check-circle ml-2"></i>
         </button>
     </div>
 </div>
