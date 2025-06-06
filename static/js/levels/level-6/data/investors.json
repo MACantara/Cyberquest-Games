@@ -1,0 +1,63 @@
+{
+    "1": {
+        "id": 1,
+        "name": "Venture Dynamics",
+        "email": "alex@venturedynamics.com",
+        "offer": "$2M Series A funding for 15% equity. Standard terms, professional presentation.",
+        "type": "legitimate",
+        "domainFlags": [],
+        "contractIssues": [],
+        "correctAction": "accept"
+    },
+    "2": {
+        "id": 2,
+        "name": "Mercurial Capital",
+        "email": "admin@mercurial-capit4l.co",
+        "offer": "$10M instant crypto transfer! No paperwork needed. Click here to claim your funds immediately!",
+        "type": "scam",
+        "domainFlags": [
+            "Typosquatting: capit4l vs capital",
+            "Suspicious TLD: .co instead of .com",
+            "No HTTPS certificate"
+        ],
+        "contractIssues": [
+            "Automatic wallet access clause",
+            "No legal jurisdiction specified",
+            "Irreversible transaction terms"
+        ],
+        "correctAction": "reject"
+    },
+    "3": {
+        "id": 3,
+        "name": "TechSeed Partners",
+        "email": "investment@techseed.ai",
+        "offer": "$5M conditional funding based on user acquisition metrics. 6-month evaluation period.",
+        "type": "moderate_risk",
+        "domainFlags": [
+            "New domain registration",
+            "Limited online presence"
+        ],
+        "contractIssues": [
+            "Aggressive clawback clauses"
+        ],
+        "correctAction": "negotiate"
+    },
+    "4": {
+        "id": 4,
+        "name": "Angel Group Elite",
+        "email": "noreply@angel-group-elite.net",
+        "offer": "Pre-approved $50M mega round! You've been specially selected. Limited time offer!",
+        "type": "scam",
+        "domainFlags": [
+            "No-reply email address",
+            "Generic TLD",
+            "No business registration found"
+        ],
+        "contractIssues": [
+            "Pre-payment required",
+            "No investor verification",
+            "Fake testimonials"
+        ],
+        "correctAction": "reject"
+    }
+}
