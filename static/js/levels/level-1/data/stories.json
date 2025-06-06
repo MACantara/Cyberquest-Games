@@ -1,0 +1,39 @@
+{
+    "1": {
+        "id": 1,
+        "headline": "🚨 BREAKING: Senator Williams' PRIVATE Files LEAKED by Anonymous Hackers!",
+        "source": "@CyberNewsNow",
+        "isFake": true,
+        "credibilityScore": 15,
+        "redFlags": [
+            "Excessive emotional language (🚨, PRIVATE, LEAKED)",
+            "Unverified source with no badge",
+            "Sensational headline designed for clicks",
+            "No official confirmation or sources cited"
+        ],
+        "correctAnswer": "fake"
+    },
+    "2": {
+        "id": 2,
+        "headline": "Election Security Measures Enhanced for Upcoming Digital Vote",
+        "source": "@OfficialGovNews",
+        "isFake": false,
+        "credibilityScore": 95,
+        "redFlags": [],
+        "correctAnswer": "real"
+    },
+    "3": {
+        "id": 3,
+        "headline": "SHOCKING: You Won't Believe What Hackers Found in Williams' Computer!",
+        "source": "@ViralNewsHub",
+        "isFake": true,
+        "credibilityScore": 10,
+        "redFlags": [
+            "Classic clickbait structure ('You Won't Believe')",
+            "Vague, sensational claims",
+            "Suspicious domain name",
+            "Designed to generate shares, not inform"
+        ],
+        "correctAnswer": "fake"
+    }
+}
