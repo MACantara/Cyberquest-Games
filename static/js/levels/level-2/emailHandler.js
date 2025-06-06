@@ -70,14 +70,24 @@ export function displayEmail(email) {
     
     // Reset analysis state
     gameState.analysisSteps[email.id] = {};
-    document.getElementById('analysis-results').classList.add('hidden');
-    document.getElementById('response-panel').classList.add('hidden');
+    
+    // Clear and hide analysis results
+    const analysisResults = document.getElementById('analysis-results');
+    const resultsContent = document.getElementById('results-content');
+    const responsePanel = document.getElementById('response-panel');
+    
+    analysisResults.classList.add('hidden');
+    responsePanel.classList.add('hidden');
+    resultsContent.innerHTML = '';
     
     // Reset analysis tools
     document.querySelectorAll('.analysis-tool').forEach(tool => {
         tool.classList.remove('opacity-50', 'cursor-not-allowed');
         tool.disabled = false;
     });
+    
+    // Scroll to top of email content
+    document.getElementById('email-content').scrollTop = 0;
     
     // Highlight selected email in list
     document.querySelectorAll('.email-item').forEach(item => {

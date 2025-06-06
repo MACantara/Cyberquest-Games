@@ -182,7 +182,17 @@ export function handleAnalysisTool(toolType) {
     // Add results to analysis panel
     const resultsContent = document.getElementById('results-content');
     resultsContent.appendChild(createResultElement(results));
-    document.getElementById('analysis-results').classList.remove('hidden');
+    
+    const analysisResults = document.getElementById('analysis-results');
+    analysisResults.classList.remove('hidden');
+    
+    // Scroll to show the analysis results
+    setTimeout(() => {
+        analysisResults.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest' 
+        });
+    }, 100);
     
     updateMentorMessage(mentorMessage);
     
@@ -199,6 +209,16 @@ function createResultElement(htmlContent) {
 }
 
 export function showResponsePanel() {
-    document.getElementById('response-panel').classList.remove('hidden');
+    const responsePanel = document.getElementById('response-panel');
+    responsePanel.classList.remove('hidden');
+    
+    // Scroll to response panel
+    setTimeout(() => {
+        responsePanel.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest' 
+        });
+    }, 100);
+    
     updateMentorMessage("You've gathered enough evidence. Now choose your response action. Think carefully about the appropriate escalation level.");
 }
