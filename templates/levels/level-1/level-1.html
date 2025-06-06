@@ -3,22 +3,312 @@
 <!-- Level 1: The Misinformation Maze -->
 <div class="max-w-7xl mx-auto">
     <!-- Opening Cutscene Modal -->
-    {% include 'levels/level-1/components/cutscene-modal.html' %}
+    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl mx-4">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-cyan-300 mb-4">Media Integrity Simulation Lab</h2>
+                <div class="bg-gray-700 rounded p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-cyan-400 rounded-full w-8 h-8 flex items-center justify-center">
+                            <i class="bi bi-robot text-gray-900 text-sm"></i>
+                        </div>
+                        <span class="font-semibold text-cyan-300">Mentor AI - Argus</span>
+                    </div>
+                    <p class="text-gray-200 text-sm italic">
+                        "Nova, this isn't just about headlines. Falsehood spreads faster than truth—and in the wrong hands, it rewrites reality."
+                    </p>
+                </div>
+                <div class="bg-yellow-900 border border-yellow-600 rounded p-3 mb-4">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="bi bi-exclamation-triangle mr-2"></i>
+                        <strong>ALERT:</strong> Breaking news about Senator Williams has gone viral. The Academy suspects this might be a test planted by The Null.
+                    </p>
+                </div>
+            </div>
+            <button id="start-mission" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded">
+                Enter Simulation Lab
+            </button>
+        </div>
+    </div>
 
     <!-- Header with Mission Stats -->
-    {% include 'levels/level-1/components/header.html' %}
+    <div class="bg-gray-800 rounded-lg p-6 mb-6 shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+                <i class="bi bi-newspaper text-yellow-400 text-3xl"></i>
+                <div>
+                    <h1 class="text-2xl font-bold text-cyan-300">Level 1: The Misinformation Maze</h1>
+                    <p class="text-gray-300">Media Integrity Simulation Lab - InterWorld Cyber Academy</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-gray-400">Mission Progress</div>
+                <div class="text-lg font-semibold text-cyan-300"><span id="stories-analyzed">0</span>/3 Stories Analyzed</div>
+            </div>
+        </div>
+        
+        <!-- Mission Stats -->
+        <div class="grid grid-cols-3 gap-4 bg-gray-700 rounded p-4">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-green-400" id="credibility-score">100</div>
+                <div class="text-xs text-gray-400">Credibility Score</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-red-400"><span id="viral-impact">0</span>%</div>
+                <div class="text-xs text-gray-400">Viral Impact</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-cyan-400" id="timer">05:00</div>
+                <div class="text-xs text-gray-400">Time Remaining</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Game Interface -->
-    {% include 'levels/level-1/components/game-interface.html' %}
+    <div class="grid grid-cols-12 gap-6">
+        <!-- Left Panel: News Feed -->
+        <div class="col-span-3 bg-gray-800 rounded-lg p-4 shadow">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="bi bi-inbox"></i> Breaking News Feed
+            </h3>
+            
+            <!-- Tutorial Tooltip -->
+            <div id="tutorial-inbox" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
+                <p class="text-blue-200 text-sm">
+                    <i class="bi bi-lightbulb mr-2"></i>
+                    Click on a story to select it for fact-checking. Look for suspicious elements in headlines and sources.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <!-- Story 1 - Fake News -->
+                <div class="story-item bg-gray-700 rounded p-3 cursor-pointer hover:bg-gray-600 transition border-2 border-transparent" data-story="1">
+                    <div class="flex items-start gap-3">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjREMzNTQ1Ii8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxMiI+RkFLRTwvdGV4dD4KPHN2Zz4=" alt="Breaking News" class="rounded w-10 h-10">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-white">🚨 BREAKING: Senator Williams' PRIVATE Files LEAKED by Anonymous Hackers!</h4>
+                            <p class="text-xs text-gray-400 mt-1">@CyberNewsNow • 2 hours ago • 🔥 50K shares</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-xs bg-red-600 text-white px-2 py-1 rounded">URGENT</span>
+                                <span class="text-xs text-gray-500">No verification badge</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Story 2 - Real News -->
+                <div class="story-item bg-gray-700 rounded p-3 cursor-pointer hover:bg-gray-600 transition border-2 border-transparent" data-story="2">
+                    <div class="flex items-start gap-3">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjMTU4MDNCIi8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxMiI+UkVBTDwvdGV4dD4KPHN2Zz4=" alt="Official News" class="rounded w-10 h-10">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-white">Election Security Measures Enhanced for Upcoming Digital Vote</h4>
+                            <p class="text-xs text-gray-400 mt-1">@OfficialGovNews • 4 hours ago • ✓ Verified</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-xs bg-green-600 text-white px-2 py-1 rounded">VERIFIED</span>
+                                <span class="text-xs text-blue-400">✓ Official source</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Story 3 - Suspicious -->
+                <div class="story-item bg-gray-700 rounded p-3 cursor-pointer hover:bg-gray-600 transition border-2 border-transparent" data-story="3">
+                    <div class="flex items-start gap-3">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRjU5RTBCIi8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4Ij5TVVNQPC90ZXh0Pgo8L3N2Zz4=" alt="Suspicious News" class="rounded w-10 h-10">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-white">SHOCKING: You Won't Believe What Hackers Found in Williams' Computer!</h4>
+                            <p class="text-xs text-gray-400 mt-1">@ViralNewsHub • 1 hour ago • 🚀 15K shares</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">CLICKBAIT</span>
+                                <span class="text-xs text-gray-500">Suspicious domain</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Verification Workspace -->
+        <div class="col-span-6 bg-gray-800 rounded-lg p-4 shadow">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="bi bi-search"></i> Verification Workspace
+            </h3>
+
+            <!-- Tutorial Tooltip -->
+            <div id="tutorial-workspace" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
+                <p class="text-blue-200 text-sm">
+                    <i class="bi bi-lightbulb mr-2"></i>
+                    Drag and drop stories here to analyze them. Use the verification tools to check headlines, sources, and images.
+                </p>
+            </div>
+
+            <!-- Drop Zone -->
+            <div id="workspace" class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-64 flex flex-col items-center justify-center">
+                <i class="bi bi-arrow-down-circle text-4xl text-gray-500 mb-4"></i>
+                <p class="text-gray-400 text-center">
+                    <strong>Select a story from the news feed to begin fact-checking</strong><br>
+                    <span class="text-sm">Look for red flags in headlines, sources, and timing</span>
+                </p>
+            </div>
+
+            <!-- Story Analysis Panel -->
+            <div id="analysis-panel" class="mt-4 hidden">
+                <div class="bg-gray-700 rounded p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-semibold text-white">Story Analysis</h4>
+                        <button id="clear-workspace" class="text-gray-400 hover:text-white">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                    </div>
+                    <div id="story-details" class="mb-4"></div>
+                    
+                    <!-- Verification Tools -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="verification-tool bg-blue-600 hover:bg-blue-700 text-white p-3 rounded text-sm font-medium" data-tool="headline">
+                            <i class="bi bi-text-paragraph mr-2"></i> Analyze Headline
+                        </button>
+                        <button class="verification-tool bg-purple-600 hover:bg-purple-700 text-white p-3 rounded text-sm font-medium" data-tool="source">
+                            <i class="bi bi-building mr-2"></i> Check Source
+                        </button>
+                        <button class="verification-tool bg-green-600 hover:bg-green-700 text-white p-3 rounded text-sm font-medium" data-tool="image">
+                            <i class="bi bi-image mr-2"></i> Image Verification
+                        </button>
+                        <button class="verification-tool bg-orange-600 hover:bg-orange-700 text-white p-3 rounded text-sm font-medium" data-tool="metadata">
+                            <i class="bi bi-info-circle mr-2"></i> Check Metadata
+                        </button>
+                    </div>
+
+                    <!-- Verification Results -->
+                    <div id="verification-results" class="mt-4 hidden">
+                        <h5 class="font-semibold text-cyan-300 mb-2">Verification Results</h5>
+                        <div id="results-content" class="space-y-2"></div>
+                        
+                        <!-- Final Decision -->
+                        <div class="mt-4 flex gap-3">
+                            <button id="mark-fake" class="flex-1 bg-red-600 hover:bg-red-700 text-white p-3 rounded font-medium">
+                                <i class="bi bi-x-circle mr-2"></i> Mark as Fake
+                            </button>
+                            <button id="mark-real" class="flex-1 bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium">
+                                <i class="bi bi-check-circle mr-2"></i> Mark as Verified
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Tools & Progress -->
+        <div class="col-span-3 space-y-4">
+            <!-- Fact-Check Progress -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-list-check"></i> Progress Tracker
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400">Headlines Analyzed</span>
+                        <span class="text-white font-medium"><span id="headlines-count">0</span>/3</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400">Sources Verified</span>
+                        <span class="text-white font-medium"><span id="sources-count">0</span>/3</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400">Images Checked</span>
+                        <span class="text-white font-medium"><span id="images-count">0</span>/3</span>
+                    </div>
+                    <div class="bg-gray-700 rounded h-2 mt-3">
+                        <div id="progress-bar" class="bg-cyan-400 h-2 rounded transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Panel -->
+            <div class="bg-gray-800 rounded-lg p-4 shadow">
+                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+                    <i class="bi bi-tools"></i> Analysis Tools
+                </h3>
+                
+                <!-- Source Credibility Meter -->
+                <div class="bg-gray-700 rounded p-3 mb-3">
+                    <h4 class="text-sm font-semibold text-white flex items-center gap-2 mb-2">
+                        <i class="bi bi-shield-check text-green-400"></i> Source Credibility
+                    </h4>
+                    <div class="bg-gray-600 rounded h-3">
+                        <div id="credibility-meter" class="bg-green-400 h-3 rounded transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p id="credibility-text" class="text-xs text-gray-400 mt-1">No source analyzed</p>
+                </div>
+
+                <!-- Viral Impact Gauge -->
+                <div class="bg-gray-700 rounded p-3 mb-3">
+                    <h4 class="text-sm font-semibold text-white flex items-center gap-2 mb-2">
+                        <i class="bi bi-graph-up text-red-400"></i> Viral Impact Risk
+                    </h4>
+                    <div class="bg-gray-600 rounded h-3">
+                        <div id="viral-meter" class="bg-red-400 h-3 rounded transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p id="viral-text" class="text-xs text-gray-400 mt-1">Low risk</p>
+                </div>
+
+                <!-- Quick Tips -->
+                <div class="bg-blue-900 border border-blue-600 rounded p-3">
+                    <h4 class="text-sm font-semibold text-blue-300 mb-2">
+                        <i class="bi bi-lightbulb mr-1"></i> Quick Tips
+                    </h4>
+                    <ul class="text-xs text-blue-200 space-y-1">
+                        <li>• Look for emotional language in headlines</li>
+                        <li>• Check if sources have verification badges</li>
+                        <li>• Verify images with reverse search</li>
+                        <li>• Cross-reference with official sources</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Mentor AI Panel -->
-    {% include 'levels/level-1/components/mentor-panel.html' %}
+    <div class="mt-6 bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-4 shadow border border-cyan-700">
+        <div class="flex items-start gap-4">
+            <div class="bg-cyan-400 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-robot text-gray-900 text-lg"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                    <h4 class="font-semibold text-cyan-300">Mentor AI - Argus</h4>
+                    <span class="text-xs bg-cyan-700 text-cyan-200 px-2 py-1 rounded">ACTIVE</span>
+                </div>
+                <p id="mentor-message" class="text-gray-200 text-sm">
+                    Welcome to the Media Integrity Lab, Nova. Select your first story from the news feed. Remember: the truth is out there, but so are those who would bury it.
+                </p>
+            </div>
+        </div>
+    </div>
 
-    <!-- Modals -->
-    {% include 'levels/level-1/components/results-modal.html' %}
+    <!-- Results Modal -->
+    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-lg mx-4">
+            <div class="text-center">
+                <div id="result-icon" class="text-6xl mb-4"></div>
+                <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
+                <p id="result-message" class="text-gray-200 mb-6"></p>
+                <div id="result-feedback" class="bg-gray-700 rounded p-4 mb-6 text-left"></div>
+                <button id="continue-btn" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Navigation -->
-    {% include 'levels/level-1/components/navigation.html' %}
+    <div class="mt-8 flex justify-between items-center">
+        <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm flex items-center gap-2">
+            <i class="bi bi-arrow-left"></i> Back to Campaign
+        </a>
+        <button id="complete-level" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>
+            Complete Mission <i class="bi bi-arrow-right ml-2"></i>
+        </button>
+    </div>
 </div>
 
 <!-- Level 1 JavaScript -->
