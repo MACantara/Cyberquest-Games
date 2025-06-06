@@ -1,0 +1,20 @@
+{
+    "vega": {
+        "name": "Commander Vega",
+        "icon": "👨‍✈️",
+        "story": "Promoted to Academy Director following the Null crisis. Under her leadership, the Academy has implemented comprehensive ethics reforms and transparency initiatives. She often refers to your investigation as the turning point that saved the institution.",
+        "quote": "Nova showed us that true security comes not from hiding our flaws, but from facing them with courage and integrity."
+    },
+    "argus": {
+        "name": "ARGUS AI",
+        "icon": "🤖",
+        "story": "The Academy's AI mentor has been upgraded with advanced ethical reasoning protocols based on your decision patterns. ARGUS now helps train the next generation of cyber sentinels, using your choices as case studies in moral decision-making.",
+        "quote": "Analysis complete: The optimal path forward always includes ethical considerations as primary variables."
+    },
+    "reeves": {
+        "name": "Dr. Alexis Reeves",
+        "icon": "👩‍🔬",
+        "story": "Currently cooperating with authorities in a plea agreement. Her testimony has exposed a network of unethical research practices at various institutions. Some view her as a whistleblower, others as a criminal. The truth, as always, is complex.",
+        "quote": "I wanted to expose the corruption, but I became what I fought against. Perhaps that's the real lesson here."
+    }
+}
