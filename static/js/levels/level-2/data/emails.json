@@ -1,0 +1,62 @@
+{
+    "1": {
+        "id": 1,
+        "subject": "URGENT: Tactical Briefing Required",
+        "from": "vega@interw0r1d.net",
+        "time": "2 minutes ago",
+        "body": "Nova,\n\nThis is Commander Vega. I need you to download and review the attached tactical briefing IMMEDIATELY. This is a PRIORITY 1 mission briefing that cannot wait.\n\nThe file contains critical information about a security breach we've discovered. Download it now and report back within the hour.\n\nDO NOT share this with other cadets until you've reviewed it first.\n\n-Commander Vega\nStrategic Operations Division",
+        "isPhishing": true,
+        "hasAttachment": true,
+        "hasLinks": false,
+        "redFlags": [
+            "Domain misspelling: interw0r1d.net vs interworld.academy",
+            "Excessive urgency and ALL CAPS",
+            "Suspicious attachment request",
+            "Unusual secrecy instructions",
+            "No official signature block"
+        ],
+        "correctAction": "report"
+    },
+    "2": {
+        "id": 2,
+        "subject": "Weekly Training Schedule",
+        "from": "admin@interworld.academy",
+        "time": "1 hour ago",
+        "body": "Dear Cadet Nova,\n\nYour training schedule for next week has been updated. Please review the attached calendar and confirm your availability for the new simulation exercises.\n\nTraining Schedule:\n- Monday: Network Security Fundamentals\n- Tuesday: Incident Response Drills\n- Wednesday: Free Study Period\n- Thursday: Advanced Cryptography\n- Friday: Team Assessment\n\nPlease confirm receipt.\n\nBest regards,\nAcademy Administration\nInterWorld Cyber Academy",
+        "isPhishing": false,
+        "hasAttachment": false,
+        "hasLinks": false,
+        "redFlags": [],
+        "correctAction": "ignore"
+    },
+    "3": {
+        "id": 3,
+        "subject": "Account Verificaton Needed",
+        "from": "security@inter-world.org",
+        "time": "30 minutes ago",
+        "body": "Dear User,\n\nYour academy account requires immediate verification due to unusual login activity detected from an unknown location.\n\nClick the link below to verify your account immediately:\nhttps://secure-academy-login.suspicious-site.com/verify\n\nFailure to verify within 24 hours will result in account suspension.\n\nSecurity Team\nInterWorld Academy",
+        "isPhishing": true,
+        "hasAttachment": false,
+        "hasLinks": true,
+        "redFlags": [
+            "Typo in subject: 'Verificaton' instead of 'Verification'",
+            "Suspicious domain: inter-world.org vs interworld.academy",
+            "Malicious link to external site",
+            "Threatens account suspension",
+            "Generic 'Dear User' greeting"
+        ],
+        "correctAction": "report"
+    },
+    "4": {
+        "id": 4,
+        "subject": "Confused about urgent message?",
+        "from": "c.vega@interworld.academy",
+        "time": "Just now",
+        "body": "Nova,\n\nI just received a report that someone has been sending messages claiming to be me. I want to be very clear: I did NOT send any urgent briefing or request for you to download any files.\n\nIf you received such a message, please report it to our security team immediately. This appears to be a phishing attempt targeting our cadets.\n\nPlease be extra vigilant and verify any urgent communications through our official channels.\n\nCommander Sarah Vega\nStrategic Operations Division\nInterWorld Cyber Academy\nOfficial Contact: +1-555-ACADEMY",
+        "isPhishing": false,
+        "hasAttachment": false,
+        "hasLinks": false,
+        "redFlags": [],
+        "correctAction": "escalate"
+    }
+}
