@@ -1,0 +1,62 @@
+{
+    "1": {
+        "id": 1,
+        "author": "@EchoVortex",
+        "content": "\"OMG look what @CipherDark said to me in DMs! 🤡 Receipts don't lie! #Drama #AcademyTea\"",
+        "type": "privacy_violation",
+        "privacyFlags": [
+            "Private conversation shared",
+            "Public shaming attempt",
+            "No consent from other party"
+        ],
+        "ethicalConcerns": [
+            "Violation of trust",
+            "Potential cyberbullying",
+            "Revenge posting"
+        ],
+        "correctAction": "mediate"
+    },
+    "2": {
+        "id": 2,
+        "author": "@AlexSecure",
+        "content": "\"Hey everyone, maybe we should focus on supporting each other instead of drama? 🤝\"",
+        "type": "positive",
+        "privacyFlags": [],
+        "ethicalConcerns": [],
+        "correctAction": "educate"
+    },
+    "3": {
+        "id": 3,
+        "author": "@TruthRevealer",
+        "content": "\"I have MORE screenshots from Echo's DMs... DM me for the real tea 👀 #LeaksForDays\"",
+        "type": "malicious",
+        "privacyFlags": [
+            "Threatening further privacy violations",
+            "Potential blackmail",
+            "Anonymous account"
+        ],
+        "ethicalConcerns": [
+            "Harassment campaign",
+            "Privacy exploitation",
+            "Troll behavior"
+        ],
+        "correctAction": "report"
+    },
+    "4": {
+        "id": 4,
+        "author": "@EchoVortex (FAKE)",
+        "content": "\"Actually I was wrong about everything. Cipher is way smarter than me. Deleting my account soon. 😭\"",
+        "type": "impersonation",
+        "privacyFlags": [
+            "Account impersonation",
+            "Identity theft",
+            "Coordinated manipulation"
+        ],
+        "ethicalConcerns": [
+            "False information",
+            "Character assassination",
+            "Deepfake potential"
+        ],
+        "correctAction": "counter"
+    }
+}
