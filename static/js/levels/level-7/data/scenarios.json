@@ -1,0 +1,86 @@
+{
+    "1": {
+        "id": 1,
+        "title": "Adaptive Phishing Attack",
+        "description": "The AI has crafted a phishing email that changes based on your past clicking patterns. It knows you tend to click links quickly.",
+        "predictedResponse": "click_link",
+        "options": [
+            {
+                "id": "verify_sender",
+                "text": "Take time to verify sender (breaks pattern)",
+                "breakPattern": true
+            },
+            {
+                "id": "click_link",
+                "text": "Click the link immediately",
+                "breakPattern": false
+            },
+            {
+                "id": "forward_team",
+                "text": "Forward to security team first",
+                "breakPattern": true
+            },
+            {
+                "id": "ignore_email",
+                "text": "Delete without reading",
+                "breakPattern": true
+            }
+        ]
+    },
+    "2": {
+        "id": 2,
+        "title": "Behavior-Based Malware",
+        "description": "This malware activates only when it detects your typical security-first approach. It waits until you secure email, then attacks through DNS.",
+        "predictedResponse": "secure_email",
+        "options": [
+            {
+                "id": "secure_dns",
+                "text": "Check DNS integrity first (breaks pattern)",
+                "breakPattern": true
+            },
+            {
+                "id": "secure_email",
+                "text": "Secure email first as usual",
+                "breakPattern": false
+            },
+            {
+                "id": "parallel_check",
+                "text": "Check all vectors simultaneously",
+                "breakPattern": true
+            },
+            {
+                "id": "wait_observe",
+                "text": "Wait and observe system behavior",
+                "breakPattern": true
+            }
+        ]
+    },
+    "3": {
+        "id": 3,
+        "title": "Time-Pressure Attack",
+        "description": "The AI exploits your thorough analysis habit by creating a time-critical situation where delayed response causes system damage.",
+        "predictedResponse": "analyze_thoroughly",
+        "options": [
+            {
+                "id": "quick_decision",
+                "text": "Make rapid decision (breaks pattern)",
+                "breakPattern": true
+            },
+            {
+                "id": "analyze_thoroughly",
+                "text": "Analyze all evidence carefully",
+                "breakPattern": false
+            },
+            {
+                "id": "partial_analysis",
+                "text": "Quick scan then decide",
+                "breakPattern": true
+            },
+            {
+                "id": "delegate_decision",
+                "text": "Escalate to team lead",
+                "breakPattern": true
+            }
+        ]
+    }
+}
