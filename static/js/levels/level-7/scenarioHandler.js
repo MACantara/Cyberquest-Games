@@ -1,162 +1,90 @@
-import { gameState } from './gameState.js';
-import { updateMentorMessage } from './uiUpdates.js';
+import { gameState, updateGameMetrics, trackPlayerPattern, simulateAILearning, generateGhostPrediction } from './gameState.js';
+import { updateMentorMessage, showResultModal, updateAILearningFeed } from './uiUpdates.js';
+import { triggerPatternBreakEffect, intensifyGlitchEffects } from './glitchEffects.js';
+import { checkPatternBreakerEffects, resetPatternBreakers } from './patternBreakers.js';
 
 export let scenarios = {};
+let scenarioStartTime = 0;
+let countdownTimer = null;
 
 export async function loadScenarios() {
     try {
         const response = await fetch('/static/js/levels/level-7/data/scenarios.json');
         scenarios = await response.json();
+        console.log('Blue vs Red scenarios loaded');
     } catch (error) {
         console.error('Failed to load scenarios:', error);
     }
 }
 
 export function startScenario(scenarioId) {
-    gameState.currentScenario = scenarios[scenarioId];
-    displayScenario(gameState.currentScenario);
-    document.getElementById('tutorial-behavior').classList.add('hidden');
-    
-    updateMentorMessage(`Scenario ${scenarioId} active. The AI expects you to ${gameState.currentScenario.predictedResponse.replace('_', ' ')}. Surprise it!`);
-}
-
-export function displayScenario(scenario) {
-    document.getElementById('mirror-placeholder').classList.add('hidden');
-    document.getElementById('scenario-panel').classList.remove('hidden');
-    
-    document.getElementById('scenario-content').textContent = scenario.description;
-    document.getElementById('ai-prediction').textContent = `Expects: ${scenario.predictedResponse.replace('_', ' ')}`;
-    
-    // Populate options
-    const optionsContainer = document.getElementById('challenge-options');
-    optionsContainer.innerHTML = scenario.options.map(option => `
-        <button class="option-btn bg-gray-600 hover:bg-gray-500 text-white p-3 rounded text-sm font-medium ${option.breakPattern ? 'border-2 border-orange-400' : ''}" 
-                data-option="${option.id}" data-breaks-pattern="${option.breakPattern}">
-            ${option.breakPattern ? '🔀 ' : ''}${option.text}
-        </button>
-    `).join('');
-    
-    // Add event listeners to options
-    document.querySelectorAll('.option-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const optionId = this.dataset.option;
-            const breaksPattern = this.dataset.breaksPattern === 'true';
-            handleChoice(optionId, breaksPattern);
-        });
-    });
-    
-    // Update AI confidence based on scenario
-    gameState.aiConfidence = Math.min(95, gameState.aiConfidence + 5);
-    updateGameMetrics();
-}
-
-export function handleChoice(optionId, breaksPattern) {
-    const scenario = gameState.currentScenario;
-    gameState.aiPredictions++;
-    
-    if (breaksPattern) {
-        handlePatternBreak(scenario, optionId);
-    } else {
-        handlePredictableChoice(scenario, optionId);
+    const scenario = scenarios[scenarioId];
+    if (!scenario || gameState.completedScenarios.includes(scenarioId)) {
+        return;
     }
     
-    gameState.completedScenarios.push(scenario.id);
-    gameState.adaptationCycles++;
-    updateGameMetrics();
+    gameState.currentScenario = scenario;
+    gameState.battlePhase = 'active';
+    scenarioStartTime = Date.now();
+    gameState.scenarioStartTime = scenarioStartTime;
     
-    // Check if level complete
-    if (gameState.patternsBroken >= 2 && gameState.predictabilityScore <= 30) {
-        setTimeout(() => endGame(true), 2000);
-    } else {
-        setTimeout(() => {
-            document.getElementById('scenario-panel').classList.add('hidden');
-            document.getElementById('mirror-placeholder').classList.remove('hidden');
-            updateMentorMessage("Good! Continue breaking patterns. The AI is adapting, but you're staying ahead.");
-        }, 3000);
-    }
+    displayScenario(scenario);
+    startScenarioTimer(scenario.timeLimit);
+    generateAIPrediction(scenario);
+    
+    updateMentorMessage(`Red Team scenario detected: ${scenario.name}. The AI has ${scenario.timeLimit} seconds to predict your response. Stay unpredictable!`);
 }
 
-export function handlePatternBreak(scenario, optionId) {
-    gameState.patternsBroken++;
-    gameState.predictabilityScore = Math.max(0, gameState.predictabilityScore - 20);
-    gameState.aiConfidence = Math.max(20, gameState.aiConfidence - 15);
+function displayScenario(scenario) {
+    // Hide placeholder, show active scenario
+    document.getElementById('scenario-placeholder').classList.add('hidden');
+    document.getElementById('scenario-active').classList.remove('hidden');
     
-    // Positive visual feedback
-    document.getElementById('player-action').innerHTML = `
-        <div class="w-16 h-16 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-            <i class="bi bi-check-circle text-white text-xl"></i>
+    // Update scenario content
+    document.getElementById('scenario-description').innerHTML = `
+        <div class="flex items-start gap-3 mb-3">
+            <div class="text-2xl">${getScenarioIcon(scenario.category)}</div>
+            <div>
+                <h4 class="text-blue-300 font-bold">${scenario.name}</h4>
+                <span class="text-xs px-2 py-1 rounded ${getDifficultyColor(scenario.difficulty)} font-medium">
+                    ${scenario.difficulty}
+                </span>
+            </div>
         </div>
-        <p class="text-green-300 text-sm">Pattern broken!</p>
+        <p class="text-gray-300 text-sm leading-relaxed">${scenario.description}</p>
     `;
     
-    document.getElementById('ai-action').innerHTML = `
-        <div class="w-16 h-16 bg-red-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-            <i class="bi bi-x-circle text-white text-xl"></i>
-        </div>
-        <p class="text-red-300 text-sm">Prediction failed!</p>
-    `;
+    // Generate and display ghost prediction
+    const ghostPredictions = generateGhostPrediction(scenario);
+    updateGhostDisplay(ghostPredictions);
     
-    showResultModal('🔀', 'Pattern Disrupted!', 
-        'You successfully broke your behavioral pattern!',
-        '<div class="text-green-400">The AI failed to predict your response. System integrity improved.</div>'
-    );
+    // Populate response options
+    populateResponseOptions(scenario);
     
-    updateMentorMessage("Excellent! You did the unexpected. The AI's confidence is dropping - it can't predict your next move.");
+    // Update AI prediction warning
+    updateAIPredictionWarning(scenario);
 }
 
-export function handlePredictableChoice(scenario, optionId) {
-    gameState.predictabilityScore = Math.min(100, gameState.predictabilityScore + 10);
-    gameState.aiConfidence = Math.min(95, gameState.aiConfidence + 10);
-    gameState.systemIntegrity = Math.max(0, gameState.systemIntegrity - 15);
-    
-    // Negative visual feedback
-    document.getElementById('player-action').innerHTML = `
-        <div class="w-16 h-16 bg-red-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-            <i class="bi bi-exclamation-triangle text-white text-xl"></i>
-        </div>
-        <p class="text-red-300 text-sm">Predicted move</p>
-    `;
-    
-    document.getElementById('ai-action').innerHTML = `
-        <div class="w-16 h-16 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-            <i class="bi bi-check-circle text-white text-xl"></i>
-        </div>
-        <p class="text-green-300 text-sm">Perfect prediction!</p>
-    `;
-    
-    showResultModal('🎯', 'AI Predicted Correctly', 
-        'The AI successfully anticipated your response.',
-        '<div class="text-red-400">Your predictable behavior allowed the AI to execute a perfect counter-attack.</div>'
-    );
-    
-    updateMentorMessage("The AI saw that coming. You fell into your old patterns. Try to think outside your usual approach.");
+function getScenarioIcon(category) {
+    const icons = {
+        'email_security': '🎣',
+        'access_management': '🔐', 
+        'malware_defense': '🦠',
+        'incident_management': '🚨',
+        'vulnerability_management': '🏴‍☠️'
+    };
+    return icons[category] || '⚔️';
 }
 
-export function endGame(success) {
-    if (success) {
-        updateMentorMessage("Outstanding! You've successfully defeated the adaptive AI by breaking your own patterns. The system is secure again.");
-        document.getElementById('complete-level').disabled = false;
-        
-        showResultModal(
-            '🏆',
-            'AI Defeated!',
-            'You\'ve successfully completed The Adaptive Adversary and earned the Unscripted badge.',
-            `
-                <div class="text-left space-y-3">
-                    <div class="bg-pink-900 border border-pink-600 rounded p-3">
-                        <p class="text-pink-300 font-semibold">🏆 Digital Badge Earned</p>
-                        <p class="text-pink-200 text-sm">Unscripted - Broke the Pattern</p>
-                    </div>
-                    <div class="text-sm space-y-1">
-                        <p><strong>Final Predictability:</strong> ${gameState.predictabilityScore}%</p>
-                        <p><strong>Patterns Broken:</strong> ${gameState.patternsBroken}</p>
-                        <p><strong>System Integrity:</strong> ${gameState.systemIntegrity}%</p>
-                        <p><strong>AI Confidence:</strong> ${gameState.aiConfidence}%</p>
-                    </div>
-                </div>
-            `
-        );
-    }
+function getDifficultyColor(difficulty) {
+    const colors = {
+        'Basic': 'bg-blue-600 text-white',
+        'Intermediate': 'bg-purple-600 text-white',
+        'Advanced': 'bg-orange-600 text-white',
+        'Expert': 'bg-red-600 text-white',
+        'Master': 'bg-pink-600 text-white'
+    };
+    return colors[difficulty] || 'bg-gray-600 text-white';
 }
 
 function populateResponseOptions(scenario) {
@@ -202,7 +130,6 @@ function updateGhostDisplay(ghostPredictions) {
     if (ghostElement && ghostPredictions.length > 0) {
         let currentIndex = 0;
         
-        // Cycle through ghost predictions
         const showNextPrediction = () => {
             if (currentIndex < ghostPredictions.length) {
                 ghostElement.innerHTML = `<span class="text-purple-300 text-sm animate-pulse">👻 ${ghostPredictions[currentIndex]}</span>`;
@@ -227,7 +154,6 @@ function startScenarioTimer(timeLimit) {
         if (timerElement) {
             timerElement.textContent = timeRemaining + 's';
             
-            // Change color as time runs out
             if (timeRemaining <= 5) {
                 timerElement.className = 'text-red-400 font-mono text-sm animate-pulse';
             } else if (timeRemaining <= 10) {
@@ -235,7 +161,6 @@ function startScenarioTimer(timeLimit) {
             }
         }
         
-        // Increase AI confidence as time pressure mounts
         if (timeRemaining <= 10) {
             gameState.aiConfidence = Math.min(95, gameState.aiConfidence + 1);
             updateGameMetrics();
@@ -249,7 +174,6 @@ function startScenarioTimer(timeLimit) {
 }
 
 function handleTimeOut() {
-    // AI wins when player runs out of time
     gameState.aiConfidence = Math.min(95, gameState.aiConfidence + 20);
     gameState.predictabilityScore = Math.min(100, gameState.predictabilityScore + 15);
     gameState.roundsLost++;
@@ -285,21 +209,17 @@ export function handleDecision(optionId, responseTime, riskLevel) {
     const scenario = gameState.currentScenario;
     if (!scenario) return;
     
-    // Clear scenario timer
     if (gameState.scenarioTimer) {
         clearInterval(gameState.scenarioTimer);
         gameState.scenarioTimer = null;
     }
     
-    // Apply pattern breaker effects
     const patternResult = checkPatternBreakerEffects(optionId, scenario);
     const finalChoice = patternResult.choice;
     const selectedOption = scenario.options.find(opt => opt.id === finalChoice);
     
-    // Track player patterns for AI learning
     trackPlayerPattern(finalChoice, responseTime / 1000, riskLevel);
     
-    // Determine if AI predicted correctly
     const aiPredictedCorrectly = finalChoice === scenario.predictedResponse;
     gameState.aiPredictions++;
     
@@ -326,7 +246,6 @@ export function handleDecision(optionId, responseTime, riskLevel) {
         updateMentorMessage("The AI read you perfectly! It used your behavioral patterns from earlier levels to predict that exact response. You need to break your patterns!");
         
     } else {
-        // Player successfully avoided prediction or used pattern breaker
         gameState.aiConfidence = Math.max(10, gameState.aiConfidence - 10);
         gameState.roundsWon++;
         
@@ -364,11 +283,9 @@ export function handleDecision(optionId, responseTime, riskLevel) {
     gameState.totalRounds++;
     gameState.completedScenarios.push(scenario.id);
     
-    // Update all metrics
     simulateAILearning();
     updateGameMetrics();
     
-    // Check win conditions
     checkBattleStatus();
     
     setTimeout(() => {
@@ -377,7 +294,6 @@ export function handleDecision(optionId, responseTime, riskLevel) {
 }
 
 function checkBattleStatus() {
-    // Check if Blue Team (player) has won
     if (gameState.patternsBroken >= 3 && gameState.aiConfidence <= 30) {
         setTimeout(() => {
             showResultModal('🏆', 'BLUE TEAM VICTORY!', 
@@ -401,7 +317,6 @@ function checkBattleStatus() {
         }, 2000);
         
     } else if (gameState.aiConfidence >= 90 && gameState.totalRounds >= 3) {
-        // Red Team (AI) wins
         setTimeout(() => {
             showResultModal('🤖', 'RED TEAM VICTORY', 
                 'The adaptive AI has achieved complete behavioral prediction dominance.',
@@ -422,7 +337,6 @@ function checkBattleStatus() {
             updateMentorMessage("The AI learned your patterns too well. This is why The Null is so dangerous - it adapts to counter every strategy. You need to become more unpredictable!");
         }, 2000);
     } else if (gameState.totalRounds >= 5) {
-        // Continue battle - need more scenarios
         updateMentorMessage("The battle continues! The AI is learning, but you're staying ahead. Keep using pattern breakers and unpredictable tactics.");
     }
 }
@@ -434,11 +348,16 @@ export function closeScenario() {
     gameState.currentScenario = null;
     gameState.battlePhase = 'preparation';
     
-    // Reset pattern breakers for next scenario
     resetPatternBreakers();
     
-    // Reset scenario selection visual feedback
     document.querySelectorAll('.scenario-btn').forEach(btn => {
         btn.classList.remove('ring-2', 'ring-white');
     });
+}
+
+function generateAIPrediction(scenario) {
+    // Update AI prediction display
+    updateAILearningFeed(`Analyzing scenario: ${scenario.name}`);
+    updateAILearningFeed(`Expected response: ${scenario.predictedResponse}`);
+    updateAILearningFeed(`Confidence level: ${gameState.aiConfidence}%`);
 }
