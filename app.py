@@ -1,34 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request, session
-import sqlite3
 import os
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
-
-# Initialize in-memory database for serverless environment
-def init_db():
-    """Initialize database in memory for serverless deployment"""
-    conn = sqlite3.connect(':memory:')
-    c = conn.cursor()
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            password TEXT,
-            progress INTEGER DEFAULT 0
-        )
-    ''')
-    conn.commit()
-    return conn
-
-# Global database connection for serverless
-db_conn = None
-
-def get_db_connection():
-    global db_conn
-    if db_conn is None:
-        db_conn = init_db()
-    return db_conn
 
 @app.route("/")
 def index():
