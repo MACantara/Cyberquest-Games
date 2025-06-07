@@ -139,6 +139,28 @@
 
             <!-- Component Analysis & Controls Panel -->
             <div class="col-span-4">
+                <!-- Level Completion -->
+                <div class="bg-slate-800 border border-slate-600 rounded-lg p-4 mb-6">
+                    <h4 class="text-white font-semibold mb-3">Mission Status</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Components Scanned:</span>
+                            <span class="text-white">0/3</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Critical Findings:</span>
+                            <span class="text-orange-400">Pending</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Disclosure Status:</span>
+                            <span class="text-yellow-400">Awaiting Decision</span>
+                        </div>
+                    </div>
+                    <button id="complete-level" disabled class="w-full mt-4 bg-green-700 text-white px-4 py-2 rounded opacity-50 cursor-not-allowed">
+                        Complete Audit & Disclosure
+                    </button>
+                </div>
+
                 <!-- Component Analysis Panel -->
                 <div id="component-analysis" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
                     <div class="flex items-center justify-between mb-4">
@@ -171,28 +193,6 @@
                             Document Findings
                         </button>
                     </div>
-                </div>
-
-                <!-- Level Completion -->
-                <div class="bg-slate-800 border border-slate-600 rounded-lg p-4">
-                    <h4 class="text-white font-semibold mb-3">Mission Status</h4>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Components Scanned:</span>
-                            <span class="text-white">0/3</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Critical Findings:</span>
-                            <span class="text-orange-400">Pending</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Disclosure Status:</span>
-                            <span class="text-yellow-400">Awaiting Decision</span>
-                        </div>
-                    </div>
-                    <button id="complete-level" disabled class="w-full mt-4 bg-green-700 text-white px-4 py-2 rounded opacity-50 cursor-not-allowed">
-                        Complete Audit & Disclosure
-                    </button>
                 </div>
             </div>
         </div>
