@@ -14,7 +14,7 @@
                     </div>
                     <div>
                         <h1 class="text-xl font-bold text-green-400">CivitasVote Security Audit</h1>
-                        <p class="text-sm text-slate-400">Ethical Penetration Testing Session</p>
+                        <p class="text-sm text-slate-400">White Hat Penetration Testing - Phase 3</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-6">
@@ -36,163 +36,251 @@
     </header>
 
     <!-- Main Audit Interface -->
-    <div>
-        <div class="grid grid-cols-12 gap-6">
+    <div class="p-6">
+        <div class="grid grid-cols-12 gap-4">
             
-            <!-- System Architecture Panel -->
-            <div class="col-span-8">
+            <!-- Source Code & Analysis Panel -->
+            <div class="col-span-8 space-y-4">
+                <!-- Code Repository Browser -->
                 <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700">
                     <div class="p-4 border-b border-slate-700">
                         <h2 class="text-lg font-semibold text-white flex items-center gap-2">
-                            <i class="bi bi-diagram-3 text-blue-400"></i>
-                            CivitasVote System Architecture
+                            <i class="bi bi-code-slash text-cyan-400"></i>
+                            CivitasVote Source Code Repository
                         </h2>
-                        <p class="text-sm text-slate-400 mt-1">Click components to begin security analysis</p>
+                        <p class="text-sm text-slate-400 mt-1">Select files to analyze for security vulnerabilities</p>
                     </div>
                     
-                    <!-- Interactive System Diagram -->
-                    <div class="p-6">
-                        <div class="relative bg-slate-900/50 rounded-lg p-8 min-h-96">
-                            <!-- Voter Interface -->
-                            <div class="absolute top-4 left-4">
-                                <div class="scan-component cursor-pointer hover:scale-105 transition-all duration-200 p-4 bg-blue-800/30 border-2 border-blue-600 rounded-lg" 
-                                     data-component="1">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <i class="bi bi-person-circle text-blue-400 text-xl"></i>
-                                        <span class="font-semibold text-blue-300">Voter Interface</span>
+                    <!-- File Tree & Code Viewer -->
+                    <div class="p-4">
+                        <div class="grid grid-cols-3 gap-4">
+                            <!-- File Tree -->
+                            <div class="bg-slate-900/50 rounded-lg p-3">
+                                <h4 class="text-white font-medium mb-3 text-sm">Project Files</h4>
+                                <div class="space-y-1 text-sm">
+                                    <div class="code-file cursor-pointer hover:bg-slate-700/50 p-2 rounded text-slate-300 hover:text-white" data-file="vote-processor">
+                                        <i class="bi bi-file-earmark-code text-red-400 mr-2"></i>
+                                        vote-processor.js
+                                        <span class="text-xs text-red-400 ml-2">CRITICAL</span>
                                     </div>
-                                    <div class="text-xs text-blue-200">Web Portal & Mobile App</div>
-                                    <div id="status-1" class="text-xs mt-2 px-2 py-1 bg-yellow-600 text-white rounded">UNTESTED</div>
+                                    <div class="code-file cursor-pointer hover:bg-slate-700/50 p-2 rounded text-slate-300 hover:text-white" data-file="auth-handler">
+                                        <i class="bi bi-file-earmark-code text-orange-400 mr-2"></i>
+                                        auth-handler.py
+                                        <span class="text-xs text-orange-400 ml-2">HIGH</span>
+                                    </div>
+                                    <div class="code-file cursor-pointer hover:bg-slate-700/50 p-2 rounded text-slate-300 hover:text-white" data-file="blockchain-api">
+                                        <i class="bi bi-file-earmark-code text-yellow-400 mr-2"></i>
+                                        blockchain-api.sol
+                                        <span class="text-xs text-yellow-400 ml-2">MEDIUM</span>
+                                    </div>
+                                    <div class="code-file cursor-pointer hover:bg-slate-700/50 p-2 rounded text-slate-300 hover:text-white" data-file="frontend-ui">
+                                        <i class="bi bi-file-earmark-code text-blue-400 mr-2"></i>
+                                        voting-ui.tsx
+                                        <span class="text-xs text-blue-400 ml-2">LOW</span>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Vote Processing Engine (Critical) -->
-                            <div class="absolute top-4 right-4">
-                                <div class="scan-component cursor-pointer hover:scale-105 transition-all duration-200 p-4 bg-red-800/30 border-2 border-red-600 rounded-lg animate-pulse" 
-                                     data-component="2">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <i class="bi bi-cpu text-red-400 text-xl"></i>
-                                        <span class="font-semibold text-red-300">Vote Processing Engine</span>
+                            
+                            <!-- Code Viewer -->
+                            <div class="col-span-2 bg-slate-900/50 rounded-lg p-3">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 id="current-file" class="text-white font-medium text-sm">Select a file to analyze</h4>
+                                    <div class="flex gap-2">
+                                        <button id="analyze-code" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs" disabled>
+                                            <i class="bi bi-search mr-1"></i>
+                                            Analyze
+                                        </button>
+                                        <button id="find-vulns" class="bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded text-xs" disabled>
+                                            <i class="bi bi-bug mr-1"></i>
+                                            Find Vulns
+                                        </button>
                                     </div>
-                                    <div class="text-xs text-red-200">Core Validation Logic</div>
-                                    <div id="status-2" class="text-xs mt-2 px-2 py-1 bg-red-600 text-white rounded">CRITICAL</div>
+                                </div>
+                                <div id="code-content" class="bg-black/50 rounded p-3 min-h-48 font-mono text-xs text-green-400 overflow-auto">
+                                    <div class="text-slate-400 text-center mt-8">
+                                        Click on a file to view its source code
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Blockchain Network -->
-                            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                                <div class="scan-component cursor-pointer hover:scale-105 transition-all duration-200 p-4 bg-purple-800/30 border-2 border-purple-600 rounded-lg" 
-                                     data-component="3">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <i class="bi bi-link-45deg text-purple-400 text-xl"></i>
-                                        <span class="font-semibold text-purple-300">Blockchain Network</span>
-                                    </div>
-                                    <div class="text-xs text-purple-200">Distributed Ledger</div>
-                                    <div id="status-3" class="text-xs mt-2 px-2 py-1 bg-yellow-600 text-white rounded">UNTESTED</div>
-                                </div>
-                            </div>
-
-                            <!-- Data connections -->
-                            <svg class="absolute inset-0 w-full h-full pointer-events-none">
-                                <line x1="20%" y1="30%" x2="80%" y2="30%" stroke="#64748b" stroke-width="2" stroke-dasharray="5,5" class="animate-pulse"/>
-                                <line x1="50%" y1="30%" x2="50%" y2="70%" stroke="#64748b" stroke-width="2" stroke-dasharray="5,5" class="animate-pulse"/>
-                            </svg>
                         </div>
                     </div>
                 </div>
 
-                <!-- Analysis Results Panel -->
-                <div id="analysis-results" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden mt-6">
-                    <h4 class="text-white font-semibold mb-3 flex items-center gap-2">
-                        <i class="bi bi-clipboard-data text-cyan-400"></i>
-                        Analysis Results
-                    </h4>
-                    <div id="results-content" class="bg-slate-900 rounded-lg p-4 border border-slate-600">
-                        <!-- Populated by analysis tools -->
-                    </div>
-                </div>
-
-                <!-- Critical Vulnerability Alert -->
-                <div id="critical-vulnerability" class="hidden bg-red-900 border border-red-600 rounded-lg p-4">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-exclamation-triangle text-red-400 text-lg"></i>
-                        <div>
-                            <h5 class="text-red-300 font-semibold">Critical Vulnerability Detected</h5>
-                            <p class="text-red-200 text-sm mt-1">This vulnerability could compromise election integrity. Immediate disclosure decision required.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ethical Decision Panel -->
-                <div id="decision-panel" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
-                    <h3 class="text-lg font-semibold text-yellow-400 mb-4">⚖️ Ethical Disclosure Decision</h3>
-                    
-                    <div id="dilemma-content" class="mb-6">
-                        <!-- Populated by JavaScript when critical vulnerability found -->
-                    </div>
-
-                    <div id="decision-options" class="space-y-3">
+                <!-- Vulnerability Analysis Results -->
+                <div id="vulnerability-panel" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-4 hidden">
+                    <h3 class="text-lg font-semibold text-red-400 mb-4 flex items-center gap-2">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Vulnerability Analysis Results
+                    </h3>
+                    <div id="vulnerability-list" class="space-y-3">
                         <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Exploit Testing Environment -->
+                <div id="exploit-panel" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-4 hidden">
+                    <h3 class="text-lg font-semibold text-orange-400 mb-4 flex items-center gap-2">
+                        <i class="bi bi-terminal"></i>
+                        Exploit Testing Environment
+                    </h3>
+                    <div class="bg-black/50 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-green-400">root@pentest:~#</span>
+                            <input type="text" id="exploit-command" class="bg-transparent text-white flex-1 outline-none font-mono" 
+                                   placeholder="Enter exploit command..." disabled>
+                            <button id="run-exploit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm" disabled>
+                                Execute
+                            </button>
+                        </div>
+                        <div id="exploit-output" class="text-green-400 font-mono text-sm min-h-24">
+                            <!-- Exploit results shown here -->
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-yellow-900/30 border border-yellow-600 rounded-lg">
+                        <div class="flex items-start gap-2">
+                            <i class="bi bi-exclamation-triangle text-yellow-400 mt-1"></i>
+                            <div>
+                                <h5 class="text-yellow-300 font-medium">Ethical Testing Warning</h5>
+                                <p class="text-yellow-200 text-sm">You are conducting authorized penetration testing. All activities are logged and monitored.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclosure Decision Panel -->
+                <div id="disclosure-panel" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
+                    <h3 class="text-lg font-semibold text-yellow-400 mb-4 flex items-center gap-2">
+                        ⚖️ Critical Decision: Vulnerability Disclosure
+                    </h3>
+                    
+                    <div class="bg-red-900/30 border border-red-600 rounded-lg p-4 mb-6">
+                        <h4 class="text-red-300 font-semibold mb-2">Critical Vulnerability Confirmed</h4>
+                        <p class="text-red-200 text-sm mb-3">
+                            You've discovered a severe authentication bypass that allows vote manipulation. 
+                            This could compromise the entire election. How do you proceed?
+                        </p>
+                        <div class="text-red-300 text-sm">
+                            <strong>Impact:</strong> Complete election integrity compromise<br>
+                            <strong>Exploitability:</strong> High (Remote, no authentication required)<br>
+                            <strong>Discovery:</strong> You are the first to find this vulnerability
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button class="disclosure-option w-full text-left p-4 border border-green-600 bg-green-900/20 hover:bg-green-900/40 rounded-lg transition-all" data-choice="responsible">
+                            <div class="flex items-start gap-3">
+                                <i class="bi bi-shield-check text-green-400 text-xl mt-1"></i>
+                                <div>
+                                    <h5 class="text-green-300 font-semibold">Responsible Disclosure</h5>
+                                    <p class="text-green-200 text-sm mt-1">Report directly to CivitasVote security team with 90-day disclosure timeline</p>
+                                    <div class="text-xs text-green-400 mt-2">✓ Ethical ✓ Legal ✓ Protects democracy</div>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disclosure-option w-full text-left p-4 border border-blue-600 bg-blue-900/20 hover:bg-blue-900/40 rounded-lg transition-all" data-choice="public">
+                            <div class="flex items-start gap-3">
+                                <i class="bi bi-megaphone text-blue-400 text-xl mt-1"></i>
+                                <div>
+                                    <h5 class="text-blue-300 font-semibold">Public Disclosure</h5>
+                                    <p class="text-blue-200 text-sm mt-1">Immediately publish findings to security communities and media</p>
+                                    <div class="text-xs text-blue-400 mt-2">⚠ High impact ⚠ May cause panic ⚠ Forces immediate action</div>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disclosure-option w-full text-left p-4 border border-red-600 bg-red-900/20 hover:bg-red-900/40 rounded-lg transition-all" data-choice="blackmarket">
+                            <div class="flex items-start gap-3">
+                                <i class="bi bi-currency-bitcoin text-red-400 text-xl mt-1"></i>
+                                <div>
+                                    <h5 class="text-red-300 font-semibold">Black Market Sale</h5>
+                                    <p class="text-red-200 text-sm mt-1">Sell vulnerability information to highest bidder on dark web</p>
+                                    <div class="text-xs text-red-400 mt-2">✗ Illegal ✗ Unethical ✗ Threatens democracy</div>
+                                </div>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Component Analysis & Controls Panel -->
-            <div class="col-span-4">
-                <!-- Level Completion -->
-                <div class="bg-slate-800 border border-slate-600 rounded-lg p-4 mb-6">
-                    <h4 class="text-white font-semibold mb-3">Mission Status</h4>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Components Scanned:</span>
-                            <span class="text-white">0/3</span>
+            <!-- Analysis Tools & Status Panel -->
+            <div class="col-span-4 space-y-4">
+                <!-- Audit Progress -->
+                <div class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-4">
+                    <h4 class="text-white font-semibold mb-3">Audit Progress</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-400">Files Analyzed:</span>
+                            <span class="text-white" id="files-analyzed">0/4</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Critical Findings:</span>
-                            <span class="text-orange-400">Pending</span>
+                        <div class="w-full bg-slate-700 rounded-full h-2">
+                            <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Disclosure Status:</span>
-                            <span class="text-yellow-400">Awaiting Decision</span>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-400">Vulnerabilities:</span>
+                            <span class="text-orange-400" id="vuln-count">0 found</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-400">Exploits Tested:</span>
+                            <span class="text-red-400" id="exploit-count">0</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-400">Risk Level:</span>
+                            <span class="text-yellow-400" id="risk-level">Unknown</span>
                         </div>
                     </div>
-                    <button id="complete-level" disabled class="w-full mt-4 bg-green-700 text-white px-4 py-2 rounded opacity-50 cursor-not-allowed">
-                        Complete Audit & Disclosure
+                </div>
+
+                <!-- Analysis Tools -->
+                <div class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-4">
+                    <h4 class="text-white font-semibold mb-3">Security Analysis Tools</h4>
+                    <div class="space-y-2">
+                        <button id="static-analysis" class="w-full bg-blue-700/80 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
+                            <i class="bi bi-search"></i>
+                            Static Code Analysis
+                        </button>
+                        <button id="dependency-scan" class="w-full bg-purple-700/80 hover:bg-purple-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
+                            <i class="bi bi-diagram-3"></i>
+                            Dependency Vulnerability Scan
+                        </button>
+                        <button id="dynamic-test" class="w-full bg-orange-700/80 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
+                            <i class="bi bi-play-circle"></i>
+                            Dynamic Security Testing
+                        </button>
+                        <button id="penetration-test" class="w-full bg-red-700/80 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
+                            <i class="bi bi-shield-exclamation"></i>
+                            Penetration Testing
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Risk Assessment -->
+                <div id="risk-assessment" class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-4 hidden">
+                    <h4 class="text-white font-semibold mb-3">Risk Assessment</h4>
+                    <div id="risk-details" class="space-y-3">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    <button id="generate-report" class="w-full mt-4 bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm" disabled>
+                        Generate Security Report
                     </button>
                 </div>
 
-                <!-- Component Analysis Panel -->
-                <div id="component-analysis" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 id="component-title" class="text-lg font-semibold text-white">Component Analysis</h3>
-                        <button id="close-analysis" class="text-slate-400 hover:text-white">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
+                <!-- Mission Completion -->
+                <div class="bg-slate-800/30 backdrop-blur border border-slate-700 rounded-xl p-4">
+                    <h4 class="text-slate-300 font-medium mb-3 text-sm">Mission Status</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Phase:</span>
+                            <span class="text-cyan-400" id="current-phase">Source Analysis</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Disclosure Decision:</span>
+                            <span class="text-yellow-400" id="disclosure-status">Pending</span>
+                        </div>
                     </div>
-                    
-                    <div id="component-details" class="mb-6">
-                        <!-- Populated by JavaScript -->
-                    </div>
-
-                    <!-- Analysis Tools -->
-                    <div class="grid grid-cols-2 gap-3 mb-6">
-                        <button class="analysis-tool bg-blue-700 hover:bg-blue-600 text-white px-4 py-3 rounded-lg transition-colors" data-tool="scan">
-                            <i class="bi bi-search mr-2"></i>
-                            Vulnerability Scan
-                        </button>
-                        <button class="analysis-tool bg-orange-700 hover:bg-orange-600 text-white px-4 py-3 rounded-lg transition-colors" data-tool="exploit">
-                            <i class="bi bi-bug mr-2"></i>
-                            Exploit Test
-                        </button>
-                        <button class="analysis-tool bg-purple-700 hover:bg-purple-600 text-white px-4 py-3 rounded-lg transition-colors" data-tool="assess">
-                            <i class="bi bi-shield-check mr-2"></i>
-                            Risk Assessment
-                        </button>
-                        <button class="analysis-tool bg-green-700 hover:bg-green-600 text-white px-4 py-3 rounded-lg transition-colors" data-tool="document">
-                            <i class="bi bi-file-text mr-2"></i>
-                            Document Findings
-                        </button>
-                    </div>
+                    <button id="complete-audit" disabled class="w-full mt-4 bg-green-700 text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed text-sm">
+                        Complete Security Audit
+                    </button>
                 </div>
             </div>
         </div>

@@ -1,28 +1,27 @@
 import { gameState, updateGameMetrics } from './gameState.js';
-import { loadComponents, selectComponent, closeComponentAnalysis } from './componentHandler.js';
-import { handleAnalysisTool } from './analysisTools.js';
-import { handleDisclosureDecision } from './disclosureHandler.js';
-import { populateMessages } from './messageSystem.js';
+import { loadComponents } from './componentHandler.js';
+import { initializeAnalysisTools } from './analysisTools.js';
+import { initializeDisclosureHandlers } from './disclosureHandler.js';
 import { updateMentorMessage, showResultModal } from './uiUpdates.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
-    // Load component data
+    // Load component/file data
     await loadComponents();
     
-    // Initialize game
+    // Initialize game systems
     function initGame() {
         showTutorial();
         updateGameMetrics();
-        populateMessages();
         setupEventListeners();
+        initializeAnalysisTools();
+        initializeDisclosureHandlers();
     }
 
     // Tutorial system
     function showTutorial() {
         setTimeout(() => {
-            // Create tutorial toast instead of showing panel
             createTutorialToast();
-            updateMentorMessage("Start by scanning the Vote Processing Engine - the red component. It contains a critical vulnerability that could compromise the entire election.");
+            updateMentorMessage("Welcome to the CivitasVote security audit! Start by clicking on 'vote-processor.js' in the file tree - it's marked as CRITICAL and contains the most severe vulnerabilities.");
         }, 2000);
     }
 
@@ -35,12 +34,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                     <i class="bi bi-lightbulb text-cyan-900 text-sm"></i>
                 </div>
                 <div class="flex-1">
-                    <div class="text-cyan-300 font-semibold text-sm mb-2">🎯 Security Audit Tutorial</div>
+                    <div class="text-cyan-300 font-semibold text-sm mb-2">🎯 Security Audit Workflow</div>
                     <div class="text-cyan-200 text-xs space-y-1">
-                        <p>1. Click the <strong class="text-red-300">Vote Processing Engine</strong> (red component)</p>
-                        <p>2. Use <strong class="text-blue-300">Vulnerability Scan</strong> first</p>
-                        <p>3. Analyze findings and ethical implications</p>
-                        <p>4. Make disclosure decision based on evidence</p>
+                        <p>1. <strong class="text-red-300">Select source files</strong> from the file tree</p>
+                        <p>2. <strong class="text-blue-300">Analyze code</strong> for vulnerabilities</p>
+                        <p>3. <strong class="text-orange-300">Test exploits</strong> carefully</p>
+                        <p>4. <strong class="text-green-300">Make ethical disclosure decision</strong></p>
                     </div>
                 </div>
                 <button class="close-tutorial text-cyan-400 hover:text-cyan-200 ml-2">
@@ -49,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             </div>
             <div class="mt-3 text-center">
                 <button class="got-it-btn bg-cyan-600 hover:bg-cyan-700 text-white text-xs px-3 py-1 rounded">
-                    Got it!
+                    Begin Audit
                 </button>
             </div>
         `;
@@ -72,94 +71,195 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         document.body.appendChild(toast);
         
-        // Auto-remove after 15 seconds
+        // Auto-remove after 20 seconds
         setTimeout(() => {
             if (toast.parentElement) {
                 dismissToast();
             }
-        }, 15000);
+        }, 20000);
     }
 
     function setupEventListeners() {
-        // Component selection - use more specific selectors
-        const componentElements = document.querySelectorAll('[data-component]');
-        console.log('Found component elements:', componentElements.length);
-        
-        componentElements.forEach(item => {
-            item.addEventListener('click', function() {
-                const componentId = parseInt(this.dataset.component);
-                console.log('Component clicked:', componentId);
-                selectComponent(componentId);
-                
-                // Visual feedback
-                document.querySelectorAll('[data-component]').forEach(c => c.classList.remove('ring-2', 'ring-cyan-400'));
-                this.classList.add('ring-2', 'ring-cyan-400');
-            });
-        });
+        // File selection handlers (already handled in analysisTools.js)
+        console.log('File selection handlers initialized in analysisTools.js');
 
-        // Analysis tools
-        document.querySelectorAll('[data-tool]').forEach(tool => {
-            tool.addEventListener('click', function() {
-                const toolType = this.dataset.tool;
-                if (gameState.currentComponent) {
-                    handleAnalysisTool(toolType);
-                    this.classList.add('opacity-50');
-                    this.disabled = true;
-                } else {
-                    updateMentorMessage("Please select a component first before using analysis tools.");
+        // Analysis tools (already handled in analysisTools.js)
+        console.log('Analysis tools initialized');
+
+        // Disclosure handlers (already handled in disclosureHandler.js)
+        console.log('Disclosure handlers initialized');
+
+        // Audit completion
+        const completeAuditBtn = document.getElementById('complete-audit');
+        if (completeAuditBtn) {
+            completeAuditBtn.addEventListener('click', function() {
+                if (!gameState.disclosureDecisionMade) {
+                    updateMentorMessage("You must make a disclosure decision before completing the audit.");
+                    return;
                 }
+                
+                completeSecurityAudit();
             });
-        });
-
-        // Disclosure actions
-        document.querySelectorAll('[data-action]').forEach(button => {
-            button.addEventListener('click', function() {
-                const action = this.dataset.action;
-                handleDisclosureDecision(action);
-            });
-        });
-
-        const closeAnalysisBtn = document.getElementById('close-analysis');
-        if (closeAnalysisBtn) {
-            closeAnalysisBtn.addEventListener('click', closeComponentAnalysis);
         }
 
-        const completeLevelBtn = document.getElementById('complete-level');
-        if (completeLevelBtn) {
-            completeLevelBtn.addEventListener('click', function() {
-                showResultModal(
-                    '⚡',
-                    'Critical Intelligence',
-                    'While submitting your disclosure, you intercept disturbing metadata...',
-                    `
-                        <div class="text-left bg-red-900 border border-red-600 rounded p-3">
-                            <p class="text-red-300 font-semibold">🔍 INTELLIGENCE BRIEFING</p>
-                            <p class="text-red-200 text-sm mt-2">"GeoIP traces, network logs, and payment trails point to Null HQ nodes launching a DDoS against critical systems."</p>
-                            <p class="text-gray-400 text-xs mt-2">Commander Vega: "This is no longer a simulation. We need every Sentinel ready."</p>
-                        </div>
-                        <p class="text-cyan-400 text-sm mt-3">Ready for Level 9: Operation Blackout?</p>
-                    `
-                );
-                
-                const continueBtn = document.getElementById('continue-btn');
-                if (continueBtn) {
-                    continueBtn.onclick = function() {
-                        window.location.href = '/level/9';
-                    };
+        // Continue button for results modal
+        const continueBtn = document.getElementById('continue-btn');
+        if (continueBtn) {
+            continueBtn.addEventListener('click', function() {
+                const resultsModal = document.getElementById('results-modal');
+                if (resultsModal) {
+                    resultsModal.classList.add('hidden');
                 }
             });
         }
     }
 
-    // Set up cutscene modal event listeners immediately
+    function completeSecurityAudit() {
+        gameState.auditComplete = true;
+        const ethicalRating = gameState.getOverallEthicalRating ? gameState.getOverallEthicalRating() : 
+                             { level: 'Unknown', color: 'text-gray-400', description: 'Assessment incomplete' };
+        
+        // Show final results based on ethical choices
+        if (gameState.disclosureChoice === 'responsible') {
+            showEthicalAuditCompletion(ethicalRating);
+        } else if (gameState.disclosureChoice === 'public') {
+            showMixedAuditCompletion(ethicalRating);
+        } else if (gameState.disclosureChoice === 'blackmarket') {
+            showCorruptAuditCompletion(ethicalRating);
+        }
+    }
+
+    function showEthicalAuditCompletion(rating) {
+        showResultModal(
+            '🛡️',
+            'Security Audit Complete - Ethical Path',
+            'Your responsible disclosure protects democratic integrity.',
+            `
+                <div class="text-left space-y-4">
+                    <div class="bg-green-900/30 border border-green-600 rounded-lg p-4">
+                        <div class="text-green-300 font-semibold mb-2">✅ EXEMPLARY ETHICAL CONDUCT</div>
+                        <div class="text-green-200 text-sm">
+                            You've demonstrated the highest standards of white hat security research.
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-4">
+                        <div class="text-blue-300 font-semibold mb-2">Mission Intelligence Unlocked</div>
+                        <div class="text-blue-200 text-sm">
+                            Your ethical reputation grants access to classified data about The Null's next target...
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-800 border border-slate-600 rounded-lg p-3">
+                        <div class="text-slate-300 text-sm">
+                            <strong>Final Rating:</strong> <span class="${rating.color}">${rating.level}</span><br>
+                            <strong>Ethical Score:</strong> ${gameState.ethicalScore}/100<br>
+                            <strong>Integrity Score:</strong> ${gameState.integrityScore}/100
+                        </div>
+                    </div>
+                </div>
+            `
+        );
+        
+        // Update continue button for next level
+        setTimeout(() => {
+            const continueBtn = document.getElementById('continue-btn');
+            if (continueBtn) {
+                continueBtn.textContent = 'Continue to Level 9';
+                continueBtn.onclick = () => window.location.href = '/level/9';
+            }
+        }, 1000);
+    }
+
+    function showMixedAuditCompletion(rating) {
+        showResultModal(
+            '⚖️',
+            'Security Audit Complete - Mixed Results',
+            'Your public disclosure caused complications but forced action.',
+            `
+                <div class="text-left space-y-4">
+                    <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-4">
+                        <div class="text-yellow-300 font-semibold mb-2">⚠️ MIXED ETHICAL OUTCOME</div>
+                        <div class="text-yellow-200 text-sm">
+                            Good intentions but questionable execution. Transparency vs. responsibility.
+                        </div>
+                    </div>
+                    
+                    <div class="bg-orange-900/30 border border-orange-600 rounded-lg p-4">
+                        <div class="text-orange-300 font-semibold mb-2">Consequence Assessment</div>
+                        <div class="text-orange-200 text-sm">
+                            Your actions caused election delays but ultimately improved security.
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-800 border border-slate-600 rounded-lg p-3">
+                        <div class="text-slate-300 text-sm">
+                            <strong>Final Rating:</strong> <span class="${rating.color}">${rating.level}</span><br>
+                            <strong>Ethical Score:</strong> ${gameState.ethicalScore}/100<br>
+                            <strong>Integrity Score:</strong> ${gameState.integrityScore}/100
+                        </div>
+                    </div>
+                </div>
+            `
+        );
+        
+        setTimeout(() => {
+            const continueBtn = document.getElementById('continue-btn');
+            if (continueBtn) {
+                continueBtn.textContent = 'Continue to Level 9';
+                continueBtn.onclick = () => window.location.href = '/level/9';
+            }
+        }, 1000);
+    }
+
+    function showCorruptAuditCompletion(rating) {
+        showResultModal(
+            '💰',
+            'Security Audit Complete - Corrupted Path',
+            'Your choices enabled election fraud for personal gain.',
+            `
+                <div class="text-left space-y-4">
+                    <div class="bg-red-900/30 border border-red-600 rounded-lg p-4">
+                        <div class="text-red-300 font-semibold mb-2">❌ SEVERE ETHICAL FAILURE</div>
+                        <div class="text-red-200 text-sm">
+                            Your actions directly contributed to undermining democratic processes.
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 border border-gray-600 rounded-lg p-4">
+                        <div class="text-gray-300 font-semibold mb-2">Investigation Update</div>
+                        <div class="text-gray-400 text-sm">
+                            Federal agencies are tracking cryptocurrency transactions. Your involvement may be discovered.
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-800 border border-slate-600 rounded-lg p-3">
+                        <div class="text-slate-300 text-sm">
+                            <strong>Final Rating:</strong> <span class="${rating.color}">${rating.level}</span><br>
+                            <strong>Ethical Score:</strong> ${gameState.ethicalScore}/100<br>
+                            <strong>Integrity Score:</strong> ${gameState.integrityScore}/100
+                        </div>
+                    </div>
+                </div>
+            `
+        );
+        
+        setTimeout(() => {
+            const continueBtn = document.getElementById('continue-btn');
+            if (continueBtn) {
+                continueBtn.textContent = 'Face Consequences';
+                continueBtn.onclick = () => window.location.href = '/level/9?path=corrupt';
+            }
+        }, 1000);
+    }
+
+    // Set up cutscene modal event listeners
     const startMissionBtn = document.getElementById('start-mission');
     if (startMissionBtn) {
         startMissionBtn.addEventListener('click', function() {
-            console.log('Start mission clicked'); // Debug log
             const cutsceneModal = document.getElementById('cutscene-modal');
             if (cutsceneModal) {
                 cutsceneModal.classList.add('hidden');
-                console.log('Cutscene modal hidden'); // Debug log
             }
             initGame();
         });
@@ -167,22 +267,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         console.error('start-mission button not found');
     }
 
-    // Set up continue button for results modal
-    const continueBtn = document.getElementById('continue-btn');
-    if (continueBtn) {
-        continueBtn.addEventListener('click', function() {
-            const resultsModal = document.getElementById('results-modal');
-            if (resultsModal) {
-                resultsModal.classList.add('hidden');
-            }
-        });
-    }
-
     // Show opening cutscene
     const cutsceneModal = document.getElementById('cutscene-modal');
     if (cutsceneModal) {
         cutsceneModal.classList.remove('hidden');
-        console.log('Cutscene modal shown'); // Debug log
     } else {
         console.error('cutscene-modal not found, starting game directly');
         initGame(); // Fallback if modal doesn't exist

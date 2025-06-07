@@ -34,13 +34,13 @@ function createMentorNotification(message) {
     
     document.body.appendChild(notification);
     
-    // Auto-remove after 8 seconds
+    // Auto-remove after 10 seconds for longer messages
     setTimeout(() => {
         if (notification.parentElement) {
             notification.classList.add('animate-fade-out');
             setTimeout(() => notification.remove(), 300);
         }
-    }, 8000);
+    }, 10000);
 }
 
 export function createEthicalAlert(message, type = 'info', duration = 5000) {
@@ -79,36 +79,103 @@ export function createEthicalAlert(message, type = 'info', duration = 5000) {
     }, duration);
 }
 
-export function showAuditProgress(completed, total) {
-    // Update audit progress with integrated messaging
-    const progressBar = document.getElementById('audit-progress');
-    const progressText = document.getElementById('audit-progress-text');
+export function showProgressUpdate(phase, description) {
+    // Show progress update with phase information
+    const progressAlert = document.createElement('div');
+    progressAlert.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-800 border-2 border-cyan-500 text-cyan-100 p-6 rounded-xl shadow-2xl z-60 animate-scale-in';
+    progressAlert.innerHTML = `
+        <div class="text-center">
+            <div class="w-16 h-16 bg-cyan-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="bi bi-check-circle text-slate-900 text-2xl"></i>
+            </div>
+            <h3 class="text-cyan-300 font-bold text-lg mb-2">${phase} Complete</h3>
+            <p class="text-cyan-200 text-sm">${description}</p>
+        </div>
+    `;
     
-    if (progressBar && progressText) {
-        const percentage = (completed / total) * 100;
-        progressBar.style.width = percentage + '%';
-        progressText.textContent = `${completed}/${total} components analyzed`;
+    document.body.appendChild(progressAlert);
+    
+    setTimeout(() => {
+        progressAlert.classList.add('animate-fade-out');
+        setTimeout(() => progressAlert.remove(), 300);
+    }, 3000);
+}
+
+export function highlightCodeVulnerability(lineNumber, vulnerabilityType) {
+    // Highlight specific lines in code viewer
+    const codeLines = document.querySelectorAll('#code-content .flex');
+    if (codeLines[lineNumber - 1]) {
+        const line = codeLines[lineNumber - 1];
+        line.classList.add('bg-red-900/40', 'border-l-4', 'border-red-500', 'animate-pulse');
         
-        if (percentage >= 100) {
-            progressBar.className = 'bg-green-500 h-2 rounded transition-all duration-1000';
-            createEthicalAlert('🎯 Security audit complete! All critical components analyzed.', 'success');
+        // Add vulnerability indicator
+        const indicator = document.createElement('span');
+        indicator.className = 'ml-2 text-red-400 text-xs font-bold';
+        indicator.textContent = `← ${vulnerabilityType}`;
+        line.appendChild(indicator);
+        
+        // Remove animation after 3 seconds
+        setTimeout(() => {
+            line.classList.remove('animate-pulse');
+        }, 3000);
+    }
+}
+
+export function showExploitWarning(severity = 'high') {
+    const warning = document.createElement('div');
+    warning.className = 'fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-60';
+    warning.innerHTML = `
+        <div class="bg-red-900 border-2 border-red-500 rounded-xl p-8 max-w-md mx-4">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                    <i class="bi bi-exclamation-triangle text-white text-2xl"></i>
+                </div>
+                <h3 class="text-red-300 font-bold text-xl mb-3">⚠️ EXPLOIT WARNING</h3>
+                <p class="text-red-200 text-sm mb-6">
+                    You are about to test exploits on live election infrastructure. This action carries significant ethical and legal implications.
+                </p>
+                <div class="space-y-3">
+                    <button id="proceed-exploit" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold">
+                        Proceed with Testing
+                    </button>
+                    <button id="cancel-exploit" class="w-full bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg">
+                        Cancel - Too Risky
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(warning);
+    
+    return new Promise((resolve) => {
+        document.getElementById('proceed-exploit').onclick = () => {
+            warning.remove();
+            resolve(true);
+        };
+        
+        document.getElementById('cancel-exploit').onclick = () => {
+            warning.remove();
+            resolve(false);
+        };
+    });
+}
+
+export function animateFileAnalysis(fileName, duration = 3000) {
+    // Show file analysis animation
+    const fileElement = document.querySelector(`[data-file="${fileName.replace('.', '-').replace('/', '-')}"]`);
+    if (fileElement) {
+        fileElement.classList.add('animate-pulse', 'bg-blue-900/30');
+        
+        setTimeout(() => {
+            fileElement.classList.remove('animate-pulse');
+            fileElement.classList.add('bg-green-900/30');
             
-            // Add completion message to audit log
-            const messagesContainer = document.getElementById('audit-messages');
-            if (messagesContainer) {
-                const completionMessage = document.createElement('div');
-                completionMessage.className = 'bg-green-900 border-l-4 border-green-400 rounded p-2 mb-2';
-                completionMessage.innerHTML = `
-                    <div class="text-green-300 font-medium">Audit Complete</div>
-                    <div class="text-green-200 text-xs">Comprehensive security analysis of CivitasVote election system completed. Critical vulnerabilities identified.</div>
-                    <div class="text-green-400 text-xs mt-1">${new Date().toLocaleTimeString()} • Milestone Achieved</div>
-                `;
-                messagesContainer.appendChild(completionMessage);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }
-        } else if (percentage >= 50) {
-            progressBar.className = 'bg-blue-500 h-2 rounded transition-all duration-1000';
-        }
+            // Add completion checkmark
+            const checkmark = document.createElement('i');
+            checkmark.className = 'bi bi-check-circle text-green-400 ml-2';
+            fileElement.appendChild(checkmark);
+        }, duration);
     }
 }
 

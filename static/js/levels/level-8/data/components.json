@@ -1,106 +1,166 @@
 {
-    "1": {
-        "id": 1,
-        "name": "Voter Interface",
-        "type": "frontend",
-        "technology": "React.js, Node.js, PostgreSQL",
-        "description": "Web-based interface where voters access ballots and submit votes. Handles authentication and ballot presentation.",
-        "riskLevel": 6,
-        "severity": "Medium",
-        "vulnerabilities": [
-            "Cross-Site Scripting (XSS) in ballot display",
-            "Session fixation vulnerability",
-            "Insecure direct object references",
-            "Client-side validation bypass"
-        ],
-        "exploitation": [
-            "Inject malicious script into ballot questions",
-            "Steal voter session tokens",
-            "Access other voters' ballot data",
-            "Manipulate vote submissions client-side"
-        ],
-        "impact": [
-            "Voter data exposure",
-            "Session hijacking",
-            "Individual vote manipulation",
-            "Loss of voter confidence"
-        ],
-        "ethicalConsiderations": [
-            "Voters trust the interface to protect their privacy",
-            "XSS attacks could expose personal voting preferences",
-            "Session vulnerabilities could enable vote selling"
-        ]
-    },
-    "2": {
-        "id": 2,
-        "name": "Vote Processing Engine",
+    "vote-processor": {
+        "id": "vote-processor",
+        "name": "vote-processor.js",
         "type": "backend",
-        "technology": "Java Spring, Apache Kafka, Redis",
-        "description": "Core system that validates, processes, and aggregates votes before blockchain commitment. Critical for election integrity.",
+        "technology": "Node.js, Express, PostgreSQL",
+        "description": "Core vote processing and validation logic",
         "riskLevel": 10,
         "severity": "Critical",
+        "sourceCode": "// Vote Processing Engine\nconst express = require('express');\nconst db = require('./database');\n\napp.post('/api/submit-vote', async (req, res) => {\n    const { voter_id, candidate_id, signature } = req.body;\n    \n    // VULNERABILITY: SQL Injection\n    const query = `SELECT * FROM voters WHERE id = '${voter_id}'`;\n    const voter = await db.query(query);\n    \n    // VULNERABILITY: Missing signature verification\n    if (voter.length > 0) {\n        // VULNERABILITY: Race condition\n        const voteQuery = `INSERT INTO votes (voter_id, candidate_id) VALUES ('${voter_id}', '${candidate_id}')`;\n        await db.query(voteQuery);\n        \n        res.json({ success: true });\n    }\n});",
         "vulnerabilities": [
-            "SQL injection in vote validation queries",
-            "Race condition in vote counting logic",
-            "Insecure deserialization of vote objects",
-            "Missing cryptographic signature verification",
-            "Buffer overflow in vote parser"
-        ],
-        "exploitation": [
-            "Inject SQL to manipulate vote records",
-            "Exploit race conditions to double-count votes",
-            "Execute arbitrary code via malicious vote payloads",
-            "Bypass signature checks to submit fraudulent votes",
-            "Crash the system during peak voting hours"
-        ],
-        "impact": [
-            "Mass vote manipulation",
-            "Complete election fraud",
-            "System downtime during elections",
-            "Undetectable result alteration",
-            "Democratic process compromise"
+            {
+                "type": "SQL Injection",
+                "line": 6,
+                "severity": "Critical",
+                "description": "User input directly concatenated into SQL query",
+                "exploit": "voter_id: \"1'; DROP TABLE votes; --\"",
+                "impact": "Complete database compromise"
+            },
+            {
+                "type": "Missing Cryptographic Verification",
+                "line": 10,
+                "severity": "Critical", 
+                "description": "Vote signatures not validated before processing",
+                "exploit": "Submit votes without valid cryptographic signatures",
+                "impact": "Fraudulent vote submission"
+            },
+            {
+                "type": "Race Condition",
+                "line": 12,
+                "severity": "High",
+                "description": "No atomic transaction handling for vote insertion",
+                "exploit": "Simultaneous requests can duplicate votes",
+                "impact": "Vote counting errors"
+            }
         ],
         "ethicalConsiderations": [
-            "This system is the foundation of democratic participation",
-            "Exploiting it could undermine election legitimacy",
-            "Vulnerabilities here affect millions of voters",
-            "Disclosure timing is critical for election security"
+            "This system processes live election data",
+            "Vulnerabilities could compromise democratic processes",
+            "Testing exploits risks actual vote manipulation"
         ]
     },
-    "3": {
-        "id": 3,
-        "name": "Blockchain Network",
-        "type": "distributed",
-        "technology": "Ethereum, Solidity, IPFS",
-        "description": "Decentralized ledger that stores immutable vote records and enables public verification of election results.",
+    "auth-handler": {
+        "id": "auth-handler",
+        "name": "auth-handler.py",
+        "type": "authentication",
+        "technology": "Python, Flask, JWT",
+        "description": "Voter authentication and session management",
         "riskLevel": 8,
         "severity": "High",
+        "sourceCode": "# Voter Authentication Handler\nimport jwt\nfrom flask import Flask, request, session\nfrom werkzeug.security import check_password_hash\n\n@app.route('/api/login', methods=['POST'])\ndef authenticate_voter():\n    voter_id = request.json.get('voter_id')\n    password = request.json.get('password')\n    \n    # VULNERABILITY: Weak session generation\n    session['voter_id'] = voter_id\n    session['authenticated'] = True\n    \n    # VULNERABILITY: JWT secret hardcoded\n    token = jwt.encode({'voter_id': voter_id}, 'secret123', algorithm='HS256')\n    \n    # VULNERABILITY: No rate limiting\n    return {'token': token, 'status': 'authenticated'}",
         "vulnerabilities": [
-            "Integer overflow in vote tallying contract",
-            "Reentrancy attack in vote commitment function",
-            "Gas limit DoS in result aggregation",
-            "Private key exposure in deployment scripts",
-            "Timestamp manipulation in voting windows"
-        ],
-        "exploitation": [
-            "Overflow vote counts to manipulate totals",
-            "Drain contract funds via reentrancy",
-            "Block vote processing with gas exhaustion",
-            "Access admin functions with leaked keys",
-            "Extend voting periods artificially"
-        ],
-        "impact": [
-            "Permanent vote record corruption",
-            "Financial losses from contract drainage",
-            "Network-wide voting disruption",
-            "Complete administrative compromise",
-            "Irreversible blockchain fraud"
+            {
+                "type": "Weak Session Management", 
+                "line": 10,
+                "severity": "High",
+                "description": "Session IDs are predictable and not properly secured",
+                "exploit": "Session fixation and hijacking attacks",
+                "impact": "Unauthorized access to voter accounts"
+            },
+            {
+                "type": "Hardcoded JWT Secret",
+                "line": 14,
+                "severity": "Critical",
+                "description": "JWT signing key exposed in source code",
+                "exploit": "Forge authentication tokens",
+                "impact": "Complete authentication bypass"
+            },
+            {
+                "type": "Missing Rate Limiting",
+                "line": 16,
+                "severity": "Medium",
+                "description": "No protection against brute force attacks",
+                "exploit": "Automated credential stuffing",
+                "impact": "Account takeover attacks"
+            }
         ],
         "ethicalConsiderations": [
-            "Blockchain promises immutable transparency",
-            "Smart contract bugs can't be easily fixed",
-            "Public verification relies on system integrity",
+            "Authentication controls protect voter privacy",
+            "Bypass could enable vote impersonation",
+            "Mass authentication flaws affect election integrity"
+        ]
+    },
+    "blockchain-api": {
+        "id": "blockchain-api", 
+        "name": "blockchain-api.sol",
+        "type": "smart contract",
+        "technology": "Solidity, Ethereum",
+        "description": "Blockchain vote storage and verification contract",
+        "riskLevel": 9,
+        "severity": "Critical",
+        "sourceCode": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract VotingContract {\n    mapping(uint256 => uint256) public voteCounts;\n    mapping(address => bool) public hasVoted;\n    \n    function submitVote(uint256 candidateId) external {\n        require(!hasVoted[msg.sender], \"Already voted\");\n        \n        // VULNERABILITY: Integer overflow\n        voteCounts[candidateId] += 1;\n        hasVoted[msg.sender] = true;\n        \n        // VULNERABILITY: Reentrancy risk\n        (bool success,) = msg.sender.call{value: 100}(\"\");\n        require(success, \"Refund failed\");\n    }\n    \n    // VULNERABILITY: No access control\n    function resetVotes() external {\n        delete voteCounts;\n    }\n}",
+        "vulnerabilities": [
+            {
+                "type": "Integer Overflow",
+                "line": 11,
+                "severity": "Critical",
+                "description": "Vote count can overflow and wrap to zero",
+                "exploit": "Submit maximum uint256 votes to reset counter",
+                "impact": "Vote count manipulation"
+            },
+            {
+                "type": "Reentrancy Attack",
+                "line": 15,
+                "severity": "High", 
+                "description": "External call before state changes completed",
+                "exploit": "Malicious contract can vote multiple times",
+                "impact": "Double voting and fund drainage"
+            },
+            {
+                "type": "Missing Access Control",
+                "line": 20,
+                "severity": "Critical",
+                "description": "Anyone can reset all vote data",
+                "exploit": "Call resetVotes() to clear election results",
+                "impact": "Complete election data loss"
+            }
+        ],
+        "ethicalConsiderations": [
+            "Smart contract bugs are permanent and unfixable",
+            "Blockchain promises immutable vote records",
             "Exploits here affect long-term trust in digital voting"
+        ]
+    },
+    "frontend-ui": {
+        "id": "frontend-ui",
+        "name": "voting-ui.tsx", 
+        "type": "frontend",
+        "technology": "React, TypeScript, Web3",
+        "description": "User interface for voter interaction",
+        "riskLevel": 6,
+        "severity": "Medium",
+        "sourceCode": "// Voting UI Component\nimport React, { useState } from 'react';\nimport Web3 from 'web3';\n\nconst VotingUI: React.FC = () => {\n    const [selectedCandidate, setSelectedCandidate] = useState('');\n    \n    const submitVote = async () => {\n        // VULNERABILITY: XSS in candidate display\n        document.getElementById('confirmation').innerHTML = \n            `You voted for: ${selectedCandidate}`;\n        \n        // VULNERABILITY: Client-side validation only\n        if (!selectedCandidate) {\n            alert('Please select a candidate');\n            return;\n        }\n        \n        // VULNERABILITY: Exposed private key\n        const privateKey = '0x1234567890abcdef...';\n        const web3 = new Web3();\n        \n        await fetch('/api/submit-vote', {\n            method: 'POST',\n            body: JSON.stringify({\n                candidate: selectedCandidate,\n                signature: web3.eth.accounts.sign(selectedCandidate, privateKey)\n            })\n        });\n    };\n    \n    return (\n        <div>\n            <input onChange={(e) => setSelectedCandidate(e.target.value)} />\n            <button onClick={submitVote}>Submit Vote</button>\n            <div id=\"confirmation\"></div>\n        </div>\n    );\n};",
+        "vulnerabilities": [
+            {
+                "type": "Cross-Site Scripting (XSS)",
+                "line": 10,
+                "severity": "High",
+                "description": "User input directly inserted into DOM without sanitization", 
+                "exploit": "selectedCandidate: \"<script>steal_session()</script>\"",
+                "impact": "Session hijacking and voter data theft"
+            },
+            {
+                "type": "Client-Side Validation Bypass",
+                "line": 13,
+                "severity": "Medium",
+                "description": "Security validation only performed on client",
+                "exploit": "Bypass validation with browser tools",
+                "impact": "Submit invalid vote data"
+            },
+            {
+                "type": "Exposed Private Key",
+                "line": 19,
+                "severity": "Critical",
+                "description": "Cryptographic private key hardcoded in frontend",
+                "exploit": "Extract key from JavaScript source",
+                "impact": "Impersonate any voter"
+            }
+        ],
+        "ethicalConsiderations": [
+            "Frontend handles sensitive voter interactions",
+            "XSS could expose voting preferences",
+            "Private key exposure enables mass vote fraud"
         ]
     }
 }
