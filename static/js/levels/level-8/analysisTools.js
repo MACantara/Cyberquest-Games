@@ -331,37 +331,3 @@ function showScanningProgress() {
     `;
     document.getElementById('analysis-results').classList.remove('hidden');
 }
-
-export function createSecurityAlert(message, type = 'info') {
-    const alert = document.createElement('div');
-    
-    const alertStyles = {
-        info: { bg: 'bg-blue-900', border: 'border-blue-500', text: 'text-blue-300' },
-        success: { bg: 'bg-green-900', border: 'border-green-500', text: 'text-green-300' },
-        warning: { bg: 'bg-yellow-900', border: 'border-yellow-500', text: 'text-yellow-300' },
-        error: { bg: 'bg-red-900', border: 'border-red-500', text: 'text-red-300' }
-    };
-    
-    const style = alertStyles[type] || alertStyles.info;
-    
-    alert.className = `fixed top-20 right-4 w-80 ${style.bg} border-2 ${style.border} ${style.text} p-3 rounded-lg shadow-xl z-50 animate-slide-in`;
-    alert.innerHTML = `
-        <div class="flex items-start gap-3">
-            <i class="bi bi-shield-exclamation text-lg mt-0.5"></i>
-            <div class="flex-1">
-                <div class="text-sm leading-relaxed">${message}</div>
-            </div>
-            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-white ml-2">
-                <i class="bi bi-x text-sm"></i>
-            </button>
-        </div>
-    `;
-    
-    document.body.appendChild(alert);
-    
-    setTimeout(() => {
-        if (alert.parentElement) {
-            alert.remove();
-        }
-    }, 5000);
-}
