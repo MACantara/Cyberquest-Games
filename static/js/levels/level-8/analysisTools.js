@@ -76,7 +76,7 @@ function performVulnerabilityScan(component) {
         
         if (component.id === 2) {
             updateMentorMessage("Critical vulnerabilities detected in the vote processing engine! This system handles live election data - extreme caution required for any further testing.");
-            createSecurityAlert("Critical vulnerabilities found in core voting system!", "error");
+            createEthicalAlert("Critical vulnerabilities found in core voting system!", "error");
         }
     }, 3000);
 }
