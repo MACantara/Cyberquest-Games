@@ -67,28 +67,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
         });
 
-        // Modal and UI event handlers
-        const startMissionBtn = document.getElementById('start-mission');
-        if (startMissionBtn) {
-            startMissionBtn.addEventListener('click', function() {
-                const cutsceneModal = document.getElementById('cutscene-modal');
-                if (cutsceneModal) {
-                    cutsceneModal.classList.add('hidden');
-                }
-                initGame();
-            });
-        }
-
-        const continueBtn = document.getElementById('continue-btn');
-        if (continueBtn) {
-            continueBtn.addEventListener('click', function() {
-                const resultsModal = document.getElementById('results-modal');
-                if (resultsModal) {
-                    resultsModal.classList.add('hidden');
-                }
-            });
-        }
-
         const closeAnalysisBtn = document.getElementById('close-analysis');
         if (closeAnalysisBtn) {
             closeAnalysisBtn.addEventListener('click', closeComponentAnalysis);
@@ -121,9 +99,40 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
+    // Set up cutscene modal event listeners immediately
+    const startMissionBtn = document.getElementById('start-mission');
+    if (startMissionBtn) {
+        startMissionBtn.addEventListener('click', function() {
+            console.log('Start mission clicked'); // Debug log
+            const cutsceneModal = document.getElementById('cutscene-modal');
+            if (cutsceneModal) {
+                cutsceneModal.classList.add('hidden');
+                console.log('Cutscene modal hidden'); // Debug log
+            }
+            initGame();
+        });
+    } else {
+        console.error('start-mission button not found');
+    }
+
+    // Set up continue button for results modal
+    const continueBtn = document.getElementById('continue-btn');
+    if (continueBtn) {
+        continueBtn.addEventListener('click', function() {
+            const resultsModal = document.getElementById('results-modal');
+            if (resultsModal) {
+                resultsModal.classList.add('hidden');
+            }
+        });
+    }
+
     // Show opening cutscene
     const cutsceneModal = document.getElementById('cutscene-modal');
     if (cutsceneModal) {
         cutsceneModal.classList.remove('hidden');
+        console.log('Cutscene modal shown'); // Debug log
+    } else {
+        console.error('cutscene-modal not found, starting game directly');
+        initGame(); // Fallback if modal doesn't exist
     }
 });
