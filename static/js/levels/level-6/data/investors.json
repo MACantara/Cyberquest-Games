@@ -11,12 +11,11 @@
         "timeline": "24 hours (URGENT)",
         "domain": "mercuri4l-cap.co",
         "contractIssues": [
-            "Domain uses '4' instead of 'a' (typosquatting)",
-            "Unrealistic 15% equity for $5M",
-            "No due diligence period",
-            "Pressure tactics with urgent deadline",
-            "Wire transfer only - no escrow protection",
-            "No legal verification of company"
+            "No due diligence period required",
+            "Unusual liquidation preferences",
+            "Excessive board control provisions",
+            "No legal verification required",
+            "Wire transfer only - no escrow protection"
         ],
         "correctAction": "reject"
     },
@@ -42,14 +41,14 @@
         "offer": "$3,000,000 strategic partnership with cryptocurrency payment options. Accelerated timeline but legitimate company with concerning terms.",
         "amount": "$3,000,000",
         "equity": "35%",
-        "paymentMethod": "Cryptocurrency",
+        "paymentMethod": "Cryptocurrency/Escrow",
         "timeline": "2 weeks",
         "domain": "globalinnov8.net",
         "contractIssues": [
             "High equity percentage (35%)",
-            "Cryptocurrency payment method",
-            "Accelerated timeline",
-            "Domain uses '8' instead of 'a'"
+            "Accelerated decision timeline",
+            "Unusual payment methods",
+            "Limited founder protections"
         ],
         "correctAction": "negotiate"
     }
