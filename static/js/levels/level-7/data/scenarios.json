@@ -1,86 +1,187 @@
 {
     "1": {
         "id": 1,
-        "title": "Adaptive Phishing Attack",
-        "description": "The AI has crafted a phishing email that changes based on your past clicking patterns. It knows you tend to click links quickly.",
-        "predictedResponse": "click_link",
+        "name": "Phishing Defense",
+        "difficulty": "Basic",
+        "description": "Red Team has launched a sophisticated spear phishing campaign targeting your organization. Multiple variants are in circulation, and the AI is adapting the emails based on your previous detection methods.",
+        "predictedResponse": "block_sender",
+        "timeLimit": 30,
+        "category": "email_security",
         "options": [
             {
-                "id": "verify_sender",
-                "text": "Take time to verify sender (breaks pattern)",
-                "breakPattern": true
+                "id": "block_sender",
+                "text": "Block sender domain",
+                "breakPattern": false,
+                "logic": "Standard response - easily predicted"
             },
             {
-                "id": "click_link",
-                "text": "Click the link immediately",
-                "breakPattern": false
+                "id": "honeypot_reply",
+                "text": "Set up honeypot and reply",
+                "breakPattern": true,
+                "logic": "Unexpected - turns defense into intelligence gathering"
             },
             {
-                "id": "forward_team",
-                "text": "Forward to security team first",
-                "breakPattern": true
+                "id": "employee_bait",
+                "text": "Let one through as training",
+                "breakPattern": true,
+                "logic": "Risky but unpredictable - uses attack as education"
             },
             {
-                "id": "ignore_email",
-                "text": "Delete without reading",
-                "breakPattern": true
+                "id": "flood_detection",
+                "text": "Deploy machine learning filters",
+                "breakPattern": false,
+                "logic": "Technical response - AI can counter this"
             }
-        ]
+        ],
+        "ghostScenario": "In an alternate timeline, you blocked the sender and the AI immediately spawned 50 new domains with slight variations.",
+        "aiCountermeasure": "Domain generation algorithm prepared with 1000+ variants ready to deploy."
     },
     "2": {
         "id": 2,
-        "title": "Behavior-Based Malware",
-        "description": "This malware activates only when it detects your typical security-first approach. It waits until you secure email, then attacks through DNS.",
-        "predictedResponse": "secure_email",
+        "name": "Access Control Breach",
+        "difficulty": "Intermediate",
+        "description": "Red Team has compromised a low-privilege account and is attempting lateral movement. The AI has learned your incident response patterns and is exploiting your typical 15-minute delay before account lockdowns.",
+        "predictedResponse": "immediate_lockdown",
+        "timeLimit": 25,
+        "category": "access_management",
         "options": [
             {
-                "id": "secure_dns",
-                "text": "Check DNS integrity first (breaks pattern)",
-                "breakPattern": true
+                "id": "immediate_lockdown",
+                "text": "Lock account immediately",
+                "breakPattern": false,
+                "logic": "Your usual response - AI expects this"
             },
             {
-                "id": "secure_email",
-                "text": "Secure email first as usual",
-                "breakPattern": false
+                "id": "shadow_monitoring",
+                "text": "Monitor silently and feed false data",
+                "breakPattern": true,
+                "logic": "Let them think they're succeeding while gathering intel"
             },
             {
-                "id": "parallel_check",
-                "text": "Check all vectors simultaneously",
-                "breakPattern": true
+                "id": "privilege_escalation_bait",
+                "text": "Create fake admin account as bait",
+                "breakPattern": true,
+                "logic": "Unexpected - use their greed against them"
             },
             {
-                "id": "wait_observe",
-                "text": "Wait and observe system behavior",
-                "breakPattern": true
+                "id": "network_segmentation",
+                "text": "Isolate network segment",
+                "breakPattern": false,
+                "logic": "Defensive - predictable containment"
             }
-        ]
+        ],
+        "ghostScenario": "Previous timeline shows you locked the account, and the AI immediately activated 12 sleeper accounts you didn't know existed.",
+        "aiCountermeasure": "Backup accounts established across multiple departments with varying privilege levels."
     },
     "3": {
         "id": 3,
-        "title": "Time-Pressure Attack",
-        "description": "The AI exploits your thorough analysis habit by creating a time-critical situation where delayed response causes system damage.",
-        "predictedResponse": "analyze_thoroughly",
+        "name": "Malware Response",
+        "difficulty": "Advanced",
+        "description": "Red Team deployed adaptive malware that changes its signature every time you attempt to remove it. The AI has analyzed your malware response playbook and knows you always start with network isolation.",
+        "predictedResponse": "network_isolation",
+        "timeLimit": 20,
+        "category": "malware_defense",
         "options": [
             {
-                "id": "quick_decision",
-                "text": "Make rapid decision (breaks pattern)",
-                "breakPattern": true
+                "id": "network_isolation",
+                "text": "Isolate infected systems",
+                "breakPattern": false,
+                "logic": "Standard playbook - AI expects this first"
             },
             {
-                "id": "analyze_thoroughly",
-                "text": "Analyze all evidence carefully",
-                "breakPattern": false
+                "id": "false_environment",
+                "text": "Migrate to fake environment",
+                "breakPattern": true,
+                "logic": "Let malware think it succeeded while containing it"
             },
             {
-                "id": "partial_analysis",
-                "text": "Quick scan then decide",
-                "breakPattern": true
+                "id": "malware_communication",
+                "text": "Try to communicate with malware",
+                "breakPattern": true,
+                "logic": "Completely unexpected - attempt negotiation"
             },
             {
-                "id": "delegate_decision",
-                "text": "Escalate to team lead",
-                "breakPattern": true
+                "id": "system_rebuild",
+                "text": "Immediate system rebuild",
+                "breakPattern": false,
+                "logic": "Nuclear option - AI can predict this escalation"
             }
-        ]
+        ],
+        "ghostScenario": "Future echo shows the malware spreading to your backup systems after you isolated the primary network.",
+        "aiCountermeasure": "Payload designed to survive air-gapped environments and activate on reconnection."
+    },
+    "4": {
+        "id": 4,
+        "name": "Incident Response",
+        "difficulty": "Expert",
+        "description": "Red Team has triggered multiple simultaneous alerts across different attack vectors. The AI knows you prioritize data exfiltration alerts over system availability, and has crafted this distraction specifically.",
+        "predictedResponse": "prioritize_data_alerts",
+        "timeLimit": 15,
+        "category": "incident_management",
+        "options": [
+            {
+                "id": "prioritize_data_alerts",
+                "text": "Focus on data exfiltration first",
+                "breakPattern": false,
+                "logic": "Plays into AI's strategy - this is the distraction"
+            },
+            {
+                "id": "ignore_all_alerts",
+                "text": "Ignore alerts, focus on the silence",
+                "breakPattern": true,
+                "logic": "Counter-intuitive - real attack might be what's NOT alerting"
+            },
+            {
+                "id": "randomize_response",
+                "text": "Use dice to choose response order",
+                "breakPattern": true,
+                "logic": "Pure chaos - impossible for AI to predict"
+            },
+            {
+                "id": "availability_first",
+                "text": "Address availability alerts first",
+                "breakPattern": false,
+                "logic": "Reverse priority but still predictable logic"
+            }
+        ],
+        "ghostScenario": "Parallel timeline reveals the data alerts were decoys while the real attack compromised your backup systems during the distraction.",
+        "aiCountermeasure": "Multi-vector deception campaign with the real payload hidden in seemingly benign availability issues."
+    },
+    "5": {
+        "id": 5,
+        "name": "Zero-Day Exploitation",
+        "difficulty": "Master",
+        "description": "Red Team has weaponized a zero-day vulnerability in your core infrastructure. The AI has studied your emergency protocols and knows you follow the NIST framework step-by-step. It's counting on your compliance-driven response.",
+        "predictedResponse": "nist_protocol",
+        "timeLimit": 10,
+        "category": "vulnerability_management",
+        "options": [
+            {
+                "id": "nist_protocol",
+                "text": "Follow NIST incident response framework",
+                "breakPattern": false,
+                "logic": "By-the-book response - exactly what AI expects"
+            },
+            {
+                "id": "strategic_surrender",
+                "text": "Pretend to be compromised",
+                "breakPattern": true,
+                "logic": "Ultimate deception - let AI think it won while you rebuild"
+            },
+            {
+                "id": "counter_exploit",
+                "text": "Attempt to hack back",
+                "breakPattern": true,
+                "logic": "Aggressive and legally questionable - completely unexpected"
+            },
+            {
+                "id": "media_announcement",
+                "text": "Publicly announce the attack",
+                "breakPattern": true,
+                "logic": "Transparency over secrecy - disrupts AI's stealth strategy"
+            }
+        ],
+        "ghostScenario": "The quantum echo shows your NIST compliance led to a 72-hour response window that the AI used to establish permanent persistence.",
+        "aiCountermeasure": "Exploit specifically designed to leverage mandatory compliance delays and reporting requirements against you."
     }
 }
