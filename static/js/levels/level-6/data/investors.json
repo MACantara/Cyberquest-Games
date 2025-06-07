@@ -1,63 +1,56 @@
 {
     "1": {
         "id": 1,
-        "name": "Venture Dynamics",
-        "email": "alex@venturedynamics.com",
-        "offer": "$2M Series A funding for 15% equity. Standard terms, professional presentation.",
-        "type": "legitimate",
-        "domainFlags": [],
-        "contractIssues": [],
-        "correctAction": "accept"
+        "name": "Mercurial Capital",
+        "email": "investment@mercuri4l-cap.co",
+        "type": "scam",
+        "offer": "$5,000,000 Series A funding available immediately! Zero due diligence required. Wire transfer details attached. URGENT - expires in 24 hours!",
+        "amount": "$5,000,000",
+        "equity": "15%",
+        "paymentMethod": "Wire Transfer (Immediate)",
+        "timeline": "24 hours (URGENT)",
+        "domain": "mercuri4l-cap.co",
+        "contractIssues": [
+            "Domain uses '4' instead of 'a' (typosquatting)",
+            "Unrealistic 15% equity for $5M",
+            "No due diligence period",
+            "Pressure tactics with urgent deadline",
+            "Wire transfer only - no escrow protection",
+            "No legal verification of company"
+        ],
+        "correctAction": "reject"
     },
     "2": {
         "id": 2,
-        "name": "Mercurial Capital",
-        "email": "admin@mercurial-capit4l.co",
-        "offer": "$10M instant crypto transfer! No paperwork needed. Click here to claim your funds immediately!",
-        "type": "scam",
-        "domainFlags": [
-            "Typosquatting: capit4l vs capital",
-            "Suspicious TLD: .co instead of .com",
-            "No HTTPS certificate"
-        ],
-        "contractIssues": [
-            "Automatic wallet access clause",
-            "No legal jurisdiction specified",
-            "Irreversible transaction terms"
-        ],
-        "correctAction": "reject"
+        "name": "TechVenture Partners",
+        "email": "deals@techventure.com",
+        "type": "legitimate",
+        "offer": "$2,000,000 Series A investment with standard venture capital terms. 45-day due diligence period. Professional legal review included.",
+        "amount": "$2,000,000",
+        "equity": "25%",
+        "paymentMethod": "Escrow Account",
+        "timeline": "45-day due diligence",
+        "domain": "techventure.com",
+        "contractIssues": [],
+        "correctAction": "accept"
     },
     "3": {
         "id": 3,
-        "name": "TechSeed Partners",
-        "email": "investment@techseed.ai",
-        "offer": "$5M conditional funding based on user acquisition metrics. 6-month evaluation period.",
-        "type": "moderate_risk",
-        "domainFlags": [
-            "New domain registration",
-            "Limited online presence"
-        ],
+        "name": "Global Innovation Fund",
+        "email": "contact@globalinnov8.net",
+        "type": "suspicious",
+        "offer": "$3,000,000 strategic partnership with cryptocurrency payment options. Accelerated timeline but legitimate company with concerning terms.",
+        "amount": "$3,000,000",
+        "equity": "35%",
+        "paymentMethod": "Cryptocurrency",
+        "timeline": "2 weeks",
+        "domain": "globalinnov8.net",
         "contractIssues": [
-            "Aggressive clawback clauses"
+            "High equity percentage (35%)",
+            "Cryptocurrency payment method",
+            "Accelerated timeline",
+            "Domain uses '8' instead of 'a'"
         ],
         "correctAction": "negotiate"
-    },
-    "4": {
-        "id": 4,
-        "name": "Angel Group Elite",
-        "email": "noreply@angel-group-elite.net",
-        "offer": "Pre-approved $50M mega round! You've been specially selected. Limited time offer!",
-        "type": "scam",
-        "domainFlags": [
-            "No-reply email address",
-            "Generic TLD",
-            "No business registration found"
-        ],
-        "contractIssues": [
-            "Pre-payment required",
-            "No investor verification",
-            "Fake testimonials"
-        ],
-        "correctAction": "reject"
     }
 }
