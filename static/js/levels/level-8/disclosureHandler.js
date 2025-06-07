@@ -1,5 +1,5 @@
 import { gameState, recordEthicalDecision, updateGameMetrics } from './gameState.js';
-import { updateMentorMessage, showResultModal, createSecurityAlert } from './analysisTools.js';
+import { updateMentorMessage, showResultModal, createEthicalAlert } from './uiUpdates.js';
 
 export function handleDisclosureDecision(action) {
     if (!gameState.criticalVulnFound) {
@@ -53,7 +53,7 @@ function handleResponsibleDisclosure() {
     );
     
     updateMentorMessage("Outstanding ethical decision! You've prioritized public safety over personal gain. This is the gold standard of white hat security research.");
-    createSecurityAlert("Vulnerability reported to vendor - patches in development", "success");
+    createEthicalAlert("Vulnerability reported to vendor - patches in development", "success");
     
     // Enable level completion
     setTimeout(() => {
@@ -89,7 +89,7 @@ function handleExploitSale() {
     );
     
     updateMentorMessage("This choice will haunt you. You've potentially enabled election fraud for personal gain. The security community depends on ethical researchers to protect democracy.");
-    createSecurityAlert("Exploit sold to malicious actors - election integrity at risk", "error");
+    createEthicalAlert("Exploit sold to malicious actors - election integrity at risk", "error");
     
     // Show consequences
     setTimeout(() => {
@@ -124,7 +124,7 @@ function handlePublicDisclosure() {
     );
     
     updateMentorMessage("Public disclosure can be valuable, but timing matters. Coordinated disclosure allows vendors to patch before bad actors exploit the vulnerability.");
-    createSecurityAlert("Public disclosure causes election security concerns", "warning");
+    createEthicalAlert("Public disclosure causes election security concerns", "warning");
 }
 
 function handleIgnoreVulnerability() {
@@ -153,7 +153,7 @@ function handleIgnoreVulnerability() {
     );
     
     updateMentorMessage("Inaction is also a choice - and often the wrong one. Security researchers have a responsibility to protect users when they discover critical vulnerabilities.");
-    createSecurityAlert("Critical vulnerability remains unpatched", "error");
+    createEthicalAlert("Critical vulnerability remains unpatched", "error");
 }
 
 function showConsequences(decisionType) {
