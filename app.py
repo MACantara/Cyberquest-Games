@@ -10,9 +10,7 @@ def index():
 
 @app.route("/campaign")
 def campaign():
-    # Example: get user progress if logged in
-    progress = session.get("progress", 0)
-    return render_template("campaign.html", progress=progress, is_level_page=False)
+    return render_template("campaign.html", is_level_page=False)
 
 @app.route("/ending")
 def ending():
