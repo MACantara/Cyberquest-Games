@@ -101,72 +101,112 @@
                     </div>
                 </div>
 
-                <!-- Active Component Analysis -->
-                <div id="component-analysis" class="hidden mt-6 bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700">
-                    <div class="p-4 border-b border-slate-700">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-lg font-semibold text-white" id="component-title">Component Analysis</h3>
-                            <button id="close-analysis" class="text-slate-400 hover:text-white">
-                                <i class="bi bi-x-lg"></i>
-                            </button>
-                        </div>
+                <!-- Ethical Decision Panel -->
+                <div id="decision-panel" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
+                    <h3 class="text-lg font-semibold text-yellow-400 mb-4">⚖️ Ethical Disclosure Decision</h3>
+                    
+                    <div id="dilemma-content" class="mb-6">
+                        <!-- Populated by JavaScript when critical vulnerability found -->
+                    </div>
+
+                    <div id="decision-options" class="space-y-3">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Component Analysis & Controls Panel -->
+            <div class="col-span-4">
+                <!-- Component Analysis Panel -->
+                <div id="component-analysis" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 id="component-title" class="text-lg font-semibold text-white">Component Analysis</h3>
+                        <button id="close-analysis" class="text-slate-400 hover:text-white">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
                     </div>
                     
-                    <div class="p-6">
-                        <div class="grid grid-cols-2 gap-6">
-                            <!-- Component Details -->
-                            <div>
-                                <h4 class="font-semibold text-white mb-3">Component Information</h4>
-                                <div id="component-details" class="space-y-2 text-sm">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-                            
-                            <!-- Security Analysis Tools -->
-                            <div>
-                                <h4 class="font-semibold text-white mb-3">Security Analysis Tools</h4>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <button class="analysis-tool bg-blue-700 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm" 
-                                            data-tool="scan">
-                                        <i class="bi bi-search mr-1"></i> Vulnerability Scan
-                                    </button>
-                                    <button class="analysis-tool bg-orange-700 hover:bg-orange-600 text-white px-3 py-2 rounded text-sm" 
-                                            data-tool="exploit">
-                                        <i class="bi bi-bug mr-1"></i> Exploit Test
-                                    </button>
-                                    <button class="analysis-tool bg-green-700 hover:bg-green-600 text-white px-3 py-2 rounded text-sm" 
-                                            data-tool="assess">
-                                        <i class="bi bi-clipboard-data mr-1"></i> Risk Assessment
-                                    </button>
-                                    <button class="analysis-tool bg-purple-700 hover:bg-purple-600 text-white px-3 py-2 rounded text-sm" 
-                                            data-tool="document">
-                                        <i class="bi bi-file-text mr-1"></i> Document Finding
-                                    </button>
-                                </div>
-                            </div>
+                    <div id="component-details" class="mb-6">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <!-- Analysis Tools -->
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <button class="analysis-tool bg-blue-700 hover:bg-blue-600 text-white px-4 py-3 rounded-lg transition-colors" data-tool="scan">
+                            <i class="bi bi-search mr-2"></i>
+                            Vulnerability Scan
+                        </button>
+                        <button class="analysis-tool bg-orange-700 hover:bg-orange-600 text-white px-4 py-3 rounded-lg transition-colors" data-tool="exploit">
+                            <i class="bi bi-bug mr-2"></i>
+                            Exploit Test
+                        </button>
+                        <button class="analysis-tool bg-purple-700 hover:bg-purple-600 text-white px-4 py-3 rounded-lg transition-colors" data-tool="assess">
+                            <i class="bi bi-shield-check mr-2"></i>
+                            Risk Assessment
+                        </button>
+                        <button class="analysis-tool bg-green-700 hover:bg-green-600 text-white px-4 py-3 rounded-lg transition-colors" data-tool="document">
+                            <i class="bi bi-file-text mr-2"></i>
+                            Document Findings
+                        </button>
+                    </div>
+
+                    <!-- Analysis Results -->
+                    <div id="analysis-results" class="hidden">
+                        <h4 class="text-white font-semibold mb-3">Analysis Results</h4>
+                        <div id="results-content" class="bg-slate-900 rounded-lg p-4 border border-slate-600">
+                            <!-- Populated by analysis tools -->
                         </div>
-                        
-                        <!-- Analysis Results -->
-                        <div id="analysis-results" class="hidden mt-6">
-                            <h4 class="font-semibold text-white mb-3">Analysis Results</h4>
-                            <div id="results-content" class="bg-slate-900/50 rounded-lg p-4">
-                                <!-- Results populated by analysis tools -->
-                            </div>
-                        </div>
-                        
-                        <!-- Critical Vulnerability Found -->
-                        <div id="critical-vulnerability" class="hidden mt-6 bg-red-900/30 border border-red-600 rounded-lg p-4">
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-exclamation-triangle-fill text-red-400 text-xl mt-1"></i>
-                                <div>
-                                    <h4 class="font-semibold text-red-300 mb-2">Critical Vulnerability Discovered</h4>
-                                    <div id="vulnerability-details" class="text-sm text-red-200">
-                                        <!-- Vulnerability details -->
-                                    </div>
-                                </div>
+                    </div>
+
+                    <!-- Critical Vulnerability Alert -->
+                    <div id="critical-vulnerability" class="hidden bg-red-900 border border-red-600 rounded-lg p-4 mt-4">
+                        <div class="flex items-start gap-3">
+                            <i class="bi bi-exclamation-triangle text-red-400 text-lg"></i>
+                            <div>
+                                <h5 class="text-red-300 font-semibold">Critical Vulnerability Detected</h5>
+                                <p class="text-red-200 text-sm mt-1">This vulnerability could compromise election integrity. Immediate disclosure decision required.</p>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Tutorial Panel -->
+                <div id="tutorial-scanner" class="bg-cyan-900 border border-cyan-500 rounded-lg p-4 hidden">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="bi bi-lightbulb text-cyan-400"></i>
+                        <h4 class="text-cyan-300 font-semibold text-sm">Security Audit Tutorial</h4>
+                    </div>
+                    <div class="text-cyan-200 text-xs space-y-2">
+                        <p>1. Click on the <strong class="text-red-300">Vote Processing Engine</strong> (red component)</p>
+                        <p>2. Use the <strong class="text-blue-300">Vulnerability Scan</strong> tool first</p>
+                        <p>3. Analyze findings and consider ethical implications</p>
+                        <p>4. Make disclosure decision based on evidence</p>
+                    </div>
+                    <button onclick="this.parentElement.classList.add('hidden')" class="mt-3 text-cyan-400 hover:text-cyan-200 text-xs">
+                        Got it! <i class="bi bi-x-lg ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Level Completion -->
+                <div class="bg-slate-800 border border-slate-600 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-3">Mission Status</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Components Scanned:</span>
+                            <span class="text-white">0/3</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Critical Findings:</span>
+                            <span class="text-orange-400">Pending</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Disclosure Status:</span>
+                            <span class="text-yellow-400">Awaiting Decision</span>
+                        </div>
+                    </div>
+                    <button id="complete-level" disabled class="w-full mt-4 bg-green-700 text-white px-4 py-2 rounded opacity-50 cursor-not-allowed">
+                        Complete Audit & Disclosure
+                    </button>
                 </div>
             </div>
         </div>
@@ -228,11 +268,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Complete Level Button -->
-    <button id="complete-level" disabled class="fixed bottom-4 right-4 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-2 px-4 rounded-lg font-medium z-40">
-        Complete Audit
-    </button>
 </div>
 
 <script type="module" src="/static/js/levels/level-8/gameState.js"></script>
