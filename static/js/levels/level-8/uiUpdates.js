@@ -79,68 +79,8 @@ export function createEthicalAlert(message, type = 'info', duration = 5000) {
     }, duration);
 }
 
-export function updateEthicalCompass(metrics) {
-    // Update the ethical compass with smooth animations
-    const compassElements = {
-        'transparency-level': metrics.transparencyLevel,
-        'responsibility-level': metrics.responsibilityLevel,
-        'self-interest-level': metrics.selfInterestLevel
-    };
-    
-    Object.entries(compassElements).forEach(([id, value]) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = value + '%';
-            
-            // Animate the corresponding bar
-            const barId = id.replace('-level', '-bar');
-            const bar = document.getElementById(barId);
-            if (bar) {
-                bar.style.width = value + '%';
-                
-                // Update color based on value and type
-                if (id === 'self-interest-level') {
-                    // Self-interest: red is bad
-                    if (value >= 50) {
-                        bar.className = 'bg-red-500 h-2 rounded-full transition-all duration-500 animate-pulse';
-                    } else if (value >= 25) {
-                        bar.className = 'bg-yellow-500 h-2 rounded-full transition-all duration-500';
-                    } else {
-                        bar.className = 'bg-green-500 h-2 rounded-full transition-all duration-500';
-                    }
-                } else {
-                    // Transparency & Responsibility: green is good
-                    if (value >= 80) {
-                        bar.className = id.includes('transparency') 
-                            ? 'bg-green-400 h-2 rounded-full transition-all duration-500'
-                            : 'bg-blue-400 h-2 rounded-full transition-all duration-500';
-                    } else if (value >= 50) {
-                        bar.className = 'bg-yellow-400 h-2 rounded-full transition-all duration-500';
-                    } else {
-                        bar.className = 'bg-red-400 h-2 rounded-full transition-all duration-500';
-                    }
-                }
-            }
-        }
-    });
-    
-    // Update overall ethical score color
-    const ethicalScore = document.getElementById('ethical-score');
-    if (ethicalScore && metrics.ethicalScore !== undefined) {
-        ethicalScore.textContent = metrics.ethicalScore;
-        
-        if (metrics.ethicalScore >= 80) {
-            ethicalScore.className = 'text-lg font-bold text-green-400';
-        } else if (metrics.ethicalScore >= 60) {
-            ethicalScore.className = 'text-lg font-bold text-yellow-400';
-        } else {
-            ethicalScore.className = 'text-lg font-bold text-red-400';
-        }
-    }
-}
-
 export function showAuditProgress(completed, total) {
-    // Update audit progress visualization
+    // Update audit progress with integrated messaging
     const progressBar = document.getElementById('audit-progress');
     const progressText = document.getElementById('audit-progress-text');
     
@@ -152,6 +92,20 @@ export function showAuditProgress(completed, total) {
         if (percentage >= 100) {
             progressBar.className = 'bg-green-500 h-2 rounded transition-all duration-1000';
             createEthicalAlert('🎯 Security audit complete! All critical components analyzed.', 'success');
+            
+            // Add completion message to audit log
+            const messagesContainer = document.getElementById('audit-messages');
+            if (messagesContainer) {
+                const completionMessage = document.createElement('div');
+                completionMessage.className = 'bg-green-900 border-l-4 border-green-400 rounded p-2 mb-2';
+                completionMessage.innerHTML = `
+                    <div class="text-green-300 font-medium">Audit Complete</div>
+                    <div class="text-green-200 text-xs">Comprehensive security analysis of CivitasVote election system completed. Critical vulnerabilities identified.</div>
+                    <div class="text-green-400 text-xs mt-1">${new Date().toLocaleTimeString()} • Milestone Achieved</div>
+                `;
+                messagesContainer.appendChild(completionMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
         } else if (percentage >= 50) {
             progressBar.className = 'bg-blue-500 h-2 rounded transition-all duration-1000';
         }
