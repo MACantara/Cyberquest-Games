@@ -1,8 +1,7 @@
 import { gameState, updateGameMetrics } from './gameState.js';
-import { loadScenarios, startScenario, closeScenario } from './scenarioHandler.js';
-import { handleDecision } from './decisionHandler.js';
+import { loadScenarios, startScenario, closeScenario, handleDecision } from './scenarioHandler.js';
 import { startGlitchEffects, stopGlitchEffects } from './glitchEffects.js';
-import { enablePatternBreaker, activateRandomization, activateDelayTactic, activateReverseLogic } from './patternBreakers.js';
+import { activateRandomization, activateDelayTactic, activateReverseLogic } from './patternBreakers.js';
 import { updateMentorMessage, showResultModal, updateAILearningFeed } from './uiUpdates.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -21,14 +20,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     function showAdaptiveTutorial() {
         setTimeout(() => {
             document.getElementById('tutorial-behavior').classList.remove('hidden');
-            updateMentorMessage("This isn't just any AI - it's learned from watching you across all previous levels. Your usual patterns won't work. Use the pattern disruption tools and think unpredictably!");
+            updateMentorMessage("This isn't just any AI—it's learned from watching you across all previous levels. Your usual patterns won't work. Use the pattern disruption tools and think unpredictably!");
         }, 3000);
     }
 
     // Start real-time AI adaptation simulation
     function startAILearningSimulation() {
         setInterval(() => {
-            // Simulate AI learning from player behavior
             if (gameState.currentScenario) {
                 const learningMessages = [
                     `Analyzing decision latency: ${2.1 + Math.random() * 2}s average`,
@@ -46,7 +44,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     function enablePatternBreakers() {
-        // Enable pattern disruption tools after tutorial
         setTimeout(() => {
             document.querySelectorAll('#randomize-approach, #delay-response, #reverse-logic').forEach(btn => {
                 btn.disabled = false;
@@ -139,7 +136,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
     document.getElementById('complete-level').addEventListener('click', function() {
-        // Stop all AI effects
         stopGlitchEffects();
         
         showResultModal(
@@ -174,13 +170,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Real-time AI adaptation display updates
     setInterval(() => {
         if (gameState.battlePhase === 'active') {
-            // Update detected patterns display
             updateDetectedPatterns();
-            
-            // Update AI countermeasures
             updateAICountermeasures();
             
-            // Update ghost predictions if predictability is high
             if (gameState.predictabilityScore > 60) {
                 updateGhostPredictions();
             }
