@@ -204,17 +204,19 @@ export function completeComponentAnalysis(componentId, vulnerabilityFound = fals
     
     // Update visual status
     const statusElement = document.getElementById(`status-${componentId}`);
-    if (vulnerabilityFound) {
-        statusElement.textContent = 'VULNERABLE';
-        statusElement.className = 'text-xs mt-2 px-2 py-1 bg-red-600 text-white rounded';
-        
-        // Add pulsing effect for critical vulnerabilities
-        if (componentId === 2) {
-            statusElement.classList.add('animate-pulse');
+    if (statusElement) {
+        if (vulnerabilityFound) {
+            statusElement.textContent = 'VULNERABLE';
+            statusElement.className = 'text-xs mt-2 px-2 py-1 bg-red-600 text-white rounded';
+            
+            // Add pulsing effect for critical vulnerabilities
+            if (componentId === 2) {
+                statusElement.classList.add('animate-pulse');
+            }
+        } else {
+            statusElement.textContent = 'SECURE';
+            statusElement.className = 'text-xs mt-2 px-2 py-1 bg-green-600 text-white rounded';
         }
-    } else {
-        statusElement.textContent = 'SECURE';
-        statusElement.className = 'text-xs mt-2 px-2 py-1 bg-green-600 text-white rounded';
     }
     
     // Check if critical vulnerability found (Component 2)
