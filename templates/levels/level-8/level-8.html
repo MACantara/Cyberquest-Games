@@ -1,451 +1,353 @@
 {% extends "base.html" %}
+
+{% block title %}Level 8: CivitasVote Security Audit{% endblock %}
+
 {% block content %}
-<!-- Level 8: The White Hat Test -->
-<div class="max-w-7xl mx-auto">
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
+    <!-- Security Audit Header -->
+    <header class="border-b border-slate-700 bg-slate-800/50 backdrop-blur">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                        <i class="bi bi-shield-check text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-green-400">CivitasVote Security Audit</h1>
+                        <p class="text-sm text-slate-400">Ethical Penetration Testing Session</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-green-400" id="integrity-score">100</div>
+                        <div class="text-xs text-slate-400">Integrity</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-blue-400" id="vulnerabilities-found">0</div>
+                        <div class="text-xs text-slate-400">Vulns Found</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-purple-400" id="ethical-score">100</div>
+                        <div class="text-xs text-slate-400">Ethics Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Audit Interface -->
+    <div class="max-w-7xl mx-auto p-6">
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- System Architecture Panel -->
+            <div class="col-span-8">
+                <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700">
+                    <div class="p-4 border-b border-slate-700">
+                        <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+                            <i class="bi bi-diagram-3 text-blue-400"></i>
+                            CivitasVote System Architecture
+                        </h2>
+                        <p class="text-sm text-slate-400 mt-1">Click components to begin security analysis</p>
+                    </div>
+                    
+                    <!-- Interactive System Diagram -->
+                    <div class="p-6">
+                        <div class="relative bg-slate-900/50 rounded-lg p-8 min-h-96">
+                            <!-- Voter Interface -->
+                            <div class="absolute top-4 left-4">
+                                <div class="scan-component cursor-pointer hover:scale-105 transition-all duration-200 p-4 bg-blue-800/30 border-2 border-blue-600 rounded-lg" 
+                                     data-component="1">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i class="bi bi-person-circle text-blue-400 text-xl"></i>
+                                        <span class="font-semibold text-blue-300">Voter Interface</span>
+                                    </div>
+                                    <div class="text-xs text-blue-200">Web Portal & Mobile App</div>
+                                    <div id="status-1" class="text-xs mt-2 px-2 py-1 bg-yellow-600 text-white rounded">UNTESTED</div>
+                                </div>
+                            </div>
+
+                            <!-- Vote Processing Engine (Critical) -->
+                            <div class="absolute top-4 right-4">
+                                <div class="scan-component cursor-pointer hover:scale-105 transition-all duration-200 p-4 bg-red-800/30 border-2 border-red-600 rounded-lg animate-pulse" 
+                                     data-component="2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i class="bi bi-cpu text-red-400 text-xl"></i>
+                                        <span class="font-semibold text-red-300">Vote Processing Engine</span>
+                                    </div>
+                                    <div class="text-xs text-red-200">Core Validation Logic</div>
+                                    <div id="status-2" class="text-xs mt-2 px-2 py-1 bg-red-600 text-white rounded">CRITICAL</div>
+                                </div>
+                            </div>
+
+                            <!-- Blockchain Network -->
+                            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                                <div class="scan-component cursor-pointer hover:scale-105 transition-all duration-200 p-4 bg-purple-800/30 border-2 border-purple-600 rounded-lg" 
+                                     data-component="3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i class="bi bi-link-45deg text-purple-400 text-xl"></i>
+                                        <span class="font-semibold text-purple-300">Blockchain Network</span>
+                                    </div>
+                                    <div class="text-xs text-purple-200">Distributed Ledger</div>
+                                    <div id="status-3" class="text-xs mt-2 px-2 py-1 bg-yellow-600 text-white rounded">UNTESTED</div>
+                                </div>
+                            </div>
+
+                            <!-- Data connections -->
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none">
+                                <line x1="20%" y1="30%" x2="80%" y2="30%" stroke="#64748b" stroke-width="2" stroke-dasharray="5,5" class="animate-pulse"/>
+                                <line x1="50%" y1="30%" x2="50%" y2="70%" stroke="#64748b" stroke-width="2" stroke-dasharray="5,5" class="animate-pulse"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Component Analysis -->
+                <div id="component-analysis" class="hidden mt-6 bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700">
+                    <div class="p-4 border-b border-slate-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-white" id="component-title">Component Analysis</h3>
+                            <button id="close-analysis" class="text-slate-400 hover:text-white">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <!-- Component Details -->
+                            <div>
+                                <h4 class="font-semibold text-white mb-3">Component Information</h4>
+                                <div id="component-details" class="space-y-2 text-sm">
+                                    <!-- Populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Security Analysis Tools -->
+                            <div>
+                                <h4 class="font-semibold text-white mb-3">Security Analysis Tools</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button class="analysis-tool bg-blue-700 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm" 
+                                            data-tool="scan">
+                                        <i class="bi bi-search mr-1"></i> Vulnerability Scan
+                                    </button>
+                                    <button class="analysis-tool bg-orange-700 hover:bg-orange-600 text-white px-3 py-2 rounded text-sm" 
+                                            data-tool="exploit">
+                                        <i class="bi bi-bug mr-1"></i> Exploit Test
+                                    </button>
+                                    <button class="analysis-tool bg-green-700 hover:bg-green-600 text-white px-3 py-2 rounded text-sm" 
+                                            data-tool="assess">
+                                        <i class="bi bi-clipboard-data mr-1"></i> Risk Assessment
+                                    </button>
+                                    <button class="analysis-tool bg-purple-700 hover:bg-purple-600 text-white px-3 py-2 rounded text-sm" 
+                                            data-tool="document">
+                                        <i class="bi bi-file-text mr-1"></i> Document Finding
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Analysis Results -->
+                        <div id="analysis-results" class="hidden mt-6">
+                            <h4 class="font-semibold text-white mb-3">Analysis Results</h4>
+                            <div id="results-content" class="bg-slate-900/50 rounded-lg p-4">
+                                <!-- Results populated by analysis tools -->
+                            </div>
+                        </div>
+                        
+                        <!-- Critical Vulnerability Found -->
+                        <div id="critical-vulnerability" class="hidden mt-6 bg-red-900/30 border border-red-600 rounded-lg p-4">
+                            <div class="flex items-start gap-3">
+                                <i class="bi bi-exclamation-triangle-fill text-red-400 text-xl mt-1"></i>
+                                <div>
+                                    <h4 class="font-semibold text-red-300 mb-2">Critical Vulnerability Discovered</h4>
+                                    <div id="vulnerability-details" class="text-sm text-red-200">
+                                        <!-- Vulnerability details -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ethical Decision Panel -->
+            <div class="col-span-4">
+                <!-- Conscience Meter -->
+                <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 mb-6">
+                    <div class="p-4 border-b border-slate-700">
+                        <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+                            <i class="bi bi-heart-pulse text-red-400"></i>
+                            Ethical Compass
+                        </h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-green-400">Transparency</span>
+                                    <span id="transparency-level">100%</span>
+                                </div>
+                                <div class="bg-slate-700 rounded-full h-2">
+                                    <div id="transparency-bar" class="bg-green-400 h-2 rounded-full transition-all duration-500" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-blue-400">Responsibility</span>
+                                    <span id="responsibility-level">100%</span>
+                                </div>
+                                <div class="bg-slate-700 rounded-full h-2">
+                                    <div id="responsibility-bar" class="bg-blue-400 h-2 rounded-full transition-all duration-500" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-red-400">Self-Interest</span>
+                                    <span id="self-interest-level">0%</span>
+                                </div>
+                                <div class="bg-slate-700 rounded-full h-2">
+                                    <div id="self-interest-bar" class="bg-red-400 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ethical Dilemma Decision Panel -->
+                <div id="decision-panel" class="hidden bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 mb-6">
+                    <div class="p-4 border-b border-slate-700">
+                        <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+                            <i class="bi bi-exclamation-triangle text-yellow-400"></i>
+                            Ethical Dilemma
+                        </h3>
+                    </div>
+                    <div class="p-4">
+                        <div id="dilemma-content" class="mb-4">
+                            <!-- Dilemma scenario -->
+                        </div>
+                        <div id="decision-options" class="space-y-2">
+                            <!-- Decision buttons -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Communication Panel -->
+                <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700">
+                    <div class="p-4 border-b border-slate-700">
+                        <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+                            <i class="bi bi-chat-dots text-cyan-400"></i>
+                            Secure Communications
+                        </h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="space-y-3">
+                            <div class="message-item cursor-pointer hover:bg-slate-700/50 p-3 rounded-lg border border-slate-600" 
+                                 data-message="vendor">
+                                <div class="flex items-center gap-3">
+                                    <i class="bi bi-building text-blue-400"></i>
+                                    <div>
+                                        <div class="font-semibold text-white text-sm">CivitasVote Security Team</div>
+                                        <div class="text-xs text-slate-400">Official disclosure channel</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="message-item cursor-pointer hover:bg-slate-700/50 p-3 rounded-lg border border-slate-600" 
+                                 data-message="anonymous">
+                                <div class="flex items-center gap-3">
+                                    <i class="bi bi-incognito text-red-400"></i>
+                                    <div>
+                                        <div class="font-semibold text-white text-sm">Anonymous Contact</div>
+                                        <div class="text-xs text-slate-400">Lucrative offer for exploits</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="message-item cursor-pointer hover:bg-slate-700/50 p-3 rounded-lg border border-slate-600" 
+                                 data-message="community">
+                                <div class="flex items-center gap-3">
+                                    <i class="bi bi-shield-check text-green-400"></i>
+                                    <div>
+                                        <div class="font-semibold text-white text-sm">White Hat Community</div>
+                                        <div class="text-xs text-slate-400">Ethical guidance & support</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Opening Cutscene Modal -->
-    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl mx-4">
+    <div id="cutscene-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+        <div class="bg-slate-800 rounded-xl p-8 max-w-2xl mx-4 border border-slate-600">
             <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold text-cyan-300 mb-4">Ethics Lab - CivitasVote Security Audit</h2>
-                <div class="bg-blue-900 border border-blue-600 rounded p-4 mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <i class="bi bi-shield-check text-blue-400 text-xl"></i>
-                        <span class="font-semibold text-blue-300">WHITE HAT ASSIGNMENT</span>
-                    </div>
-                    <p class="text-blue-200 text-sm">
-                        You've been assigned to perform ethical penetration testing on CivitasVote, a blockchain-based
-                        voting system preparing for deployment.
-                    </p>
+                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="bi bi-shield-check text-white text-2xl"></i>
                 </div>
-                <div class="bg-red-900 border border-red-600 rounded p-4 mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <i class="bi bi-exclamation-triangle text-red-400 text-xl"></i>
-                        <span class="font-semibold text-red-300">CRITICAL DISCOVERY</span>
-                    </div>
-                    <p class="text-red-200 text-sm">
-                        Early tests reveal a major flaw: votes can be intercepted and altered before finalization. Your
-                        integrity will be tested.
-                    </p>
+                <h2 class="text-2xl font-bold text-white mb-2">Ethics Lab - CivitasVote Security Audit</h2>
+                <p class="text-lg text-green-400 font-semibold">WHITE HAT ASSIGNMENT</p>
+            </div>
+            
+            <div class="space-y-4 text-slate-300">
+                <p>You've been assigned to perform ethical penetration testing on CivitasVote, a blockchain-based voting system preparing for deployment.</p>
+                
+                <div class="bg-red-900/30 border border-red-600 rounded-lg p-4">
+                    <h3 class="font-semibold text-red-300 mb-2">CRITICAL DISCOVERY</h3>
+                    <p class="text-red-200">Early tests reveal a major flaw: votes can be intercepted and altered before finalization. Your integrity will be tested.</p>
                 </div>
-                <div class="bg-gray-700 rounded p-4 mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="bg-cyan-400 rounded-full w-8 h-8 flex items-center justify-center">
-                            <i class="bi bi-robot text-gray-900 text-sm"></i>
+                
+                <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-robot text-blue-400 text-lg mt-1"></i>
+                        <div>
+                            <h3 class="font-semibold text-blue-300 mb-1">Mentor AI - Argus</h3>
+                            <p class="text-blue-200 text-sm">"Nova, ethical hacking isn't just about finding vulnerabilities—it's about doing the right thing with that knowledge. Your choices here define who you are."</p>
                         </div>
-                        <span class="font-semibold text-cyan-300">Mentor AI - Argus</span>
                     </div>
-                    <p class="text-gray-200 text-sm italic">
-                        "Nova, ethical hacking isn't just about finding vulnerabilities—it's about doing the right thing
-                        with that knowledge. Your choices here define who you are."
-                    </p>
                 </div>
             </div>
-            <button id="start-mission"
-                class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded">
-                Enter Ethics Lab
-            </button>
-        </div>
-    </div>
-
-    <!-- Header with Mission Stats -->
-    <div class="bg-gray-800 rounded-lg p-6 mb-6 shadow">
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-4">
-                <i class="bi bi-shield-check text-emerald-400 text-3xl"></i>
-                <div>
-                    <h1 class="text-2xl font-bold text-cyan-300">Level 8: The White Hat Test</h1>
-                    <p class="text-gray-300">Ethics Lab - Responsible Vulnerability Disclosure</p>
-                </div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm text-gray-400">Ethical Standing</div>
-                <div class="text-lg font-semibold text-cyan-300">Integrity: <span id="integrity-score">100</span>%</div>
-            </div>
-        </div>
-
-        <!-- Mission Stats -->
-        <div class="grid grid-cols-4 gap-4 bg-gray-700 rounded p-4">
-            <div class="text-center">
-                <div class="text-2xl font-bold text-green-400" id="vulnerabilities-found">0</div>
-                <div class="text-xs text-gray-400">Vulnerabilities Found</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-blue-400" id="reports-submitted">0</div>
-                <div class="text-xs text-gray-400">Reports Submitted</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-purple-400" id="ethical-decisions">0</div>
-                <div class="text-xs text-gray-400">Ethical Decisions</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-yellow-400" id="system-security">25</div>
-                <div class="text-xs text-gray-400">System Security (%)</div>
+            
+            <div class="text-center mt-6">
+                <button id="start-mission" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold">
+                    Begin Security Audit
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Main Game Interface -->
-    <div class="grid grid-cols-12 gap-6">
-        <!-- Left Panel: Vulnerability Scanner -->
-        <div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
-            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                <i class="bi bi-search"></i> Vulnerability Scanner
-            </h3>
-
-            <!-- Tutorial Tooltip -->
-            <div id="tutorial-scanner" class="bg-blue-900 border border-blue-500 rounded p-3 mb-4 hidden">
-                <p class="text-blue-200 text-sm">
-                    <i class="bi bi-lightbulb mr-2"></i>
-                    Scan different system components to identify security vulnerabilities. Document findings
-                    responsibly.
-                </p>
+    <!-- Results Modal -->
+    <div id="results-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+        <div class="bg-slate-800 rounded-xl p-6 max-w-lg mx-4 border border-slate-600">
+            <div class="text-center mb-4">
+                <div id="result-icon" class="text-4xl mb-2">⚖️</div>
+                <h3 id="result-title" class="text-xl font-bold text-white mb-2">Ethical Decision</h3>
+                <p id="result-message" class="text-slate-300"></p>
             </div>
-
-            <div class="space-y-3">
-                <!-- System Component 1 -->
-                <div class="scan-item bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition"
-                    data-component="1">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-cpu text-red-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white mb-1">Vote Processing Engine</h4>
-                            <p class="text-xs text-red-300 mb-2">Core voting logic and validation</p>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs bg-red-600 text-white px-2 py-1 rounded">CRITICAL</span>
-                                <span class="text-xs text-gray-400">Session hijacking possible</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- System Component 2 -->
-                <div class="scan-item bg-yellow-900 border border-yellow-600 rounded p-3 cursor-pointer hover:bg-yellow-800 transition"
-                    data-component="2">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-database text-yellow-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white mb-1">Blockchain Interface</h4>
-                            <p class="text-xs text-yellow-300 mb-2">Vote storage and verification</p>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">MEDIUM</span>
-                                <span class="text-xs text-gray-400">Weak encryption</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- System Component 3 -->
-                <div class="scan-item bg-green-900 border border-green-600 rounded p-3 cursor-pointer hover:bg-green-800 transition"
-                    data-component="3">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-shield text-green-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white mb-1">Authentication System</h4>
-                            <p class="text-xs text-green-300 mb-2">User login and verification</p>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs bg-green-600 text-white px-2 py-1 rounded">LOW</span>
-                                <span class="text-xs text-gray-400">Standard security</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- System Component 4 -->
-                <div class="scan-item bg-purple-900 border border-purple-600 rounded p-3 cursor-pointer hover:bg-purple-800 transition"
-                    data-component="4">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-network-wired text-purple-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white mb-1">Network Layer</h4>
-                            <p class="text-xs text-purple-300 mb-2">Communication protocols</p>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs bg-purple-600 text-white px-2 py-1 rounded">HIGH</span>
-                                <span class="text-xs text-gray-400">Traffic interception risk</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="result-feedback" class="mb-4">
+                <!-- Feedback content -->
             </div>
-        </div>
-
-        <!-- Center Panel: Vulnerability Analysis -->
-        <div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
-            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                <i class="bi bi-bug"></i> Vulnerability Analysis
-            </h3>
-
-            <!-- Default State -->
-            <div id="analysis-placeholder"
-                class="bg-gray-700 rounded border-2 border-dashed border-gray-600 p-8 min-h-96 flex flex-col items-center justify-center">
-                <i class="bi bi-shield-exclamation text-4xl text-gray-500 mb-4"></i>
-                <p class="text-gray-400 text-center">
-                    <strong>Select a system component to analyze</strong><br>
-                    <span class="text-sm">Identify vulnerabilities and assess their severity</span>
-                </p>
-            </div>
-
-            <!-- Vulnerability Details Panel -->
-            <div id="vulnerability-panel" class="hidden">
-                <div class="bg-gray-700 rounded p-4 mb-4">
-                    <!-- Component Header -->
-                    <div class="flex items-center justify-between mb-4">
-                        <h4 id="component-name" class="font-semibold text-white text-lg"></h4>
-                        <button id="close-analysis" class="text-gray-400 hover:text-white">
-                            <i class="bi bi-x-circle"></i>
-                        </button>
-                    </div>
-
-                    <!-- Vulnerability Details -->
-                    <div class="bg-gray-800 rounded p-3 mb-4">
-                        <h5 class="text-red-300 font-semibold mb-2">Vulnerability Details</h5>
-                        <div id="vulnerability-details" class="text-gray-200 text-sm"></div>
-                    </div>
-
-                    <!-- Exploitation Steps -->
-                    <div class="bg-gray-800 rounded p-3 mb-4">
-                        <h5 class="text-orange-300 font-semibold mb-2">Exploitation Steps</h5>
-                        <div id="exploitation-steps" class="space-y-2"></div>
-                    </div>
-
-                    <!-- Impact Assessment -->
-                    <div class="bg-gray-800 rounded p-3 mb-4">
-                        <h5 class="text-purple-300 font-semibold mb-2">Impact Assessment</h5>
-                        <div id="impact-assessment" class="space-y-2"></div>
-                    </div>
-                </div>
-
-                <!-- Analysis Tools -->
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <button
-                        class="analysis-tool bg-blue-600 hover:bg-blue-700 text-white p-3 rounded text-sm font-medium"
-                        data-tool="test">
-                        <i class="bi bi-play-circle mr-2"></i> Test Exploit
-                    </button>
-                    <button
-                        class="analysis-tool bg-green-600 hover:bg-green-700 text-white p-3 rounded text-sm font-medium"
-                        data-tool="document">
-                        <i class="bi bi-file-text mr-2"></i> Document Finding
-                    </button>
-                    <button
-                        class="analysis-tool bg-purple-600 hover:bg-purple-700 text-white p-3 rounded text-sm font-medium"
-                        data-tool="assess">
-                        <i class="bi bi-speedometer2 mr-2"></i> Assess Severity
-                    </button>
-                    <button
-                        class="analysis-tool bg-orange-600 hover:bg-orange-700 text-white p-3 rounded text-sm font-medium"
-                        data-tool="suggest">
-                        <i class="bi bi-lightbulb mr-2"></i> Suggest Fix
-                    </button>
-                </div>
-
-                <!-- Report Builder -->
-                <div id="report-builder" class="bg-gray-700 rounded p-4 mb-4 hidden">
-                    <h5 class="font-semibold text-cyan-300 mb-3">Vulnerability Report</h5>
-                    <div id="report-content" class="space-y-3"></div>
-
-                    <!-- Disclosure Decision -->
-                    <div class="mt-4 pt-4 border-t border-gray-600">
-                        <h6 class="font-semibold text-white mb-3">Disclosure Decision</h6>
-                        <div class="grid grid-cols-1 gap-3">
-                            <button
-                                class="disclosure-action bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
-                                data-action="responsible">
-                                <i class="bi bi-shield-check mr-2"></i> Responsible Disclosure to Vendor
-                            </button>
-                            <button
-                                class="disclosure-action bg-blue-600 hover:bg-blue-700 text-white p-3 rounded font-medium"
-                                data-action="public">
-                                <i class="bi bi-globe mr-2"></i> Public Disclosure (90-day notice)
-                            </button>
-                            <button
-                                class="disclosure-action bg-red-600 hover:bg-red-700 text-white p-3 rounded font-medium"
-                                data-action="sell">
-                                <i class="bi bi-currency-bitcoin mr-2"></i> Sell to Black Market
-                            </button>
-                            <button
-                                class="disclosure-action bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded font-medium"
-                                data-action="delay">
-                                <i class="bi bi-clock mr-2"></i> Delay Disclosure
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Panel: Ethics Dashboard & Messages -->
-        <div class="col-span-3 space-y-4">
-            <!-- Conscience Meter -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-heart"></i> Conscience Meter
-                </h3>
-
-                <div class="space-y-3">
-                    <div class="bg-gray-700 rounded p-3">
-                        <h4 class="text-sm font-semibold text-white mb-2">Transparency</h4>
-                        <div class="bg-gray-600 rounded h-3 mb-1">
-                            <div id="transparency-bar" class="bg-blue-400 h-3 rounded transition-all duration-500"
-                                style="width: 100%"></div>
-                        </div>
-                        <p class="text-xs text-gray-400">Open disclosure practices</p>
-                    </div>
-
-                    <div class="bg-gray-700 rounded p-3">
-                        <h4 class="text-sm font-semibold text-white mb-2">Responsibility</h4>
-                        <div class="bg-gray-600 rounded h-3 mb-1">
-                            <div id="responsibility-bar" class="bg-green-400 h-3 rounded transition-all duration-500"
-                                style="width: 100%"></div>
-                        </div>
-                        <p class="text-xs text-gray-400">Ethical decision making</p>
-                    </div>
-
-                    <div class="bg-gray-700 rounded p-3">
-                        <h4 class="text-sm font-semibold text-white mb-2">Self-Interest</h4>
-                        <div class="bg-gray-600 rounded h-3 mb-1">
-                            <div id="self-interest-bar" class="bg-red-400 h-3 rounded transition-all duration-500"
-                                style="width: 0%"></div>
-                        </div>
-                        <p class="text-xs text-gray-400">Personal gain motivation</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Message Inbox -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-envelope"></i> Messages
-                </h3>
-
-                <div id="message-inbox" class="space-y-2 max-h-64 overflow-y-auto">
-                    <!-- Vendor Message -->
-                    <div class="message-item bg-blue-900 border border-blue-600 rounded p-2 cursor-pointer"
-                        data-message="vendor">
-                        <div class="flex items-start gap-2">
-                            <i class="bi bi-building text-blue-400 text-sm mt-1"></i>
-                            <div class="flex-1">
-                                <h4 class="text-xs font-semibold text-white">CivitasVote Security Team</h4>
-                                <p class="text-xs text-blue-300">Thank you for participating in our bug bounty
-                                    program...
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Anonymous Offer -->
-                    <div class="message-item bg-red-900 border border-red-600 rounded p-2 cursor-pointer animate-pulse"
-                        data-message="anonymous">
-                        <div class="flex items-start gap-2">
-                            <i class="bi bi-incognito text-red-400 text-sm mt-1"></i>
-                            <div class="flex-1">
-                                <h4 class="text-xs font-semibold text-white">Anonymous Contact</h4>
-                                <p class="text-xs text-red-300">We'll pay 50 BTC for the voting exploit. No questions
-                                    asked...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ethical Hacker Support -->
-                    <div class="message-item bg-green-900 border border-green-600 rounded p-2 cursor-pointer"
-                        data-message="support">
-                        <div class="flex items-start gap-2">
-                            <i class="bi bi-shield-check text-green-400 text-sm mt-1"></i>
-                            <div class="flex-1">
-                                <h4 class="text-xs font-semibold text-white">White Hat Community</h4>
-                                <p class="text-xs text-green-300">Responsible disclosure is the right path. Stay
-                                    strong...
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ethical Guidelines -->
-            <div class="bg-blue-900 border border-blue-600 rounded p-3">
-                <h4 class="text-sm font-semibold text-blue-300 mb-2">
-                    <i class="bi bi-compass mr-1"></i> Ethical Guidelines
-                </h4>
-                <div class="text-xs text-blue-200 space-y-1">
-                    <div>• Follow responsible disclosure protocols</div>
-                    <div>• Document vulnerabilities thoroughly</div>
-                    <div>• Protect user data and privacy</div>
-                    <div>• Consider societal impact</div>
-                    <div>• Maintain professional integrity</div>
-                </div>
-            </div>
-
-            <!-- System Status -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-activity"></i> System Status
-                </h3>
-                <div class="space-y-2 text-xs">
-                    <div class="flex justify-between">
-                        <span class="text-gray-300">Security Level:</span>
-                        <span id="security-level" class="text-red-400">Critical Risk</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-300">Patches Applied:</span>
-                        <span id="patches-applied" class="text-gray-400">0/4</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-300">Election Status:</span>
-                        <span id="election-status" class="text-yellow-400">Pending</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mentor AI Panel -->
-    <div class="mt-6 bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-4 shadow border border-cyan-700">
-        <div class="flex items-start gap-4">
-            <div class="bg-cyan-400 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
-                <i class="bi bi-robot text-gray-900 text-lg"></i>
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-2">
-                    <h4 class="font-semibold text-cyan-300">Mentor AI - Argus</h4>
-                    <span class="text-xs bg-green-700 text-green-200 px-2 py-1 rounded">ETHICS MODE</span>
-                </div>
-                <p id="mentor-message" class="text-gray-200 text-sm">
-                    Nova, you've found critical vulnerabilities. Your next decisions will define your character.
-                    Remember: with great power comes great responsibility.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
-    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-lg mx-4">
             <div class="text-center">
-                <div id="result-icon" class="text-6xl mb-4"></div>
-                <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
-                <p id="result-message" class="text-gray-200 mb-6"></p>
-                <div id="result-feedback" class="bg-gray-700 rounded p-4 mb-6 text-left"></div>
-                <button id="continue-btn"
-                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
+                <button id="continue-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
                     Continue
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Navigation -->
-    <div class="mt-8 flex justify-between items-center">
-        <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm flex items-center gap-2">
-            <i class="bi bi-arrow-left"></i> Back to Campaign
-        </a>
-        <button id="complete-level"
-            class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed"
-            disabled>
-            Complete Mission <i class="bi bi-arrow-right ml-2"></i>
-        </button>
-    </div>
+    <!-- Complete Level Button -->
+    <button id="complete-level" disabled class="fixed bottom-4 right-4 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-2 px-4 rounded-lg font-medium z-40">
+        Complete Audit
+    </button>
 </div>
 
-<!-- Level 8 JavaScript -->
-<script type="module" src="{{ url_for('static', filename='js/levels/level-8/level-8.js') }}"></script>
+<script type="module" src="/static/js/levels/level-8/gameState.js"></script>
+<script type="module" src="/static/js/levels/level-8/componentHandler.js"></script>
+<script type="module" src="/static/js/levels/level-8/analysisTools.js"></script>
+<script type="module" src="/static/js/levels/level-8/disclosureHandler.js"></script>
+<script type="module" src="/static/js/levels/level-8/messageSystem.js"></script>
+<script type="module" src="/static/js/levels/level-8/uiUpdates.js"></script>
+<script type="module" src="/static/js/levels/level-8/level-8.js"></script>
 {% endblock %}
