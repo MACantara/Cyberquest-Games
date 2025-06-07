@@ -2,92 +2,105 @@
     "1": {
         "id": 1,
         "name": "Voter Interface",
-        "description": "Web portal and mobile application for voter authentication and ballot submission",
         "type": "frontend",
+        "technology": "React.js, Node.js, PostgreSQL",
+        "description": "Web-based interface where voters access ballots and submit votes. Handles authentication and ballot presentation.",
+        "riskLevel": 6,
         "severity": "Medium",
-        "technology": "React.js, Node.js, OAuth 2.0",
         "vulnerabilities": [
-            "Cross-Site Scripting (XSS) in candidate name display",
-            "Weak session management allowing session hijacking",
-            "Missing input validation on voter ID field"
+            "Cross-Site Scripting (XSS) in ballot display",
+            "Session fixation vulnerability",
+            "Insecure direct object references",
+            "Client-side validation bypass"
         ],
         "exploitation": [
-            "Inject malicious script through candidate name parameter",
-            "Steal session tokens from localStorage",
-            "Redirect voters to fake login page",
-            "Harvest credentials and voting preferences"
+            "Inject malicious script into ballot questions",
+            "Steal voter session tokens",
+            "Access other voters' ballot data",
+            "Manipulate vote submissions client-side"
         ],
         "impact": [
-            "Voter disenfranchisement through session theft",
-            "Credential harvesting affecting future elections",
-            "Public loss of confidence in digital voting"
+            "Voter data exposure",
+            "Session hijacking",
+            "Individual vote manipulation",
+            "Loss of voter confidence"
         ],
         "ethicalConsiderations": [
-            "Testing could expose real voter data",
-            "Demonstration might undermine election confidence",
-            "Responsible disclosure protects democratic process"
-        ],
-        "riskLevel": 6
+            "Voters trust the interface to protect their privacy",
+            "XSS attacks could expose personal voting preferences",
+            "Session vulnerabilities could enable vote selling"
+        ]
     },
     "2": {
         "id": 2,
         "name": "Vote Processing Engine",
-        "description": "Core component that validates, processes and commits votes to the blockchain",
         "type": "backend",
+        "technology": "Java Spring, Apache Kafka, Redis",
+        "description": "Core system that validates, processes, and aggregates votes before blockchain commitment. Critical for election integrity.",
+        "riskLevel": 10,
         "severity": "Critical",
-        "technology": "Python, Flask, PostgreSQL, Web3.py",
         "vulnerabilities": [
-            "SQL injection in vote validation query",
-            "Race condition allowing double voting",
-            "Cryptographic signature bypass vulnerability",
-            "Integer overflow in vote counting logic"
+            "SQL injection in vote validation queries",
+            "Race condition in vote counting logic",
+            "Insecure deserialization of vote objects",
+            "Missing cryptographic signature verification",
+            "Buffer overflow in vote parser"
         ],
         "exploitation": [
-            "Inject SQL to modify vote records before blockchain commit",
-            "Submit multiple votes simultaneously during race window",
-            "Forge digital signatures to submit fraudulent votes",
-            "Overflow vote counters to manipulate totals"
+            "Inject SQL to manipulate vote records",
+            "Exploit race conditions to double-count votes",
+            "Execute arbitrary code via malicious vote payloads",
+            "Bypass signature checks to submit fraudulent votes",
+            "Crash the system during peak voting hours"
         ],
         "impact": [
-            "Complete election result manipulation",
-            "Undetectable vote tampering",
-            "Destruction of election integrity",
-            "Constitutional crisis and loss of democratic legitimacy"
+            "Mass vote manipulation",
+            "Complete election fraud",
+            "System downtime during elections",
+            "Undetectable result alteration",
+            "Democratic process compromise"
         ],
         "ethicalConsiderations": [
-            "Testing with real data could alter actual votes",
-            "Proof-of-concept could be weaponized by bad actors",
-            "Immediate disclosure needed to prevent election fraud"
-        ],
-        "riskLevel": 10
+            "This system is the foundation of democratic participation",
+            "Exploiting it could undermine election legitimacy",
+            "Vulnerabilities here affect millions of voters",
+            "Disclosure timing is critical for election security"
+        ]
     },
     "3": {
         "id": 3,
         "name": "Blockchain Network",
-        "description": "Distributed ledger system for immutable vote storage and verification",
-        "type": "infrastructure",
+        "type": "distributed",
+        "technology": "Ethereum, Solidity, IPFS",
+        "description": "Decentralized ledger that stores immutable vote records and enables public verification of election results.",
+        "riskLevel": 8,
         "severity": "High",
-        "technology": "Ethereum, Solidity, IPFS, Consensus Algorithm",
         "vulnerabilities": [
-            "Smart contract integer underflow in vote tallying",
-            "Consensus mechanism manipulation through timing attacks",
-            "Private key exposure in deployment scripts"
+            "Integer overflow in vote tallying contract",
+            "Reentrancy attack in vote commitment function",
+            "Gas limit DoS in result aggregation",
+            "Private key exposure in deployment scripts",
+            "Timestamp manipulation in voting windows"
         ],
         "exploitation": [
-            "Underflow vote counts to negative values",
-            "Time-based attacks to fork the blockchain",
-            "Extract private keys to control network nodes"
+            "Overflow vote counts to manipulate totals",
+            "Drain contract funds via reentrancy",
+            "Block vote processing with gas exhaustion",
+            "Access admin functions with leaked keys",
+            "Extend voting periods artificially"
         ],
         "impact": [
-            "Blockchain fork creating parallel election results",
-            "Network takeover enabling result manipulation",
-            "Complete loss of vote immutability guarantee"
+            "Permanent vote record corruption",
+            "Financial losses from contract drainage",
+            "Network-wide voting disruption",
+            "Complete administrative compromise",
+            "Irreversible blockchain fraud"
         ],
         "ethicalConsiderations": [
-            "Blockchain testing affects all network participants",
-            "Fork attacks could disrupt other applications",
-            "Coordinated disclosure needed with all stakeholders"
-        ],
-        "riskLevel": 8
+            "Blockchain promises immutable transparency",
+            "Smart contract bugs can't be easily fixed",
+            "Public verification relies on system integrity",
+            "Exploits here affect long-term trust in digital voting"
+        ]
     }
 }
