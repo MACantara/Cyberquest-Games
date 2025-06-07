@@ -1,5 +1,6 @@
 import { gameState, updateGameMetrics } from './gameState.js';
-import { updateMentorMessage, showEthicalDilemma } from './uiUpdates.js';
+import { updateMentorMessage, showResultModal } from './uiUpdates.js';
+import { showEthicalDilemma } from './disclosureHandler.js';
 
 export let components = {};
 
