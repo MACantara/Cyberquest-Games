@@ -1,21 +1,21 @@
 import { gameState } from './gameState.js';
 
-let glitchInterval;
-let ghostEffectInterval;
-let adaptiveEffects = [];
+let glitchInterval = null;
+let corruptionLevel = 0;
+let glitchContainer = null;
 
 export function startGlitchEffects() {
-    // Start continuous glitch effects that intensify with AI confidence
+    // Create a dedicated glitch overlay container
+    createGlitchContainer();
+    
+    // Start subtle glitch effects
     glitchInterval = setInterval(() => {
-        triggerRandomGlitch();
-        updateAdaptiveEffects();
-    }, 3000 + Math.random() * 2000); // Random intervals between 3-5 seconds
+        if (Math.random() < 0.3) { // 30% chance every 2 seconds
+            triggerRandomGlitch();
+        }
+    }, 2000);
     
-    // Start ghost effect simulation
-    startGhostEffects();
-    
-    // Initialize screen corruption
-    initializeScreenCorruption();
+    console.log('Glitch effects started');
 }
 
 export function stopGlitchEffects() {
@@ -24,413 +24,276 @@ export function stopGlitchEffects() {
         glitchInterval = null;
     }
     
-    if (ghostEffectInterval) {
-        clearInterval(ghostEffectInterval);
-        ghostEffectInterval = null;
+    // Remove all glitch effects
+    if (glitchContainer) {
+        glitchContainer.remove();
+        glitchContainer = null;
     }
     
-    // Clear all adaptive effects
-    adaptiveEffects.forEach(effect => {
-        if (effect.element && effect.element.parentNode) {
-            effect.element.parentNode.removeChild(effect.element);
-        }
-    });
-    adaptiveEffects = [];
+    // Reset any applied filters
+    document.body.style.filter = '';
+    document.body.style.animation = '';
     
-    // Reset all visual corruption
-    resetVisualEffects();
+    console.log('Glitch effects stopped');
+}
+
+function createGlitchContainer() {
+    // Remove existing container if it exists
+    if (glitchContainer) {
+        glitchContainer.remove();
+    }
+    
+    // Create overlay container for glitch effects
+    glitchContainer = document.createElement('div');
+    glitchContainer.id = 'glitch-overlay';
+    glitchContainer.className = 'fixed inset-0 pointer-events-none z-30';
+    glitchContainer.style.mixBlendMode = 'screen';
+    
+    document.body.appendChild(glitchContainer);
 }
 
 function triggerRandomGlitch() {
     const glitchTypes = [
-        'headerFlicker',
-        'textDistortion', 
+        'screenStatic',
         'colorShift',
-        'screenTear',
+        'scanLines',
         'dataCorruption',
-        'ghostUI'
+        'pixelDistortion'
     ];
     
-    // Choose intensity based on AI confidence
-    const intensity = Math.floor(gameState.aiConfidence / 20); // 0-4 scale
-    const numEffects = Math.min(intensity + 1, 3);
+    const randomGlitch = glitchTypes[Math.floor(Math.random() * glitchTypes.length)];
     
-    // Trigger multiple effects simultaneously when AI confidence is high
-    for (let i = 0; i < numEffects; i++) {
-        const effectType = glitchTypes[Math.floor(Math.random() * glitchTypes.length)];
-        executeGlitchEffect(effectType);
-    }
-}
-
-function executeGlitchEffect(type) {
-    switch(type) {
-        case 'headerFlicker':
-            flickerHeader();
-            break;
-        case 'textDistortion':
-            distortText();
+    switch(randomGlitch) {
+        case 'screenStatic':
+            createScreenStatic();
             break;
         case 'colorShift':
-            shiftColors();
+            createColorShift();
             break;
-        case 'screenTear':
-            createScreenTear();
+        case 'scanLines':
+            createScanLines();
             break;
         case 'dataCorruption':
-            corruptData();
+            createDataCorruption();
             break;
-        case 'ghostUI':
-            showGhostInterface();
+        case 'pixelDistortion':
+            createPixelDistortion();
             break;
     }
 }
 
-function flickerHeader() {
-    const header = document.getElementById('header-glitch');
-    if (header) {
-        header.style.opacity = '0.7';
-        
-        // Flash sequence
-        const flashes = [0.7, 0, 0.5, 0, 0.9, 0, 0.3, 0];
-        let flashIndex = 0;
-        
-        const flashInterval = setInterval(() => {
-            header.style.opacity = flashes[flashIndex];
-            flashIndex++;
-            
-            if (flashIndex >= flashes.length) {
-                clearInterval(flashInterval);
-                header.style.opacity = '0';
-            }
-        }, 100);
-    }
-}
-
-function distortText() {
-    // Randomly corrupt text elements
-    const textElements = document.querySelectorAll('p, span, div:not(.glitch-protected)');
-    const targets = Array.from(textElements).slice(0, 3); // Limit to 3 elements
-    
-    targets.forEach(element => {
-        if (element.textContent.length > 3) {
-            const originalText = element.textContent;
-            const corruptedText = corruptString(originalText);
-            
-            element.textContent = corruptedText;
-            element.classList.add('glitch-text');
-            
-            // Restore after delay
-            setTimeout(() => {
-                element.textContent = originalText;
-                element.classList.remove('glitch-text');
-            }, 1000 + Math.random() * 2000);
-        }
-    });
-}
-
-function corruptString(text) {
-    const glitchChars = '█▓▒░▄▀■□▪▫◦∆∇◊○●◘◙☻☺♠♣♥♦';
-    let corrupted = text.split('');
-    
-    // Corrupt random characters
-    const corruptionLevel = Math.min(0.3, gameState.aiConfidence / 200);
-    for (let i = 0; i < corrupted.length; i++) {
-        if (Math.random() < corruptionLevel) {
-            corrupted[i] = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-        }
-    }
-    
-    return corrupted.join('');
-}
-
-function shiftColors() {
-    const colorTargets = document.querySelectorAll('.bg-blue-900, .bg-red-900, .text-blue-300, .text-red-300');
-    
-    colorTargets.forEach(element => {
-        element.style.filter = `hue-rotate(${Math.random() * 360}deg) saturate(${0.5 + Math.random()}`;
-        
-        setTimeout(() => {
-            element.style.filter = '';
-        }, 500 + Math.random() * 1500);
-    });
-}
-
-function createScreenTear() {
-    const tear = document.createElement('div');
-    tear.className = 'screen-tear';
-    tear.style.cssText = `
-        position: fixed;
-        top: ${Math.random() * window.innerHeight}px;
-        left: 0;
-        right: 0;
-        height: ${5 + Math.random() * 10}px;
-        background: linear-gradient(90deg, 
-            rgba(255,0,0,0.8) 0%, 
-            rgba(0,255,0,0.8) 33%, 
-            rgba(0,0,255,0.8) 66%, 
-            rgba(255,0,255,0.8) 100%);
-        z-index: 1000;
-        animation: tear-glitch 0.1s infinite;
-        pointer-events: none;
+function createScreenStatic() {
+    const staticElement = document.createElement('div');
+    staticElement.className = 'absolute inset-0 opacity-20';
+    staticElement.style.background = `
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(255,255,255,0.1) 2px,
+            rgba(255,255,255,0.1) 4px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(255,255,255,0.05) 2px,
+            rgba(255,255,255,0.05) 4px
+        )
     `;
+    staticElement.style.animation = 'static-flicker 0.1s infinite';
     
-    document.body.appendChild(tear);
+    glitchContainer.appendChild(staticElement);
     
     setTimeout(() => {
-        if (tear.parentNode) {
-            tear.parentNode.removeChild(tear);
-        }
-    }, 200 + Math.random() * 300);
+        staticElement.remove();
+    }, 200);
 }
 
-function corruptData() {
-    // Corrupt displayed metrics temporarily
-    const metrics = ['ai-confidence', 'predictability-score', 'patterns-broken'];
+function createColorShift() {
+    // Apply temporary color filter to body
+    const originalFilter = document.body.style.filter;
     
-    metrics.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-            const originalText = element.textContent;
-            const corruptedValue = Math.floor(Math.random() * 100) + '%';
-            
-            element.textContent = corruptedValue;
-            element.style.color = '#ff0080';
-            element.style.textShadow = '0 0 10px #ff0080';
-            
-            setTimeout(() => {
-                element.textContent = originalText;
-                element.style.color = '';
-                element.style.textShadow = '';
-            }, 800 + Math.random() * 1200);
-        }
-    });
+    document.body.style.filter = `hue-rotate(${Math.random() * 180}deg) saturate(${150 + Math.random() * 100}%)`;
+    
+    setTimeout(() => {
+        document.body.style.filter = originalFilter;
+    }, 150);
 }
 
-function showGhostInterface() {
-    // Create ghost overlay showing failed attempts
-    const ghost = document.createElement('div');
-    ghost.className = 'ghost-interface';
-    ghost.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(100, 0, 100, 0.1);
-        border: 2px solid rgba(255, 0, 255, 0.3);
-        border-radius: 10px;
-        padding: 20px;
-        z-index: 999;
-        opacity: 0.6;
-        animation: ghost-fade 2s ease-in-out;
-        pointer-events: none;
-        font-family: monospace;
-        color: #ff00ff;
-        text-shadow: 0 0 10px #ff00ff;
+function createScanLines() {
+    const scanLines = document.createElement('div');
+    scanLines.className = 'absolute inset-0 opacity-30';
+    scanLines.style.background = `
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0,255,255,0.1) 2px,
+            rgba(0,255,255,0.1) 4px
+        )
     `;
+    scanLines.style.animation = 'scan-move 2s linear infinite';
     
-    const ghostTexts = [
-        '👻 GHOST ECHO: You chose "Block sender" - AI spawned 50 new domains',
-        '👻 ALTERNATE TIMELINE: Lockdown failed - 12 sleeper accounts activated', 
-        '👻 PARALLEL YOU: Followed NIST protocol - 72h delay let AI establish persistence',
-        '👻 QUANTUM SHADOW: Previous pattern detected - countermeasures already deployed'
+    glitchContainer.appendChild(scanLines);
+    
+    setTimeout(() => {
+        scanLines.remove();
+    }, 1000);
+}
+
+function createDataCorruption() {
+    // Create text corruption overlay
+    const corruption = document.createElement('div');
+    corruption.className = 'absolute top-1/4 left-1/4 w-1/2 h-1/2 overflow-hidden';
+    
+    const corruptText = [
+        '01001000 01100101 01101100 01110000',
+        '░▒▓█ SYSTEM COMPROMISED █▓▒░',
+        'NULL_ENTITY.EXE EXECUTING...',
+        '█▓▒░ BEHAVIORAL PATTERNS ANALYZED ░▒▓█',
+        'ERROR: REALITY.DLL NOT FOUND'
     ];
     
-    ghost.innerHTML = `
-        <div style="text-align: center;">
-            <div style="font-size: 14px; margin-bottom: 10px;">PREDICTIVE GHOST SIMULATION</div>
-            <div style="font-size: 12px;">${ghostTexts[Math.floor(Math.random() * ghostTexts.length)]}</div>
+    corruption.innerHTML = `
+        <div class="text-red-400 font-mono text-sm animate-pulse">
+            ${corruptText[Math.floor(Math.random() * corruptText.length)]}
         </div>
     `;
     
-    document.body.appendChild(ghost);
+    glitchContainer.appendChild(corruption);
     
     setTimeout(() => {
-        if (ghost.parentNode) {
-            ghost.parentNode.removeChild(ghost);
-        }
-    }, 3000);
+        corruption.remove();
+    }, 800);
 }
 
-function startGhostEffects() {
-    ghostEffectInterval = setInterval(() => {
-        if (gameState.predictabilityScore > 50) {
-            showGhostPrediction();
-        }
-    }, 8000 + Math.random() * 5000);
-}
-
-function showGhostPrediction() {
-    const ghostContainer = document.getElementById('ghost-predictions');
-    if (ghostContainer) {
-        const predictions = [
-            'Analyzing behavioral quantum state...',
-            'Simulating decision tree alternatives...',
-            'Ghost patterns: 73% match with previous responses',
-            'Parallel timeline: Defense failed in 2.3 seconds',
-            'Predictive echo: Same choice leads to system compromise',
-            'Alternative self: Chose differently, AI adapted anyway'
-        ];
-        
-        const prediction = predictions[Math.floor(Math.random() * predictions.length)];
-        ghostContainer.innerHTML = `<span class="animate-pulse">👻 ${prediction}</span>`;
-        
-        // Clear after a few seconds
-        setTimeout(() => {
-            ghostContainer.innerHTML = 'Quantum probability scanner active...';
-        }, 4000);
-    }
-}
-
-function updateAdaptiveEffects() {
-    // Update AI learning feed with realistic adaptation messages
-    const feedElement = document.getElementById('ai-learning-feed');
-    if (feedElement) {
-        const learningMessages = [
-            `📊 Pattern confidence: ${gameState.predictabilityScore}%`,
-            `🧠 Neural pathway #${Math.floor(Math.random() * 1000)} strengthened`,
-            `⚡ Countermeasure ${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${Math.floor(Math.random() * 100)} deployed`,
-            `🎯 Response time prediction: ${2.1 + Math.random() * 2}s`,
-            `🔄 Behavioral model updated: v${1.0 + gameState.adaptationCycles * 0.1}`,
-            `📈 Learning rate: ${Math.floor(Math.random() * 30) + 70}% efficiency`,
-            `🚨 Pattern deviation detected: ${Math.floor(Math.random() * 15)}%`,
-            `🎭 Deploying psychological pressure tactics...`
-        ];
-        
-        const newMessage = document.createElement('div');
-        newMessage.textContent = learningMessages[Math.floor(Math.random() * learningMessages.length)];
-        newMessage.className = 'opacity-0 transition-opacity duration-500';
-        
-        feedElement.insertBefore(newMessage, feedElement.firstChild);
-        
-        // Fade in
-        setTimeout(() => {
-            newMessage.classList.remove('opacity-0');
-        }, 100);
-        
-        // Remove old messages
-        while (feedElement.children.length > 8) {
-            feedElement.removeChild(feedElement.lastChild);
-        }
-    }
-}
-
-function initializeScreenCorruption() {
-    // Add CSS for glitch effects
-    if (!document.querySelector('#glitch-styles')) {
-        const style = document.createElement('style');
-        style.id = 'glitch-styles';
-        style.textContent = `
-            @keyframes tear-glitch {
-                0% { transform: translateX(0px); }
-                20% { transform: translateX(-5px); }
-                40% { transform: translateX(5px); }
-                60% { transform: translateX(-3px); }
-                80% { transform: translateX(3px); }
-                100% { transform: translateX(0px); }
-            }
-            
-            @keyframes ghost-fade {
-                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-                50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
-                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-            }
-            
-            .glitch-text {
-                animation: text-glitch 0.5s infinite;
-                color: #ff0080 !important;
-                text-shadow: 2px 0 #00ff00, -2px 0 #ff0000;
-            }
-            
-            @keyframes text-glitch {
-                0% { transform: translate(0); }
-                20% { transform: translate(-2px, 2px); }
-                40% { transform: translate(-2px, -2px); }
-                60% { transform: translate(2px, 2px); }
-                80% { transform: translate(2px, -2px); }
-                100% { transform: translate(0); }
-            }
-            
-            .screen-tear {
-                animation: tear-glitch 0.1s infinite;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-}
-
-function resetVisualEffects() {
-    // Reset all visual corruption
-    document.querySelectorAll('.glitch-text').forEach(el => {
-        el.classList.remove('glitch-text');
-    });
+function createPixelDistortion() {
+    // Create a small distortion effect
+    const distortion = document.createElement('div');
+    distortion.className = 'absolute opacity-40';
+    distortion.style.left = Math.random() * 80 + '%';
+    distortion.style.top = Math.random() * 80 + '%';
+    distortion.style.width = '100px';
+    distortion.style.height = '100px';
+    distortion.style.background = `
+        radial-gradient(
+            circle,
+            rgba(255,0,255,0.3) 0%,
+            rgba(0,255,255,0.2) 50%,
+            transparent 100%
+        )
+    `;
+    distortion.style.animation = 'distort-pulse 0.5s ease-out';
     
-    document.querySelectorAll('*').forEach(el => {
-        el.style.filter = '';
-        el.style.color = '';
-        el.style.textShadow = '';
-    });
+    glitchContainer.appendChild(distortion);
     
-    // Remove any remaining glitch elements
-    document.querySelectorAll('.screen-tear, .ghost-interface').forEach(el => {
-        if (el.parentNode) {
-            el.parentNode.removeChild(el);
-        }
-    });
+    setTimeout(() => {
+        distortion.remove();
+    }, 500);
 }
 
 export function triggerPatternBreakEffect() {
-    // Special effect when player breaks a pattern
+    // Special glitch effect when player breaks a pattern
+    intensifyGlitchEffects();
+    
     const breakEffect = document.createElement('div');
-    breakEffect.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #00ff00;
-        font-size: 24px;
-        font-weight: bold;
-        text-shadow: 0 0 20px #00ff00;
-        z-index: 1001;
-        animation: pattern-break 2s ease-out;
-        pointer-events: none;
+    breakEffect.className = 'absolute inset-0';
+    breakEffect.innerHTML = `
+        <div class="absolute inset-0 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 opacity-20 animate-pulse"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div class="text-4xl animate-spin">⚡</div>
+        </div>
     `;
-    breakEffect.textContent = '🔀 PATTERN DISRUPTED!';
     
-    document.body.appendChild(breakEffect);
-    
-    // Add the animation
-    if (!document.querySelector('#pattern-break-style')) {
-        const style = document.createElement('style');
-        style.id = 'pattern-break-style';
-        style.textContent = `
-            @keyframes pattern-break {
-                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-                20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-                80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-            }
-        `;
-        document.head.appendChild(style);
-    }
+    glitchContainer.appendChild(breakEffect);
     
     setTimeout(() => {
-        if (breakEffect.parentNode) {
-            breakEffect.parentNode.removeChild(breakEffect);
-        }
+        breakEffect.remove();
     }, 2000);
 }
 
 export function intensifyGlitchEffects() {
-    // Increase glitch intensity when AI confidence is high
-    if (gameState.aiConfidence > 80) {
-        // More frequent and intense effects
-        const intensiveInterval = setInterval(() => {
-            triggerRandomGlitch();
-            triggerRandomGlitch(); // Double the effects
-        }, 1000);
-        
-        setTimeout(() => {
-            clearInterval(intensiveInterval);
-        }, 5000);
+    corruptionLevel = Math.min(corruptionLevel + 1, 5);
+    
+    // More frequent glitches
+    if (glitchInterval) {
+        clearInterval(glitchInterval);
     }
+    
+    const frequency = Math.max(500, 2000 - (corruptionLevel * 300));
+    glitchInterval = setInterval(() => {
+        if (Math.random() < 0.5 + (corruptionLevel * 0.1)) {
+            triggerRandomGlitch();
+        }
+    }, frequency);
+}
+
+export function createAILearningVisualization() {
+    if (!glitchContainer) return;
+    
+    const learning = document.createElement('div');
+    learning.className = 'absolute top-10 right-10 bg-red-900 border border-red-500 rounded p-3 animate-pulse';
+    learning.innerHTML = `
+        <div class="text-red-300 font-mono text-xs">
+            <div class="mb-1">🤖 AI LEARNING ACTIVE</div>
+            <div class="text-red-400">Analyzing patterns...</div>
+            <div class="w-20 bg-red-800 h-1 rounded mt-2">
+                <div class="bg-red-400 h-1 rounded animate-pulse" style="width: ${Math.random() * 100}%"></div>
+            </div>
+        </div>
+    `;
+    
+    glitchContainer.appendChild(learning);
+    
+    setTimeout(() => {
+        learning.remove();
+    }, 3000);
+}
+
+// Add CSS animations if not already present
+if (!document.querySelector('#glitch-animations')) {
+    const style = document.createElement('style');
+    style.id = 'glitch-animations';
+    style.textContent = `
+        @keyframes static-flicker {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+        }
+        
+        @keyframes scan-move {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        @keyframes distort-pulse {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.4; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0.8) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes glitch-text {
+            0%, 100% { 
+                text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000;
+                transform: translateX(0);
+            }
+            25% { 
+                text-shadow: -2px 0 #ff0000, 2px 0 #00ffff;
+                transform: translateX(-2px);
+            }
+            50% { 
+                text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+                transform: translateX(2px);
+            }
+            75% { 
+                text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+                transform: translateX(-1px);
+            }
+        }
+        
+        .glitch-text {
+            animation: glitch-text 0.3s infinite;
+        }
+    `;
+    document.head.appendChild(style);
 }
