@@ -154,6 +154,11 @@ if (!document.querySelector('#security-audit-animations')) {
             to { transform: translateY(0); opacity: 1; }
         }
         
+        @keyframes slide-down {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
         @keyframes slide-in {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
@@ -171,6 +176,10 @@ if (!document.querySelector('#security-audit-animations')) {
         
         .animate-slide-up {
             animation: slide-up 0.4s ease-out;
+        }
+        
+        .animate-slide-down {
+            animation: slide-down 0.4s ease-out;
         }
         
         .animate-slide-in {
