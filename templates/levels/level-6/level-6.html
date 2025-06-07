@@ -234,81 +234,84 @@
                             </div>
                         </div>
 
-                        <!-- Investor Information -->
+                        <!-- Interactive Investor Information -->
                         <div class="mb-6">
                             <h3 class="font-bold text-slate-800 mb-3 border-b border-slate-200 pb-1">INVESTOR DETAILS</h3>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-slate-600">Investor Name:</span>
-                                    <span id="investor-name" class="font-semibold text-slate-800">-</span>
+                                    <span id="investor-name" class="font-semibold text-slate-800 hover:bg-yellow-100 px-1 rounded cursor-pointer contract-section" data-section="name">-</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-slate-600">Email Domain:</span>
-                                    <span id="investor-domain" class="font-mono text-slate-800">-</span>
+                                    <span id="investor-domain" class="font-mono text-slate-800 hover:bg-yellow-100 px-1 rounded cursor-pointer contract-section" data-section="domain">-</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-slate-600">Verification:</span>
-                                    <span id="investor-verification" class="font-semibold">-</span>
+                                    <span class="text-slate-600">Registration:</span>
+                                    <span id="investor-registration" class="font-semibold hover:bg-yellow-100 px-1 rounded cursor-pointer contract-section" data-section="registration">-</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Investment Terms -->
+                        <!-- Interactive Investment Terms -->
                         <div class="mb-6">
                             <h3 class="font-bold text-slate-800 mb-3 border-b border-slate-200 pb-1">INVESTMENT TERMS</h3>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-slate-600">Investment Amount:</span>
-                                    <span id="investment-amount" class="font-bold text-green-600">-</span>
+                                    <span id="investment-amount" class="font-bold text-green-600 hover:bg-yellow-100 px-1 rounded cursor-pointer contract-section" data-section="amount">-</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-slate-600">Equity Percentage:</span>
-                                    <span id="equity-percentage" class="font-semibold text-slate-800">-</span>
+                                    <span id="equity-percentage" class="font-semibold text-slate-800 hover:bg-yellow-100 px-1 rounded cursor-pointer contract-section" data-section="equity">-</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-slate-600">Payment Method:</span>
-                                    <span id="payment-method" class="font-semibold text-slate-800">-</span>
+                                    <span id="payment-method" class="font-semibold text-slate-800 hover:bg-yellow-100 px-1 rounded cursor-pointer contract-section" data-section="payment">-</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-slate-600">Timeline:</span>
-                                    <span id="timeline" class="font-semibold text-slate-800">-</span>
+                                    <span id="timeline" class="font-semibold text-slate-800 hover:bg-yellow-100 px-1 rounded cursor-pointer contract-section" data-section="timeline">-</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Contract Analysis -->
+                        <!-- Interactive Legal Terms -->
                         <div class="mb-6">
-                            <h3 class="font-bold text-slate-800 mb-3 border-b border-slate-200 pb-1">RISK ASSESSMENT</h3>
-                            <div id="contract-analysis" class="space-y-2 text-xs">
-                                <!-- Analysis results will be populated here -->
+                            <h3 class="font-bold text-slate-800 mb-3 border-b border-slate-200 pb-1">LEGAL CONDITIONS</h3>
+                            <div class="space-y-2 text-xs">
+                                <div class="bg-slate-50 p-2 rounded hover:bg-yellow-100 cursor-pointer contract-section" data-section="legal">
+                                    <p id="legal-terms" class="text-slate-700">Click to examine legal conditions and due diligence requirements...</p>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Analysis Tools -->
-                        <div class="mb-6">
-                            <h4 class="font-semibold text-slate-700 mb-3">Due Diligence Tools</h4>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button class="analysis-tool bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs py-2 px-3 rounded border border-blue-200 transition" data-tool="domain-check">
-                                    <i class="bi bi-search mr-1"></i>Domain Check
-                                </button>
-                                <button class="analysis-tool bg-green-50 hover:bg-green-100 text-green-700 text-xs py-2 px-3 rounded border border-green-200 transition" data-tool="financial-verify">
-                                    <i class="bi bi-bank mr-1"></i>Financial Verify
-                                </button>
-                                <button class="analysis-tool bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs py-2 px-3 rounded border border-purple-200 transition" data-tool="terms-analysis">
-                                    <i class="bi bi-file-text mr-1"></i>Terms Analysis
-                                </button>
-                                <button class="analysis-tool bg-orange-50 hover:bg-orange-100 text-orange-700 text-xs py-2 px-3 rounded border border-orange-200 transition" data-tool="reputation-check">
-                                    <i class="bi bi-shield mr-1"></i>Reputation Check
-                                </button>
+                        <!-- Examination Results Panel -->
+                        <div id="examination-results" class="mb-6 hidden">
+                            <h4 class="font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                                <i class="bi bi-search text-blue-600"></i>
+                                Analysis Findings
+                            </h4>
+                            <div id="findings-content" class="space-y-2 max-h-32 overflow-y-auto text-xs">
+                                <!-- Examination results will be populated here -->
                             </div>
                         </div>
 
-                        <!-- Analysis Results -->
-                        <div id="analysis-results" class="mb-6 hidden">
-                            <h4 class="font-semibold text-slate-700 mb-3">Analysis Results</h4>
-                            <div id="results-content" class="space-y-3 max-h-32 overflow-y-auto">
-                                <!-- Analysis results will be populated here -->
+                        <!-- Progress Indicator -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
+                                <span>Due Diligence Progress</span>
+                                <span id="progress-text">0/6 sections examined</span>
                             </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Examination Instructions -->
+                        <div class="text-center text-xs text-slate-500 mb-4">
+                            <p>💡 Click on highlighted contract sections to examine details</p>
+                            <p>Examine all sections before making your decision</p>
                         </div>
                     </div>
 
