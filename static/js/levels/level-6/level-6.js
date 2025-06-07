@@ -1,6 +1,5 @@
 import { gameState, updateFinancialMetrics } from './gameState.js';
-import { loadInvestors, selectInvestor, closeInvestmentAnalysis } from './investorHandler.js';
-import { handleAnalysisTool } from './analysisTools.js';
+import { loadInvestors, selectInvestor, closeInvestmentAnalysis, handleSectionExamination } from './investorHandler.js';
 import { handleDecision } from './decisionHandler.js';
 import { handleEmergencyFreeze } from './emergencyActions.js';
 import { updateMentorMessage, showResultModal } from './uiUpdates.js';
@@ -36,16 +35,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     });
 
-    // Analysis tools
-    document.querySelectorAll('.analysis-tool').forEach(tool => {
-        tool.addEventListener('click', function() {
-            const toolType = this.dataset.tool;
-            if (gameState.currentInvestor) {
-                handleAnalysisTool(toolType);
-                this.classList.add('opacity-50');
-                this.disabled = true;
+    // Contract section examination
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('contract-section') && gameState.currentInvestor) {
+            const section = e.target.dataset.section;
+            if (!gameState.sectionsExamined[section]) {
+                handleSectionExamination(section);
             }
-        });
+        }
     });
 
     // Decision actions
