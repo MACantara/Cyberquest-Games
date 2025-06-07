@@ -101,6 +101,28 @@
                     </div>
                 </div>
 
+                <!-- Analysis Results Panel -->
+                <div id="analysis-results" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
+                    <h4 class="text-white font-semibold mb-3 flex items-center gap-2">
+                        <i class="bi bi-clipboard-data text-cyan-400"></i>
+                        Analysis Results
+                    </h4>
+                    <div id="results-content" class="bg-slate-900 rounded-lg p-4 border border-slate-600">
+                        <!-- Populated by analysis tools -->
+                    </div>
+                </div>
+
+                <!-- Critical Vulnerability Alert -->
+                <div id="critical-vulnerability" class="hidden bg-red-900 border border-red-600 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-exclamation-triangle text-red-400 text-lg"></i>
+                        <div>
+                            <h5 class="text-red-300 font-semibold">Critical Vulnerability Detected</h5>
+                            <p class="text-red-200 text-sm mt-1">This vulnerability could compromise election integrity. Immediate disclosure decision required.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Ethical Decision Panel -->
                 <div id="decision-panel" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
                     <h3 class="text-lg font-semibold text-yellow-400 mb-4">⚖️ Ethical Disclosure Decision</h3>
@@ -148,25 +170,6 @@
                             <i class="bi bi-file-text mr-2"></i>
                             Document Findings
                         </button>
-                    </div>
-
-                    <!-- Analysis Results -->
-                    <div id="analysis-results" class="hidden">
-                        <h4 class="text-white font-semibold mb-3">Analysis Results</h4>
-                        <div id="results-content" class="bg-slate-900 rounded-lg p-4 border border-slate-600">
-                            <!-- Populated by analysis tools -->
-                        </div>
-                    </div>
-
-                    <!-- Critical Vulnerability Alert -->
-                    <div id="critical-vulnerability" class="hidden bg-red-900 border border-red-600 rounded-lg p-4 mt-4">
-                        <div class="flex items-start gap-3">
-                            <i class="bi bi-exclamation-triangle text-red-400 text-lg"></i>
-                            <div>
-                                <h5 class="text-red-300 font-semibold">Critical Vulnerability Detected</h5>
-                                <p class="text-red-200 text-sm mt-1">This vulnerability could compromise election integrity. Immediate disclosure decision required.</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
