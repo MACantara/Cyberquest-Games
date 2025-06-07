@@ -20,12 +20,64 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Tutorial system
     function showTutorial() {
         setTimeout(() => {
-            const tutorialElement = document.getElementById('tutorial-scanner');
-            if (tutorialElement) {
-                tutorialElement.classList.remove('hidden');
-            }
+            // Create tutorial toast instead of showing panel
+            createTutorialToast();
             updateMentorMessage("Start by scanning the Vote Processing Engine - the red component. It contains a critical vulnerability that could compromise the entire election.");
         }, 2000);
+    }
+
+    function createTutorialToast() {
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-20 left-4 max-w-sm bg-cyan-900 border-2 border-cyan-500 text-cyan-100 p-4 rounded-lg shadow-2xl z-50 animate-slide-down';
+        toast.innerHTML = `
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 bg-cyan-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="bi bi-lightbulb text-cyan-900 text-sm"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="text-cyan-300 font-semibold text-sm mb-2">🎯 Security Audit Tutorial</div>
+                    <div class="text-cyan-200 text-xs space-y-1">
+                        <p>1. Click the <strong class="text-red-300">Vote Processing Engine</strong> (red component)</p>
+                        <p>2. Use <strong class="text-blue-300">Vulnerability Scan</strong> first</p>
+                        <p>3. Analyze findings and ethical implications</p>
+                        <p>4. Make disclosure decision based on evidence</p>
+                    </div>
+                </div>
+                <button class="close-tutorial text-cyan-400 hover:text-cyan-200 ml-2">
+                    <i class="bi bi-x-lg text-sm"></i>
+                </button>
+            </div>
+            <div class="mt-3 text-center">
+                <button class="got-it-btn bg-cyan-600 hover:bg-cyan-700 text-white text-xs px-3 py-1 rounded">
+                    Got it!
+                </button>
+            </div>
+        `;
+        
+        // Add event listeners for dismissal
+        const closeBtn = toast.querySelector('.close-tutorial');
+        const gotItBtn = toast.querySelector('.got-it-btn');
+        
+        const dismissToast = () => {
+            toast.classList.add('animate-slide-up');
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.remove();
+                }
+            }, 300);
+        };
+        
+        closeBtn.addEventListener('click', dismissToast);
+        gotItBtn.addEventListener('click', dismissToast);
+        
+        document.body.appendChild(toast);
+        
+        // Auto-remove after 15 seconds
+        setTimeout(() => {
+            if (toast.parentElement) {
+                dismissToast();
+            }
+        }, 15000);
     }
 
     function setupEventListeners() {
