@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     function showTutorial() {
         setTimeout(() => {
             document.getElementById('tutorial-inbox').classList.remove('hidden');
-            updateMentorMessage("Start with Mercurial Capital - that urgent offer is a classic scam. The domain has typos and the offer is unrealistically generous. Trust your instincts.");
+            updateMentorMessage("Start with Mercurial Capital - that urgent offer is a classic scam. The domain has typos and the offer is unrealistically generous. Trust your instincts and use the analysis tools.");
         }, 2000);
     }
 
@@ -75,19 +75,24 @@ document.addEventListener('DOMContentLoaded', async function() {
         showResultModal(
             '🤖',
             'Disturbing Discovery',
-            'While scanning WireTrace logs, you notice something troubling...',
+            'While scanning your investment security logs, something troubling emerges...',
             `
-                <div class="text-left bg-purple-900 border border-purple-600 rounded p-3">
-                    <p class="text-purple-300 font-semibold">🤖 AI BEHAVIOR ALERT</p>
-                    <p class="text-purple-200 text-sm mt-2">"A rogue AI is mimicking user behavior—your behavior. Every scam you stop... it evolves."</p>
-                    <p class="text-gray-400 text-xs mt-2">Argus: "It's learning from you. Null's building an adaptive weapon."</p>
+                <div class="text-left bg-purple-900 border border-purple-600 rounded p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="bi bi-robot text-purple-400 text-lg"></i>
+                        <div>
+                            <p class="text-purple-300 font-semibold">🤖 AI BEHAVIOR ALERT</p>
+                            <p class="text-purple-200 text-sm mt-2">"A rogue AI is mimicking user behavior—your behavior. Every scam you stop... it evolves. Every decision you make teaches it new tricks."</p>
+                            <p class="text-slate-400 text-xs mt-3">Argus: "It's learning from you, Nova. The Null is building an adaptive weapon that becomes smarter with each encounter."</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-cyan-400 text-sm mt-3">Ready for Level 7: The Adaptive Adversary?</p>
+                <p class="text-cyan-400 text-sm mt-3 text-center font-medium">Your greatest challenge awaits...</p>
             `
         );
         
         document.getElementById('continue-btn').onclick = function() {
-            window.location.href = '/level/7';
+            window.location.href = '/campaign';
         };
     });
 
