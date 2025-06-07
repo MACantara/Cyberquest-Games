@@ -1,5 +1,5 @@
 import { gameState, updateGameMetrics } from './gameState.js';
-import { updateMentorMessage, showResultModal, createSecurityAlert } from './uiUpdates.js';
+import { updateMentorMessage, showResultModal, createEthicalAlert } from './uiUpdates.js';
 import { completeComponentAnalysis, simulateAttack, highlightDataFlow } from './componentHandler.js';
 
 export function handleAnalysisTool(toolType) {
