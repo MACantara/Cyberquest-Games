@@ -127,7 +127,7 @@ export function selectComponent(componentId) {
 }
 
 export function displayComponentAnalysis(component) {
-    // Show analysis panel
+    // Show analysis panel in the right sidebar
     const analysisPanel = document.getElementById('component-analysis');
     if (analysisPanel) {
         analysisPanel.classList.remove('hidden');
@@ -259,11 +259,14 @@ export function completeComponentAnalysis(componentId, vulnerabilityFound = fals
 }
 
 export function closeComponentAnalysis() {
-    document.getElementById('component-analysis').classList.add('hidden');
+    const analysisPanel = document.getElementById('component-analysis');
+    if (analysisPanel) {
+        analysisPanel.classList.add('hidden');
+    }
     gameState.currentComponent = null;
     
-    // Remove selection highlight
-    document.querySelectorAll('.scan-component').forEach(comp => {
+    // Remove selection highlight from all components
+    document.querySelectorAll('[data-component]').forEach(comp => {
         comp.classList.remove('ring-2', 'ring-cyan-400');
     });
 }
