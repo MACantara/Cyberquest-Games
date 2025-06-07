@@ -1,5 +1,5 @@
 import { gameState, updateGameMetrics, trackPlayerPattern } from './gameState.js';
-import { showResultModal } from './uiUpdates.js';
+import { updateMentorMessage } from './uiUpdates.js';
 import { triggerPatternBreakEffect } from './glitchEffects.js';
 
 let activePatternBreakers = {
@@ -8,7 +8,7 @@ let activePatternBreakers = {
     reverseLogic: false
 };
 
-export function handleRandomizeApproach() {
+export function activateRandomization() {
     activePatternBreakers.randomization = true;
     gameState.patternsBroken++;
     gameState.unpredictableActions++;
@@ -30,7 +30,7 @@ export function handleRandomizeApproach() {
     }, 30000); // 30 seconds or until next response
 }
 
-export function handleDelayResponse() {
+export function activateDelayTactic() {
     activePatternBreakers.delayTactic = true;
     gameState.patternsBroken++;
     gameState.unpredictableActions++;
@@ -62,7 +62,7 @@ export function handleDelayResponse() {
     }, 8000); // 8 second forced delay
 }
 
-export function handleReverseLogic() {
+export function activateReverseLogic() {
     activePatternBreakers.reverseLogic = true;
     gameState.patternsBroken++;
     gameState.unpredictableActions++;
