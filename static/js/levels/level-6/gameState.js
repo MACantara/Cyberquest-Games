@@ -6,6 +6,8 @@ export const gameState = {
     trustRating: 85,
     currentInvestor: null,
     analysisSteps: {},
+    sectionsExamined: {},
+    totalSections: 6,
     completedInvestors: []
 };
 
