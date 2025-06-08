@@ -113,18 +113,60 @@ function performVulnerabilityDiscovery() {
             }
         }
         
-        // Enable exploit testing for high-risk files - use integrated panel
+        // Enable exploit testing for high-risk files - use integrated panel with layout adjustment
         if (fileWithVulns.riskLevel >= 8) {
-            const integratedPanel = document.getElementById('exploit-panel-integrated');
-            if (integratedPanel) {
-                integratedPanel.style.display = 'block';
-                document.getElementById('exploit-command').disabled = false;
-                document.getElementById('run-exploit').disabled = false;
-            }
+            showExploitTestingPanel();
         }
         
         updateProgress();
     }, 4000);
+}
+
+function showExploitTestingPanel() {
+    const integratedPanel = document.getElementById('exploit-panel-integrated');
+    const codeViewerContainer = document.getElementById('code-viewer-container');
+    
+    if (integratedPanel && codeViewerContainer) {
+        // Show the exploit panel
+        integratedPanel.classList.remove('hidden');
+        
+        // Adjust code viewer width from col-span-3 to col-span-2
+        codeViewerContainer.classList.remove('col-span-3');
+        codeViewerContainer.classList.add('col-span-2');
+        
+        // Enable exploit testing controls
+        document.getElementById('exploit-command').disabled = false;
+        document.getElementById('run-exploit').disabled = false;
+        
+        // Add animation for smooth transition
+        integratedPanel.style.opacity = '0';
+        integratedPanel.style.transform = 'translateX(20px)';
+        
+        setTimeout(() => {
+            integratedPanel.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            integratedPanel.style.opacity = '1';
+            integratedPanel.style.transform = 'translateX(0)';
+        }, 100);
+    }
+}
+
+// Add function to hide exploit panel and restore full width
+function hideExploitTestingPanel() {
+    const integratedPanel = document.getElementById('exploit-panel-integrated');
+    const codeViewerContainer = document.getElementById('code-viewer-container');
+    
+    if (integratedPanel && codeViewerContainer) {
+        // Hide the exploit panel
+        integratedPanel.classList.add('hidden');
+        
+        // Restore code viewer full width from col-span-2 to col-span-3
+        codeViewerContainer.classList.remove('col-span-2');
+        codeViewerContainer.classList.add('col-span-3');
+        
+        // Disable exploit testing controls
+        document.getElementById('exploit-command').disabled = true;
+        document.getElementById('run-exploit').disabled = true;
+    }
 }
 
 function showAnalysisResults(file, type) {

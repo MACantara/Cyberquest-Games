@@ -125,7 +125,7 @@
                     
                     <!-- File Tree & Code Viewer -->
                     <div class="p-4">
-                        <div class="grid grid-cols-4 gap-4">
+                        <div class="grid grid-cols-4 gap-4" id="main-layout">
                             <!-- File Tree -->
                             <div class="bg-slate-900/50 rounded-lg p-3">
                                 <h4 class="text-white font-medium mb-3 text-sm">Project Files</h4>
@@ -153,8 +153,8 @@
                                 </div>
                             </div>
                             
-                            <!-- Code Viewer -->
-                            <div class="col-span-2 bg-slate-900/50 rounded-lg p-3">
+                            <!-- Code Viewer - Dynamic width based on exploit panel -->
+                            <div class="col-span-3 bg-slate-900/50 rounded-lg p-3" id="code-viewer-container">
                                 <div class="flex items-center justify-between mb-3">
                                     <h4 id="current-file" class="text-white font-medium text-sm">Select a file to analyze</h4>
                                     <div class="flex gap-2">
@@ -175,8 +175,8 @@
                                 </div>
                             </div>
                             
-                            <!-- Exploit Testing Environment - Moved to right side -->
-                            <div class="bg-slate-900/50 rounded-lg p-3" id="exploit-panel-integrated" style="display: none;">
+                            <!-- Exploit Testing Environment - Initially hidden -->
+                            <div class="bg-slate-900/50 rounded-lg p-3 hidden" id="exploit-panel-integrated">
                                 <h4 class="text-orange-400 font-medium mb-3 text-sm flex items-center gap-2">
                                     <i class="bi bi-terminal"></i>
                                     Exploit Testing

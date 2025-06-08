@@ -110,6 +110,27 @@ export function initializeCodeFormattingStyles() {
         const style = document.createElement('style');
         style.id = 'code-formatting-styles';
         style.textContent = `
+            /* Layout transition animations */
+            #code-viewer-container {
+                transition: all 0.3s ease;
+            }
+            
+            #exploit-panel-integrated {
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+            
+            /* Responsive code viewer height adjustment */
+            #code-content {
+                min-height: 400px;
+                max-height: 600px;
+            }
+            
+            /* When exploit panel is visible, adjust code viewer height */
+            .col-span-2 #code-content {
+                min-height: 350px;
+                max-height: 500px;
+            }
+            
             #code-content .flex {
                 font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'Ubuntu Mono', monospace;
                 font-size: 12px;
