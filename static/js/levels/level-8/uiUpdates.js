@@ -121,6 +121,18 @@ export function highlightCodeVulnerability(lineNumber, vulnerabilityType) {
     }
 }
 
+export function revealVulnerabilitiesInCode(vulnerabilities) {
+    // Gradually reveal vulnerabilities with visual effects
+    vulnerabilities.forEach((vuln, index) => {
+        setTimeout(() => {
+            highlightCodeVulnerability(vuln.line, vuln.type);
+            
+            // Show discovery notification
+            createEthicalAlert(`${vuln.type} discovered on line ${vuln.line}`, 'warning', 3000);
+        }, index * 1000);
+    });
+}
+
 export function showExploitWarning(severity = 'high') {
     const warning = document.createElement('div');
     warning.className = 'fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-60';
