@@ -56,14 +56,14 @@ export function initializeTerminalPopup() {
         }
     });
 
-    // Set initial position and size for maximum terminal output space
+    // Set initial position and size for more compact terminal
     if (popup) {
         popup.style.top = '5%';
         popup.style.left = '10%';
-        popup.style.width = '1000px';
-        popup.style.height = '80vh'; // Use viewport height for better scaling
-        popup.style.maxHeight = '800px';
-        popup.style.minHeight = '600px';
+        popup.style.width = '900px';
+        popup.style.height = '60vh'; // Reduced from 80vh
+        popup.style.maxHeight = '600px'; // Reduced from 800px
+        popup.style.minHeight = '400px'; // Reduced from 600px
     }
 }
 
@@ -577,8 +577,8 @@ function resizeTerminal(e) {
     const deltaX = e.clientX - terminalResizeState.startX;
     const deltaY = e.clientY - terminalResizeState.startY;
     
-    const newWidth = Math.max(800, terminalResizeState.initialWidth + deltaX);
-    const newHeight = Math.max(500, terminalResizeState.initialHeight + deltaY);
+    const newWidth = Math.max(600, terminalResizeState.initialWidth + deltaX); // Reduced min width
+    const newHeight = Math.max(350, terminalResizeState.initialHeight + deltaY); // Reduced min height
     
     popup.style.width = newWidth + 'px';
     popup.style.height = newHeight + 'px';
