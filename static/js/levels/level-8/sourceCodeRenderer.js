@@ -117,12 +117,24 @@ export function initializeCodeFormattingStyles() {
             
             #exploit-panel-integrated {
                 transition: opacity 0.3s ease, transform 0.3s ease;
+                border-top: 1px solid #475569;
             }
             
             /* Code viewer maintains proper sizing */
             #code-content {
                 min-height: 400px;
                 max-height: 600px;
+            }
+            
+            /* Terminal positioned below content takes full width */
+            #exploit-panel-integrated {
+                width: 100%;
+            }
+            
+            /* Terminal output styling for bottom position */
+            #exploit-output {
+                min-height: 150px;
+                max-height: 200px;
             }
             
             /* When exploit panel is visible, adjust code viewer height */
