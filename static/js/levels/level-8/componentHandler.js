@@ -53,7 +53,23 @@ export function loadFileContent(fileId) {
         console.error('File not found:', fileId);
         return null;
     }
-    return file;
+    // Return a copy with vulnerabilities hidden until scan is performed
+    return {
+        ...file,
+        vulnerabilitiesRevealed: false
+    };
+}
+
+// Add function to reveal vulnerabilities after scan
+export function revealFileVulnerabilities(fileId) {
+    const file = fileData[fileId];
+    if (file) {
+        return {
+            ...file,
+            vulnerabilitiesRevealed: true
+        };
+    }
+    return null;
 }
 
 export function updateProgress() {
