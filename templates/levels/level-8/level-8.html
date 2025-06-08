@@ -326,40 +326,42 @@
             </div>
         </div>
         
-        <!-- Terminal Content Area -->
-        <div id="terminal-popup-content" class="p-4 overflow-y-auto flex-1">
-            <div class="grid grid-cols-4 gap-4">
-                <!-- Terminal Interface -->
-                <div class="col-span-3 bg-black/70 rounded-lg p-3 border border-gray-600">
-                    <!-- Terminal Output -->
-                    <div id="exploit-output" class="text-green-400 font-mono text-sm min-h-64 max-h-96 overflow-y-auto mb-3 p-2 rounded bg-black/30">
+        <!-- Terminal Content Area - Full Height -->
+        <div id="terminal-popup-content" class="flex-1 overflow-hidden">
+            <div class="grid grid-cols-4 gap-4 h-full p-4">
+                <!-- Terminal Interface - Occupies most space -->
+                <div class="col-span-3 bg-black/70 rounded-lg border border-gray-600 flex flex-col h-full">
+                    <!-- Terminal Output - Takes most space -->
+                    <div id="exploit-output" class="text-green-400 font-mono text-sm flex-1 overflow-y-auto p-3 bg-black/30 rounded-t-lg">
                         <!-- Terminal output will be populated here -->
                     </div>
                     
-                    <!-- Terminal Input -->
-                    <div class="flex items-center gap-2">
-                        <span class="text-green-400 text-sm font-mono flex-shrink-0">root@pentest:~#</span>
-                        <input type="text" id="exploit-command" 
-                               class="bg-transparent text-white flex-1 outline-none font-mono text-sm border-none" 
-                               placeholder="Type 'help' for available commands..." 
-                               disabled
-                               autocomplete="off">
-                    </div>
-                    
-                    <!-- Terminal Controls -->
-                    <div class="flex items-center gap-2 mt-3 pt-2 border-t border-gray-600">
-                        <button id="run-exploit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs" disabled>
-                            <i class="bi bi-play-fill mr-1"></i>
-                            Execute
-                        </button>
-                        <div class="text-xs text-gray-400 ml-auto">
-                            Use ↑↓ for command history
+                    <!-- Terminal Input - Fixed at bottom -->
+                    <div class="flex-shrink-0 p-3 border-t border-gray-600 bg-black/50 rounded-b-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-green-400 text-sm font-mono flex-shrink-0">root@pentest:~#</span>
+                            <input type="text" id="exploit-command" 
+                                   class="bg-transparent text-white flex-1 outline-none font-mono text-sm border-none" 
+                                   placeholder="Type 'help' for available commands..." 
+                                   disabled
+                                   autocomplete="off">
+                        </div>
+                        
+                        <!-- Terminal Controls -->
+                        <div class="flex items-center gap-2 pt-2 border-t border-gray-600">
+                            <button id="run-exploit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs" disabled>
+                                <i class="bi bi-play-fill mr-1"></i>
+                                Execute
+                            </button>
+                            <div class="text-xs text-gray-400 ml-auto">
+                                Use ↑↓ for command history
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Quick Reference Panel -->
-                <div class="space-y-3">
+                <!-- Quick Reference Panel - Fixed width sidebar -->
+                <div class="space-y-3 overflow-y-auto">
                     <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-3">
                         <div class="flex items-start gap-2">
                             <i class="bi bi-info-circle text-blue-400 text-sm mt-1"></i>

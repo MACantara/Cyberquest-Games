@@ -57,12 +57,12 @@ export function initializeTerminalPopup() {
         }
     });
 
-    // Initialize terminal with welcome message
+    // Set initial position and size for full height usage
     if (popup) {
-        popup.style.top = '15%';
-        popup.style.left = '20%';
-        popup.style.width = '800px';
-        popup.style.height = '600px';
+        popup.style.top = '10%';
+        popup.style.left = '15%';
+        popup.style.width = '900px';
+        popup.style.height = '700px';
     }
 }
 
@@ -547,22 +547,15 @@ function resizeTerminal(e) {
     if (!terminalResizeState.isResizing) return;
     
     const popup = document.getElementById('exploit-terminal-popup');
-    const popupContent = document.getElementById('terminal-popup-content');
     const deltaX = e.clientX - terminalResizeState.startX;
     const deltaY = e.clientY - terminalResizeState.startY;
     
-    const newWidth = Math.max(500, terminalResizeState.initialWidth + deltaX);
-    const newHeight = Math.max(400, terminalResizeState.initialHeight + deltaY);
+    const newWidth = Math.max(600, terminalResizeState.initialWidth + deltaX);
+    const newHeight = Math.max(500, terminalResizeState.initialHeight + deltaY);
     
     popup.style.width = newWidth + 'px';
     popup.style.height = newHeight + 'px';
     
-    // Adjust terminal output height
-    const terminalOutput = document.getElementById('exploit-output');
-    if (terminalOutput) {
-        const availableHeight = newHeight - 200; // Account for header and controls
-        terminalOutput.style.maxHeight = Math.max(200, availableHeight) + 'px';
-    }
 }
 
 function stopTerminalResize() {
