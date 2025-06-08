@@ -57,12 +57,14 @@ export function initializeTerminalPopup() {
         }
     });
 
-    // Set initial position and size for full height usage
+    // Set initial position and size for maximum terminal output space
     if (popup) {
-        popup.style.top = '10%';
-        popup.style.left = '15%';
-        popup.style.width = '900px';
-        popup.style.height = '700px';
+        popup.style.top = '5%';
+        popup.style.left = '10%';
+        popup.style.width = '1000px';
+        popup.style.height = '80vh'; // Use viewport height for better scaling
+        popup.style.maxHeight = '800px';
+        popup.style.minHeight = '600px';
     }
 }
 
@@ -92,7 +94,34 @@ export function showTerminalPopup() {
             showWelcomeMessage();
         }
         
+        // Force recalculate heights after popup is visible
+        setTimeout(() => {
+            adjustTerminalHeight();
+        }, 100);
+        
         updateMentorMessage("Exploit testing terminal opened. Type 'help' to see available commands. Be careful - you're testing against live election infrastructure.");
+    }
+}
+
+function adjustTerminalHeight() {
+    const popup = document.getElementById('exploit-terminal-popup');
+    const terminalOutput = document.getElementById('exploit-output');
+    
+    if (popup && terminalOutput) {
+        const popupRect = popup.getBoundingClientRect();
+        const header = document.getElementById('terminal-popup-header');
+        const terminalInput = terminalOutput.parentElement.querySelector('.flex-shrink-0');
+        
+        // Calculate available height for terminal output
+        const headerHeight = header ? header.offsetHeight : 60;
+        const inputHeight = terminalInput ? terminalInput.offsetHeight : 80;
+        const sidebarPadding = 32; // Account for padding in content area
+        const availableHeight = popupRect.height - headerHeight - inputHeight - sidebarPadding;
+        
+        // Set the terminal output to use all available height
+        terminalOutput.style.height = Math.max(300, availableHeight) + 'px';
+        terminalOutput.style.maxHeight = 'none'; // Remove max-height constraint
+        terminalOutput.style.minHeight = '300px';
     }
 }
 
@@ -550,12 +579,14 @@ function resizeTerminal(e) {
     const deltaX = e.clientX - terminalResizeState.startX;
     const deltaY = e.clientY - terminalResizeState.startY;
     
-    const newWidth = Math.max(600, terminalResizeState.initialWidth + deltaX);
+    const newWidth = Math.max(800, terminalResizeState.initialWidth + deltaX);
     const newHeight = Math.max(500, terminalResizeState.initialHeight + deltaY);
     
     popup.style.width = newWidth + 'px';
     popup.style.height = newHeight + 'px';
     
+    // Recalculate terminal output height when resizing
+    setTimeout(() => adjustTerminalHeight(), 10);
 }
 
 function stopTerminalResize() {
