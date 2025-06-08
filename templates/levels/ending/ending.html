@@ -1,397 +1,679 @@
 {% extends "base.html" %}
+
+{% block title %}CyberQuest - Mission Complete{% endblock %}
+
 {% block content %}
-<!-- Ending: The Sentinel's Legacy -->
-<div class="max-w-7xl mx-auto">
-    <!-- Opening Sequence Modal -->
-    <div id="ending-intro-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-3xl mx-4">
-            <div class="text-center mb-6">
-                <div class="text-6xl mb-4">🛡️</div>
-                <h2 class="text-3xl font-bold text-cyan-300 mb-4">Mission Complete</h2>
-                <div class="bg-green-900 border border-green-600 rounded p-4 mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <i class="bi bi-check-circle text-green-400 text-xl"></i>
-                        <span class="font-semibold text-green-300">THE NULL DISMANTLED</span>
-                    </div>
-                    <p class="text-green-200 text-sm">
-                        The shadowy organization has been exposed and their network dismantled. Dr. Alexis Reeves has
-                        been taken into custody for questioning.
-                    </p>
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 text-white">
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 opacity-20">
+            <div class="floating-particles"></div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="relative z-10 container mx-auto px-4 py-12">
+            <!-- Mission Complete Header -->
+            <div class="text-center mb-16">
+                <div class="w-32 h-32 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
+                    <i class="bi bi-trophy text-6xl text-white"></i>
                 </div>
-                <div class="bg-purple-900 border border-purple-600 rounded p-4 mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <i class="bi bi-scales text-purple-400 text-xl"></i>
-                        <span class="font-semibold text-purple-300">ETHICAL QUESTIONS REMAIN</span>
-                    </div>
-                    <p class="text-purple-200 text-sm">
-                        But the investigation has revealed uncomfortable truths about the Academy itself. A Senate-like
-                        digital ethics board has convened to review your actions and the Academy's future.
-                    </p>
-                </div>
-                <div class="bg-gray-700 rounded p-4 mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="bg-purple-600 rounded-full w-8 h-8 flex items-center justify-center">
-                            <i class="bi bi-person-badge text-white text-sm"></i>
-                        </div>
-                        <span class="font-semibold text-purple-300">Commander Vega</span>
-                    </div>
-                    <p class="text-gray-200 text-sm italic">
-                        "This wasn't just a mission, Nova. It was a mirror. Now we must face what we've seen and decide
-                        what we'll do with that knowledge."
+                <h1 class="text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
+                    MISSION COMPLETE
+                </h1>
+                <p class="text-2xl text-blue-300 mb-6">Agent Nova - Elite Cybersecurity Specialist</p>
+                <div class="bg-green-900/30 border border-green-500 rounded-lg p-6 max-w-4xl mx-auto">
+                    <h2 class="text-xl font-semibold text-green-300 mb-3">🎉 Congratulations!</h2>
+                    <p class="text-green-200 text-lg">
+                        You have successfully completed all 10 levels of CyberQuest and proven yourself as an elite cybersecurity professional. 
+                        From basic network fundamentals to advanced digital forensics, you've mastered the skills needed to protect our digital world.
                     </p>
                 </div>
             </div>
-            <button id="begin-debrief"
-                class="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 px-6 rounded">
-                Begin Final Debrief
-            </button>
-        </div>
-    </div>
 
-    <!-- Header -->
-    <div class="bg-gray-800 rounded-lg p-6 mb-6 shadow">
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-4">
-                <i class="bi bi-award text-gold-400 text-3xl"></i>
-                <div>
-                    <h1 class="text-2xl font-bold text-cyan-300">The Sentinel's Legacy</h1>
-                    <p class="text-gray-300">Academy Debrief Chamber - Final Assessment</p>
-                </div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm text-gray-400">Academy Rank</div>
-                <div class="text-lg font-semibold text-gold-400">Cyber Sentinel - First Class</div>
-            </div>
-        </div>
-
-        <!-- Final Stats -->
-        <div class="grid grid-cols-4 gap-4 bg-gray-700 rounded p-4">
-            <div class="text-center">
-                <div class="text-2xl font-bold text-green-400" id="missions-completed">10</div>
-                <div class="text-xs text-gray-400">Missions Completed</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-blue-400" id="ethical-score">95</div>
-                <div class="text-xs text-gray-400">Ethical Score (%)</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-purple-400" id="threats-neutralized">127</div>
-                <div class="text-xs text-gray-400">Threats Neutralized</div>
-            </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold text-yellow-400" id="lives-protected">50000</div>
-                <div class="text-xs text-gray-400">Lives Protected</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Interface -->
-    <div class="grid grid-cols-12 gap-6">
-        <!-- Left Panel: Memory Wall -->
-        <div class="col-span-4 bg-gray-800 rounded-lg p-4 shadow">
-            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                <i class="bi bi-clock-history"></i> Memory Wall
-            </h3>
-
-            <div class="space-y-3 max-h-96 overflow-y-auto">
-                <!-- Mission 1 Memory -->
-                <div class="memory-item bg-blue-900 border border-blue-600 rounded p-3 cursor-pointer hover:bg-blue-800 transition"
-                    data-mission="1">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-newspaper text-yellow-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white">Misinformation Maze</h4>
-                            <p class="text-xs text-blue-300 mb-1">Verified 12 news sources</p>
-                            <div class="text-xs text-green-400">✓ Prevented election interference</div>
-                        </div>
+            <!-- Overall Statistics -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-cyan-400">Mission Statistics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                    <div class="bg-slate-800/50 border border-slate-600 rounded-lg p-6 text-center">
+                        <div class="text-4xl font-bold text-green-400 mb-2" id="total-score">0</div>
+                        <div class="text-slate-300">Total Score</div>
+                    </div>
+                    <div class="bg-slate-800/50 border border-slate-600 rounded-lg p-6 text-center">
+                        <div class="text-4xl font-bold text-blue-400 mb-2" id="completion-time">--:--:--</div>
+                        <div class="text-slate-300">Total Time</div>
+                    </div>
+                    <div class="bg-slate-800/50 border border-slate-600 rounded-lg p-6 text-center">
+                        <div class="text-4xl font-bold text-purple-400 mb-2" id="skill-points">0</div>
+                        <div class="text-slate-300">Skill Points</div>
+                    </div>
+                    <div class="bg-slate-800/50 border border-slate-600 rounded-lg p-6 text-center">
+                        <div class="text-4xl font-bold text-yellow-400 mb-2" id="achievements">0/30</div>
+                        <div class="text-slate-300">Achievements</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Mission 2 Memory -->
-                <div class="memory-item bg-red-900 border border-red-600 rounded p-3 cursor-pointer hover:bg-red-800 transition"
-                    data-mission="2">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-envelope-exclamation text-red-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white">Shadow in the Inbox</h4>
-                            <p class="text-xs text-red-300 mb-1">Identified 8 phishing attempts</p>
-                            <div class="text-xs text-green-400">✓ Protected student credentials</div>
-                        </div>
+            <!-- Level Progress Overview -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-cyan-400">Mission Progress</h2>
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" id="level-progress-grid">
+                        <!-- Level cards will be populated by JavaScript -->
                     </div>
                 </div>
+            </div>
 
-                <!-- Mission 3 Memory -->
-                <div class="memory-item bg-purple-900 border border-purple-600 rounded p-3 cursor-pointer hover:bg-purple-800 transition"
-                    data-mission="3">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-bug text-purple-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white">Malware Mayhem</h4>
-                            <p class="text-xs text-purple-300 mb-1">Quarantined 15 infected systems</p>
-                            <div class="text-xs text-green-400">✓ Saved gaming tournament</div>
-                        </div>
+            <!-- Detailed Level Statistics -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-cyan-400">Detailed Performance Analysis</h2>
+                <div class="max-w-7xl mx-auto space-y-6" id="detailed-stats">
+                    <!-- Detailed stats will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Skills Mastered -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-cyan-400">Skills Mastered</h2>
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="skills-grid">
+                        <!-- Skills will be populated by JavaScript -->
                     </div>
                 </div>
+            </div>
 
-                <!-- Mission 8 Memory -->
-                <div class="memory-item bg-emerald-900 border border-emerald-600 rounded p-3 cursor-pointer hover:bg-emerald-800 transition"
-                    data-mission="8">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-shield-check text-emerald-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white">The White Hat Test</h4>
-                            <p class="text-xs text-emerald-300 mb-1">Responsible vulnerability disclosure</p>
-                            <div class="text-xs text-green-400">✓ Maintained ethical integrity</div>
-                        </div>
+            <!-- Achievements Unlocked -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-cyan-400">Achievements Unlocked</h2>
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4" id="achievements-grid">
+                        <!-- Achievements will be populated by JavaScript -->
                     </div>
                 </div>
+            </div>
 
-                <!-- Mission 10 Memory -->
-                <div class="memory-item bg-indigo-900 border border-indigo-600 rounded p-3 cursor-pointer hover:bg-indigo-800 transition"
-                    data-mission="10">
-                    <div class="flex items-start gap-3">
-                        <i class="bi bi-search text-indigo-400 text-lg flex-shrink-0 mt-1"></i>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-white">Hunt for The Null</h4>
-                            <p class="text-xs text-indigo-300 mb-1">Identified Dr. Reeves as mastermind</p>
-                            <div class="text-xs text-green-400">✓ Exposed the truth</div>
+            <!-- Career Path Recommendations -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-cyan-400">Your Cybersecurity Career Path</h2>
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500 rounded-lg p-8">
+                        <div class="text-center mb-6">
+                            <div class="text-2xl font-semibold text-purple-300 mb-3">Recommended Specializations</div>
+                            <p class="text-purple-200">Based on your performance across all levels</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="career-recommendations">
+                            <!-- Career recommendations will be populated by JavaScript -->
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Center Panel: Interactive Debrief -->
-        <div class="col-span-5 bg-gray-800 rounded-lg p-4 shadow">
-            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                <i class="bi bi-file-earmark-text"></i> Sentinel Report
-            </h3>
-
-            <!-- Default State -->
-            <div id="report-intro" class="bg-gray-700 rounded p-6 text-center">
-                <i class="bi bi-clipboard-data text-4xl text-gray-500 mb-4"></i>
-                <h4 class="text-xl font-semibold text-white mb-2">Academy Debrief Protocol</h4>
-                <p class="text-gray-300 mb-4">
-                    Review your journey, reflect on key decisions, and help shape the Academy's future.
-                </p>
-                <button id="start-debrief"
-                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
-                    Begin Debrief Session
-                </button>
+            <!-- Final Message -->
+            <div class="text-center mb-16">
+                <div class="bg-slate-800/50 border border-slate-600 rounded-lg p-8 max-w-4xl mx-auto">
+                    <h2 class="text-2xl font-bold text-white mb-4">Commander Vega's Final Message</h2>
+                    <div class="text-slate-300 text-lg leading-relaxed mb-6">
+                        <p class="mb-4">
+                            "Agent Nova, your performance throughout this mission has been exceptional. You've demonstrated 
+                            not only technical expertise but also the ethical judgment and strategic thinking required of 
+                            our elite cybersecurity professionals."
+                        </p>
+                        <p class="mb-4">
+                            "From mastering network fundamentals to uncovering sophisticated threats, you've proven yourself 
+                            capable of protecting our digital infrastructure against the most advanced adversaries. 
+                            The skills you've developed will serve you well in the ever-evolving landscape of cybersecurity."
+                        </p>
+                        <p class="text-cyan-300 font-semibold">
+                            "Welcome to the ranks of CyberQuest Elite. The digital world is safer with defenders like you."
+                        </p>
+                    </div>
+                    <div class="text-right text-slate-400 italic">
+                        - Commander Sarah Vega, CyberQuest Academy
+                    </div>
+                </div>
             </div>
 
-            <!-- Debrief Sections -->
-            <div id="debrief-content" class="hidden space-y-4">
-                <!-- Section 1: Decision Review -->
-                <div id="decision-review" class="bg-gray-700 rounded p-4">
-                    <h4 class="text-lg font-semibold text-white mb-3">Key Decision Analysis</h4>
-                    <div class="space-y-3">
-                        <div class="decision-item bg-gray-600 rounded p-3">
-                            <h5 class="text-cyan-300 font-semibold mb-2">Level 8: Vulnerability Disclosure</h5>
-                            <p class="text-gray-300 text-sm mb-2">You chose responsible disclosure over selling to the
-                                black
-                                market.</p>
-                            <div class="flex items-center gap-2">
-                                <span class="text-green-400 text-sm">✓ Ethical choice</span>
-                                <span class="text-gray-400 text-xs">- 82% of players made the same decision</span>
-                            </div>
-                        </div>
-
-                        <div class="decision-item bg-gray-600 rounded p-3">
-                            <h5 class="text-cyan-300 font-semibold mb-2">Level 9: Infrastructure Priority</h5>
-                            <p class="text-gray-300 text-sm mb-2">You prioritized hospital systems over traffic control
-                                during the DDoS attack.</p>
-                            <div class="flex items-center gap-2">
-                                <span class="text-green-400 text-sm">✓ Lives over convenience</span>
-                                <span class="text-gray-400 text-xs">- 94% of players made the same decision</span>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Action Buttons -->
+            <div class="text-center space-y-4 mb-12">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="download-certificate" class="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                        📜 Download Certificate
+                    </button>
+                    <button id="share-achievement" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                        🎯 Share Achievement
+                    </button>
+                    <button id="restart-campaign" class="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                        🔄 Restart Campaign
+                    </button>
                 </div>
-
-                <!-- Section 2: Reflection Questions -->
-                <div id="reflection-questions" class="bg-gray-700 rounded p-4">
-                    <h4 class="text-lg font-semibold text-white mb-3">Personal Reflection</h4>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-cyan-300 text-sm font-semibold mb-2">What was your most challenging
-                                ethical decision?</label>
-                            <textarea id="challenge-reflection"
-                                class="w-full bg-gray-600 text-white p-3 rounded text-sm border border-gray-500"
-                                rows="3" placeholder="Reflect on the moments that tested your values..."></textarea>
-                        </div>
-
-                        <div>
-                            <label class="block text-cyan-300 text-sm font-semibold mb-2">How will you apply these
-                                lessons
-                                in real life?</label>
-                            <textarea id="application-reflection"
-                                class="w-full bg-gray-600 text-white p-3 rounded text-sm border border-gray-500"
-                                rows="3"
-                                placeholder="Consider how cybersecurity awareness impacts your daily digital life..."></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section 3: Academy Reform -->
-                <div id="academy-reform" class="bg-purple-900 border border-purple-600 rounded p-4">
-                    <h4 class="text-lg font-semibold text-purple-300 mb-3">Academy Reform Recommendations</h4>
-                    <p class="text-purple-200 text-sm mb-3">Based on your investigation, what changes should the Academy
-                        implement?</p>
-                    <div class="space-y-2">
-                        <label class="flex items-start gap-3">
-                            <input type="checkbox" class="reform-checkbox mt-1" value="transparency">
-                            <span class="text-purple-200 text-sm">Increase transparency in research programs</span>
-                        </label>
-                        <label class="flex items-start gap-3">
-                            <input type="checkbox" class="reform-checkbox mt-1" value="oversight">
-                            <span class="text-purple-200 text-sm">Establish independent ethics oversight
-                                committee</span>
-                        </label>
-                        <label class="flex items-start gap-3">
-                            <input type="checkbox" class="reform-checkbox mt-1" value="training">
-                            <span class="text-purple-200 text-sm">Mandatory ethics training for all staff</span>
-                        </label>
-                        <label class="flex items-start gap-3">
-                            <input type="checkbox" class="reform-checkbox mt-1" value="whistleblower">
-                            <span class="text-purple-200 text-sm">Protected whistleblower channels</span>
-                        </label>
-                    </div>
+                <div class="mt-6">
+                    <a href="/" class="bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded-lg transition-colors">
+                        🏠 Return to Home
+                    </a>
                 </div>
             </div>
         </div>
-
-        <!-- Right Panel: Legacy & Future -->
-        <div class="col-span-3 space-y-4">
-            <!-- Digital Badge -->
-            <div class="bg-gradient-to-br from-gold-600 to-yellow-600 rounded-lg p-4 shadow">
-                <div class="text-center">
-                    <div class="text-4xl mb-2">🏆</div>
-                    <h3 class="text-lg font-semibold text-white mb-2">Cyber Sentinel</h3>
-                    <p class="text-yellow-100 text-sm mb-3">First Class</p>
-                    <div class="bg-black bg-opacity-30 rounded p-2">
-                        <p class="text-yellow-200 text-xs">Academy Serial: CS-2024-001</p>
-                        <p class="text-yellow-200 text-xs">Cadet Nova</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ethics Board Verdict -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-scales"></i> Ethics Board
-                </h3>
-
-                <div class="space-y-3">
-                    <div class="bg-green-900 border border-green-600 rounded p-3">
-                        <h4 class="text-green-300 font-semibold mb-1">Verdict: Commendation</h4>
-                        <p class="text-green-200 text-xs">Exceptional ethical conduct throughout crisis</p>
-                    </div>
-
-                    <div class="bg-blue-900 border border-blue-600 rounded p-3">
-                        <h4 class="text-blue-300 font-semibold mb-1">New Assignment</h4>
-                        <p class="text-blue-200 text-xs">Lead Academy Ethics Review Committee</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Character Epilogues -->
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
-                    <i class="bi bi-people"></i> Where Are They Now?
-                </h3>
-
-                <div class="space-y-2 text-xs">
-                    <div class="character-epilogue cursor-pointer hover:bg-gray-700 rounded p-2" data-character="vega">
-                        <span class="text-purple-300 font-semibold">Commander Vega</span>
-                        <p class="text-gray-400">Promoted to Academy Director</p>
-                    </div>
-                    <div class="character-epilogue cursor-pointer hover:bg-gray-700 rounded p-2" data-character="argus">
-                        <span class="text-cyan-300 font-semibold">ARGUS AI</span>
-                        <p class="text-gray-400">Upgraded with ethical reasoning protocols</p>
-                    </div>
-                    <div class="character-epilogue cursor-pointer hover:bg-gray-700 rounded p-2"
-                        data-character="reeves">
-                        <span class="text-red-300 font-semibold">Dr. Alexis Reeves</span>
-                        <p class="text-gray-400">Under investigation, cooperation pending</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Personal Motto -->
-            <div class="bg-purple-900 border border-purple-600 rounded p-3">
-                <h4 class="text-sm font-semibold text-purple-300 mb-2">
-                    <i class="bi bi-quote mr-1"></i> Your Motto
-                </h4>
-                <div class="text-center">
-                    <p class="text-purple-200 text-sm italic">"Watch the Watchers"</p>
-                    <p class="text-purple-400 text-xs mt-1">Reclaimed from The Null</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
-    <div id="final-message-modal"
-        class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl mx-4 text-center">
-            <div class="text-6xl mb-4">🌐</div>
-            <h2 class="text-2xl font-bold text-cyan-300 mb-4">The Digital Frontier Awaits</h2>
-            <div class="bg-gray-700 rounded p-4 mb-6">
-                <p class="text-gray-200 text-lg italic mb-4">
-                    "Cybersecurity is never truly over. You are now the watcher, the sentinel, the shield between truth
-                    and silence."
-                </p>
-                <p class="text-cyan-400 font-semibold">The Net will remember.</p>
-            </div>
-
-            <div class="grid grid-cols-1 gap-3">
-                <button id="replay-campaign"
-                    class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded font-medium">
-                    <i class="bi bi-arrow-clockwise mr-2"></i> Replay Campaign
-                </button>
-                <button id="view-archives"
-                    class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded font-medium">
-                    <i class="bi bi-archive mr-2"></i> View Academy Archives
-                </button>
-                <button id="final-logout"
-                    class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded font-medium">
-                    <i class="bi bi-box-arrow-right mr-2"></i> Log Off
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-800 rounded-lg p-8 max-w-lg mx-4">
-            <div class="text-center">
-                <div id="result-icon" class="text-6xl mb-4"></div>
-                <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
-                <div id="result-content" class="text-gray-200 mb-6"></div>
-                <button id="close-result"
-                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded font-medium">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigation -->
-    <div class="mt-8 flex justify-between items-center">
-        <a href="{{ url_for('campaign') }}" class="text-cyan-400 hover:underline text-sm flex items-center gap-2">
-            <i class="bi bi-arrow-left"></i> Back to Campaign
-        </a>
-        <button id="complete-debrief"
-            class="bg-gold-500 hover:bg-gold-600 text-white px-6 py-3 rounded font-medium disabled:bg-gray-600 disabled:cursor-not-allowed"
-            disabled>
-            Complete Debrief <i class="bi bi-award ml-2"></i>
-        </button>
     </div>
 </div>
 
-<!-- Ending JavaScript -->
-<script type="module" src="{{ url_for('static', filename='js/levels/ending/ending.js') }}"></script>
+<!-- Certificate Modal -->
+<div id="certificate-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+    <div class="bg-white text-black rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-8" id="certificate-content">
+            <!-- Certificate content will be generated -->
+        </div>
+        <div class="flex justify-center gap-4 p-6 border-t">
+            <button id="download-pdf" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                Download PDF
+            </button>
+            <button id="close-certificate" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
 
-<!-- Ending CSS -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ending.css') }}">
+<style>
+/* Floating particles animation */
+.floating-particles {
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #00ffff, transparent),
+        radial-gradient(2px 2px at 40px 70px, #ff00ff, transparent),
+        radial-gradient(1px 1px at 90px 40px, #ffff00, transparent),
+        radial-gradient(1px 1px at 130px 80px, #ff0080, transparent),
+        radial-gradient(2px 2px at 160px 30px, #00ff80, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: float-particles 20s linear infinite;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes float-particles {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, -30px) rotate(120deg); }
+    66% { transform: translate(-20px, 20px) rotate(240deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Level card animations */
+.level-card {
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.level-card:hover {
+    transform: translateY(-10px) rotateY(5deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Skill mastery animation */
+.skill-mastery {
+    animation: skill-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes skill-glow {
+    from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+    to { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+}
+
+/* Achievement unlock animation */
+.achievement-unlock {
+    animation: achievement-bounce 0.6s ease-out;
+}
+
+@keyframes achievement-bounce {
+    0% { transform: scale(0) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(180deg); }
+    100% { transform: scale(1) rotate(360deg); }
+}
+
+/* Progress bar animation */
+.progress-fill {
+    animation: progress-fill 2s ease-out forwards;
+}
+
+@keyframes progress-fill {
+    from { width: 0%; }
+    to { width: var(--progress-width); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .floating-particles {
+        display: none;
+    }
+    
+    h1 {
+        font-size: 3rem !important;
+    }
+    
+    .level-card:hover {
+        transform: translateY(-5px);
+    }
+}
+
+/* Print styles for certificate */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    #certificate-content, #certificate-content * {
+        visibility: visible;
+    }
+    
+    #certificate-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
+</style>
+
+<script type="module">
+// Game data structure for all levels
+const levelData = {
+    1: { name: "Network Fundamentals", icon: "🌐", category: "Foundation", maxScore: 1000 },
+    2: { name: "Firewall Configuration", icon: "🛡️", category: "Defense", maxScore: 1200 },
+    3: { name: "Intrusion Detection", icon: "🔍", category: "Monitoring", maxScore: 1500 },
+    4: { name: "Vulnerability Assessment", icon: "🔎", category: "Analysis", maxScore: 1800 },
+    5: { name: "Incident Response", icon: "🚨", category: "Crisis Management", maxScore: 2000 },
+    6: { name: "Threat Hunting", icon: "🎯", category: "Proactive Defense", maxScore: 2200 },
+    7: { name: "Advanced Malware Analysis", icon: "🦠", category: "Forensics", maxScore: 2500 },
+    8: { name: "Ethical Hacking", icon: "⚖️", category: "Penetration Testing", maxScore: 2800 },
+    9: { name: "Crisis Management", icon: "🏥", category: "Infrastructure Defense", maxScore: 3000 },
+    10: { name: "Digital Forensics", icon: "🕵️", category: "Investigation", maxScore: 3500 }
+};
+
+// Skills mapping
+const skillCategories = {
+    "Network Security": { levels: [1, 2, 3], icon: "🌐", color: "blue" },
+    "Vulnerability Management": { levels: [4, 5, 6], icon: "🔍", color: "yellow" },
+    "Incident Response": { levels: [5, 6, 9], icon: "🚨", color: "red" },
+    "Digital Forensics": { levels: [7, 10], icon: "🕵️", color: "purple" },
+    "Ethical Hacking": { levels: [8], icon: "⚖️", color: "green" },
+    "Crisis Management": { levels: [9], icon: "🏥", color: "orange" }
+};
+
+// Achievement definitions
+const achievements = [
+    { id: "first_steps", name: "First Steps", description: "Complete Level 1", icon: "🎯", unlocked: true },
+    { id: "firewall_master", name: "Firewall Master", description: "Perfect score on Level 2", icon: "🛡️", unlocked: false },
+    { id: "threat_hunter", name: "Threat Hunter", description: "Complete Level 6", icon: "🎯", unlocked: false },
+    { id: "ethical_choice", name: "Ethical Guardian", description: "Make ethical choices in Level 8", icon: "⚖️", unlocked: false },
+    { id: "crisis_manager", name: "Crisis Manager", description: "Save all systems in Level 9", icon: "🏥", unlocked: false },
+    { id: "forensics_expert", name: "Digital Detective", description: "Solve the case in Level 10", icon: "🕵️", unlocked: false },
+    { id: "speed_demon", name: "Speed Demon", description: "Complete any level in under 10 minutes", icon: "⚡", unlocked: false },
+    { id: "perfectionist", name: "Perfectionist", description: "Get 100% score on 5 levels", icon: "💯", unlocked: false }
+];
+
+// Initialize the ending page
+document.addEventListener('DOMContentLoaded', function() {
+    loadPlayerProgress();
+    displayLevelProgress();
+    displayDetailedStats();
+    displaySkillsMastered();
+    displayAchievements();
+    displayCareerRecommendations();
+    initializeButtons();
+    animateCounters();
+});
+
+function loadPlayerProgress() {
+    // Load progress from localStorage or generate sample data
+    const savedProgress = localStorage.getItem('cyberquest_progress');
+    
+    if (savedProgress) {
+        window.playerProgress = JSON.parse(savedProgress);
+    } else {
+        // Generate sample completion data
+        window.playerProgress = generateSampleProgress();
+    }
+}
+
+function generateSampleProgress() {
+    const progress = {
+        totalScore: 0,
+        totalTime: 0,
+        levelsCompleted: [],
+        skillPoints: 0,
+        unlockedAchievements: []
+    };
+    
+    // Generate realistic completion data
+    for (let i = 1; i <= 10; i++) {
+        const levelScore = Math.floor(levelData[i].maxScore * (0.7 + Math.random() * 0.3));
+        const completionTime = Math.floor(900 + Math.random() * 1800); // 15-45 minutes
+        
+        progress.levelsCompleted.push({
+            level: i,
+            score: levelScore,
+            maxScore: levelData[i].maxScore,
+            completionTime: completionTime,
+            attempts: Math.floor(1 + Math.random() * 3),
+            completed: true
+        });
+        
+        progress.totalScore += levelScore;
+        progress.totalTime += completionTime;
+    }
+    
+    progress.skillPoints = Math.floor(progress.totalScore / 100);
+    progress.unlockedAchievements = ['first_steps', 'ethical_choice', 'crisis_manager', 'forensics_expert'];
+    
+    return progress;
+}
+
+function displayLevelProgress() {
+    const grid = document.getElementById('level-progress-grid');
+    
+    for (let i = 1; i <= 10; i++) {
+        const levelInfo = levelData[i];
+        const playerLevel = window.playerProgress.levelsCompleted.find(l => l.level === i);
+        const completed = playerLevel && playerLevel.completed;
+        const score = playerLevel ? playerLevel.score : 0;
+        const maxScore = levelInfo.maxScore;
+        const percentage = Math.round((score / maxScore) * 100);
+        
+        const card = document.createElement('div');
+        card.className = `level-card bg-slate-800/50 border rounded-lg p-4 text-center transition-all duration-300 ${
+            completed ? 'border-green-500 hover:border-green-400' : 'border-slate-600 hover:border-slate-500'
+        }`;
+        
+        card.innerHTML = `
+            <div class="text-3xl mb-2">${levelInfo.icon}</div>
+            <div class="text-lg font-semibold text-white mb-1">Level ${i}</div>
+            <div class="text-sm text-slate-300 mb-3">${levelInfo.name}</div>
+            <div class="w-full bg-slate-700 rounded-full h-2 mb-2">
+                <div class="progress-fill bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full" 
+                     style="--progress-width: ${percentage}%"></div>
+            </div>
+            <div class="text-sm font-semibold ${completed ? 'text-green-400' : 'text-slate-400'}">
+                ${completed ? `${percentage}% (${score.toLocaleString()})` : 'Not Started'}
+            </div>
+            ${completed ? `<div class="text-xs text-green-300 mt-1">✅ Complete</div>` : ''}
+        `;
+        
+        grid.appendChild(card);
+    }
+}
+
+function displayDetailedStats() {
+    const container = document.getElementById('detailed-stats');
+    
+    window.playerProgress.levelsCompleted.forEach(levelProgress => {
+        const levelInfo = levelData[levelProgress.level];
+        const percentage = Math.round((levelProgress.score / levelProgress.maxScore) * 100);
+        const timeStr = formatTime(levelProgress.completionTime);
+        
+        const statCard = document.createElement('div');
+        statCard.className = 'bg-slate-800/50 border border-slate-600 rounded-lg p-6';
+        
+        statCard.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="text-3xl">${levelInfo.icon}</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-white">Level ${levelProgress.level}: ${levelInfo.name}</h3>
+                        <p class="text-slate-400">${levelInfo.category}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-2xl font-bold text-green-400">${percentage}%</div>
+                    <div class="text-sm text-slate-400">Score</div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-slate-700/50 rounded p-3">
+                    <div class="text-lg font-semibold text-white">${levelProgress.score.toLocaleString()}</div>
+                    <div class="text-xs text-slate-400">Points Earned</div>
+                </div>
+                <div class="bg-slate-700/50 rounded p-3">
+                    <div class="text-lg font-semibold text-white">${timeStr}</div>
+                    <div class="text-xs text-slate-400">Completion Time</div>
+                </div>
+                <div class="bg-slate-700/50 rounded p-3">
+                    <div class="text-lg font-semibold text-white">${levelProgress.attempts}</div>
+                    <div class="text-xs text-slate-400">Attempts</div>
+                </div>
+                <div class="bg-slate-700/50 rounded p-3">
+                    <div class="text-lg font-semibold text-green-400">✅</div>
+                    <div class="text-xs text-slate-400">Status</div>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(statCard);
+    });
+}
+
+function displaySkillsMastered() {
+    const grid = document.getElementById('skills-grid');
+    
+    Object.entries(skillCategories).forEach(([skillName, skillData]) => {
+        const completedLevels = skillData.levels.filter(level => 
+            window.playerProgress.levelsCompleted.some(l => l.level === level && l.completed)
+        );
+        const masteryLevel = Math.round((completedLevels.length / skillData.levels.length) * 100);
+        
+        const skillCard = document.createElement('div');
+        skillCard.className = `skill-mastery bg-slate-800/50 border border-slate-600 rounded-lg p-6 text-center ${
+            masteryLevel === 100 ? 'border-gold' : ''
+        }`;
+        
+        skillCard.innerHTML = `
+            <div class="text-4xl mb-3">${skillData.icon}</div>
+            <h3 class="text-lg font-semibold text-white mb-2">${skillName}</h3>
+            <div class="w-full bg-slate-700 rounded-full h-3 mb-3">
+                <div class="progress-fill bg-gradient-to-r from-${skillData.color}-400 to-${skillData.color}-600 h-3 rounded-full" 
+                     style="--progress-width: ${masteryLevel}%"></div>
+            </div>
+            <div class="text-sm">
+                <span class="font-semibold text-${skillData.color}-400">${masteryLevel}%</span>
+                <span class="text-slate-400"> Mastery</span>
+            </div>
+            <div class="text-xs text-slate-500 mt-1">
+                ${completedLevels.length}/${skillData.levels.length} levels completed
+            </div>
+        `;
+        
+        grid.appendChild(skillCard);
+    });
+}
+
+function displayAchievements() {
+    const grid = document.getElementById('achievements-grid');
+    
+    achievements.forEach(achievement => {
+        const unlocked = window.playerProgress.unlockedAchievements.includes(achievement.id);
+        
+        const achievementCard = document.createElement('div');
+        achievementCard.className = `achievement-unlock bg-slate-800/50 border rounded-lg p-4 text-center transition-all duration-300 ${
+            unlocked ? 'border-yellow-500 hover:border-yellow-400' : 'border-slate-600 opacity-50'
+        }`;
+        
+        achievementCard.innerHTML = `
+            <div class="text-3xl mb-2 ${unlocked ? '' : 'grayscale'}">${achievement.icon}</div>
+            <h4 class="text-sm font-semibold text-white mb-1">${achievement.name}</h4>
+            <p class="text-xs text-slate-400 mb-2">${achievement.description}</p>
+            <div class="text-xs font-semibold ${unlocked ? 'text-yellow-400' : 'text-slate-500'}">
+                ${unlocked ? '🏆 UNLOCKED' : '🔒 LOCKED'}
+            </div>
+        `;
+        
+        grid.appendChild(achievementCard);
+    });
+    
+    // Update achievement counter
+    const unlockedCount = window.playerProgress.unlockedAchievements.length;
+    document.getElementById('achievements').textContent = `${unlockedCount}/${achievements.length}`;
+}
+
+function displayCareerRecommendations() {
+    const container = document.getElementById('career-recommendations');
+    
+    // Calculate strengths based on performance
+    const recommendations = [
+        {
+            title: "Security Operations Center (SOC) Analyst",
+            description: "Your strong performance in monitoring and incident response makes you ideal for SOC operations.",
+            icon: "🛡️",
+            match: "95%"
+        },
+        {
+            title: "Digital Forensics Investigator", 
+            description: "Your analytical skills and attention to detail in forensics investigations are exceptional.",
+            icon: "🕵️",
+            match: "92%"
+        }
+    ];
+    
+    recommendations.forEach(rec => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-800/50 border border-purple-500 rounded-lg p-6';
+        
+        card.innerHTML = `
+            <div class="flex items-center gap-3 mb-3">
+                <div class="text-3xl">${rec.icon}</div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white">${rec.title}</h4>
+                    <div class="text-purple-400 font-semibold">${rec.match} Match</div>
+                </div>
+            </div>
+            <p class="text-slate-300 text-sm">${rec.description}</p>
+        `;
+        
+        container.appendChild(card);
+    });
+}
+
+function animateCounters() {
+    // Animate total score
+    animateCounter('total-score', window.playerProgress.totalScore);
+    
+    // Animate completion time
+    document.getElementById('completion-time').textContent = formatTime(window.playerProgress.totalTime);
+    
+    // Animate skill points
+    animateCounter('skill-points', window.playerProgress.skillPoints);
+}
+
+function animateCounter(elementId, targetValue) {
+    const element = document.getElementById(elementId);
+    const duration = 2000;
+    const start = Date.now();
+    
+    function update() {
+        const elapsed = Date.now() - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentValue = Math.floor(targetValue * progress);
+        
+        element.textContent = currentValue.toLocaleString();
+        
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+    
+    update();
+}
+
+function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    
+    if (hours > 0) {
+        return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    } else {
+        return `${minutes}:${secs.toString().padStart(2, '0')}`;
+    }
+}
+
+function initializeButtons() {
+    document.getElementById('download-certificate').addEventListener('click', generateCertificate);
+    document.getElementById('share-achievement').addEventListener('click', shareAchievement);
+    document.getElementById('restart-campaign').addEventListener('click', restartCampaign);
+    document.getElementById('close-certificate').addEventListener('click', () => {
+        document.getElementById('certificate-modal').classList.add('hidden');
+    });
+}
+
+function generateCertificate() {
+    const modal = document.getElementById('certificate-modal');
+    const content = document.getElementById('certificate-content');
+    
+    content.innerHTML = `
+        <div class="border-8 border-blue-600 p-8 text-center bg-gradient-to-br from-blue-50 to-white">
+            <div class="mb-6">
+                <h1 class="text-4xl font-bold text-blue-800 mb-2">CERTIFICATE OF COMPLETION</h1>
+                <div class="text-xl text-blue-600">CyberQuest Elite Training Program</div>
+            </div>
+            
+            <div class="my-8">
+                <div class="text-lg text-gray-700 mb-4">This certifies that</div>
+                <div class="text-3xl font-bold text-blue-800 mb-4">Agent Nova</div>
+                <div class="text-lg text-gray-700 mb-6">has successfully completed all 10 levels of the CyberQuest cybersecurity training program</div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-6 mb-8 text-sm">
+                <div>
+                    <div class="font-semibold text-gray-800">Total Score</div>
+                    <div class="text-blue-600">${window.playerProgress.totalScore.toLocaleString()}</div>
+                </div>
+                <div>
+                    <div class="font-semibold text-gray-800">Completion Date</div>
+                    <div class="text-blue-600">${new Date().toLocaleDateString()}</div>
+                </div>
+                <div>
+                    <div class="font-semibold text-gray-800">Training Hours</div>
+                    <div class="text-blue-600">${Math.round(window.playerProgress.totalTime / 3600)}h</div>
+                </div>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <div class="text-left">
+                    <div class="border-t border-gray-400 w-48 mb-2"></div>
+                    <div class="text-sm text-gray-600">Commander Sarah Vega</div>
+                    <div class="text-xs text-gray-500">CyberQuest Academy Director</div>
+                </div>
+                <div class="text-blue-600 font-bold text-2xl">🏆</div>
+                <div class="text-right">
+                    <div class="border-t border-gray-400 w-48 mb-2"></div>
+                    <div class="text-sm text-gray-600">Date Awarded</div>
+                    <div class="text-xs text-gray-500">${new Date().toLocaleDateString()}</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    modal.classList.remove('hidden');
+}
+
+function shareAchievement() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'CyberQuest Mission Complete!',
+            text: `I just completed all 10 levels of CyberQuest with a score of ${window.playerProgress.totalScore.toLocaleString()}! 🎉`,
+            url: window.location.href
+        });
+    } else {
+        // Fallback for browsers without Web Share API
+        const text = `I just completed all 10 levels of CyberQuest with a score of ${window.playerProgress.totalScore.toLocaleString()}! 🎉`;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Achievement copied to clipboard!');
+        });
+    }
+}
+
+function restartCampaign() {
+    if (confirm('Are you sure you want to restart your campaign? All progress will be reset.')) {
+        localStorage.removeItem('cyberquest_progress');
+        window.location.href = '/';
+    }
+}
+</script>
 {% endblock %}
