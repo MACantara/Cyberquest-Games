@@ -1,23 +1,128 @@
 {
-    "1": {
+    "dr": {
+        "id": "dr",
         "name": "Dr. Alexis Reeves",
-        "background": "Former AI Ethics Professor dismissed for conducting unauthorized experiments on student behavioral data",
-        "motive": "Revenge against Academy leadership and exposure of unethical practices",
-        "evidence": ["ssh_anomaly", "doc_metadata", "image_metadata"],
-        "alibi": "Claims to have been at home during the incident"
+        "title": "Former AI Ethics Professor",
+        "status": "Dismissed 2023 - Ethics violations",
+        "icon": "DR",
+        "background": {
+            "position": "Former Academy AI Ethics Professor and Research Director",
+            "tenure": "2018-2023 (5 years)",
+            "specialization": "AI ethics, machine learning systems, digital rights",
+            "academicCredentials": "PhD Computer Science MIT, Published researcher in AI ethics",
+            "dismissalReason": "Conducting unauthorized experiments on student data and violating research ethics protocols"
+        },
+        "motive": {
+            "primary": "Revenge against Academy for career destruction",
+            "secondary": "Proving Academy's hypocrisy in AI ethics enforcement",
+            "personal": "Financial desperation after dismissal and academic blacklisting"
+        },
+        "means": {
+            "technical": "Deep knowledge of Academy systems from 5-year tenure",
+            "access": "Retained access through backdoors planted during employment",
+            "skills": "Advanced AI/ML expertise, systems architecture knowledge",
+            "resources": "Connections to underground research networks"
+        },
+        "opportunity": {
+            "timing": "Late-night access when security monitoring is minimal",
+            "knowledge": "Knows Academy security protocols and shift schedules",
+            "motivation": "Recent financial pressure and career destruction"
+        },
+        "evidence": ["log_001", "log_003", "log_005", "hash_001", "meta_001", "traffic_001"],
+        "alibi": "Claims to be consulting for private AI research firm during breach timeframe",
+        "psychProfile": "Brilliant but bitter, feels betrayed by Academy, strong sense of intellectual superiority",
+        "riskFactors": [
+            "Previous ethics violations show disregard for rules",
+            "Deep system knowledge makes insider attack feasible", 
+            "Strong personal vendetta against Academy administration",
+            "Financial pressure creates additional motivation"
+        ],
+        "baseConfidence": 20,
+        "maxConfidence": 85,
+        "isCorrectSuspect": true
     },
-    "2": {
+    "mc": {
+        "id": "mc", 
         "name": "Marcus Chen",
-        "background": "Current Security Administrator with full system access and knowledge of all protocols",
-        "motive": "Financial gain through selling Academy security intelligence",
-        "evidence": ["failed_login", "privilege_escalation"],
-        "alibi": "Was working late shift, has security badge logs"
+        "title": "Academy Security Administrator",
+        "status": "Current staff - Full access",
+        "icon": "MC",
+        "background": {
+            "position": "Senior Security Systems Administrator",
+            "tenure": "2019-present (5 years)",
+            "specialization": "Network security, system administration, access control",
+            "credentials": "CISSP, CISM, multiple vendor certifications",
+            "responsibilities": "Maintaining Academy security infrastructure and access controls"
+        },
+        "motive": {
+            "primary": "Potential financial gain or external coercion",
+            "secondary": "Job dissatisfaction or ideological differences",
+            "personal": "Possible blackmail or family pressure"
+        },
+        "means": {
+            "technical": "Complete administrative access to all Academy systems",
+            "access": "Legitimate credentials and elevated privileges",
+            "skills": "Expert-level security knowledge, system administration",
+            "resources": "Ability to modify logs and cover tracks"
+        },
+        "opportunity": {
+            "timing": "24/7 access to systems as part of job responsibilities",
+            "knowledge": "Intimate knowledge of security measures and monitoring",
+            "motivation": "Unexplained financial activities in recent months"
+        },
+        "evidence": ["log_002", "hash_002", "meta_003"],
+        "alibi": "On-call security duty, legitimate system access during breach window",
+        "psychProfile": "Methodical, security-conscious, generally reliable but showing signs of stress",
+        "riskFactors": [
+            "Complete system access makes insider attack easy",
+            "Financial irregularities suggest possible external influence",
+            "Knowledge of security systems enables sophisticated attacks",
+            "Recent behavioral changes noted by colleagues"
+        ],
+        "baseConfidence": 20,
+        "maxConfidence": 65,
+        "isCorrectSuspect": false
     },
-    "3": {
-        "name": "Zara Khan",
-        "background": "Former Lead Penetration Tester who resigned citing ethical concerns about Academy practices",
-        "motive": "Whistleblowing to expose Academy corruption and protect students",
-        "evidence": ["malware_hash", "email_metadata"],
-        "alibi": "Traveling abroad during the incident with passport stamps"
+    "zk": {
+        "id": "zk",
+        "name": "Zara Khan", 
+        "title": "Former Lead Penetration Tester",
+        "status": "Resigned 2023 - Personal reasons",
+        "icon": "ZK",
+        "background": {
+            "position": "Former Lead Penetration Testing Specialist",
+            "tenure": "2020-2024 (4 years)",
+            "specialization": "Ethical hacking, penetration testing, vulnerability assessment",
+            "credentials": "OSCP, CEH, specialized in advanced persistent threat simulation",
+            "departureReason": "Cited personal reasons, but departure was sudden and unexpected"
+        },
+        "motive": {
+            "primary": "Potential recruitment by hostile organization",
+            "secondary": "Testing Academy security as intellectual challenge",
+            "personal": "Proving technical superiority after departure"
+        },
+        "means": {
+            "technical": "Elite penetration testing and hacking skills",
+            "access": "Detailed knowledge of Academy vulnerabilities from testing role",
+            "skills": "Advanced exploitation techniques, social engineering",
+            "resources": "Maintained contacts within Academy and security community"
+        },
+        "opportunity": {
+            "timing": "Recent departure provides plausible deniability",
+            "knowledge": "Comprehensive understanding of Academy defenses",
+            "motivation": "Desire to demonstrate security flaws she previously identified"
+        },
+        "evidence": ["log_004", "meta_002", "meta_004"],
+        "alibi": "Claims to be traveling abroad for new job opportunity",
+        "psychProfile": "Highly skilled, perfectionist, competitive, may feel underappreciated",
+        "riskFactors": [
+            "Elite hacking skills make sophisticated attack possible",
+            "Recent departure timing coincides with security incidents",
+            "Knowledge of Academy vulnerabilities from testing role",
+            "Sudden resignation suggests possible external influence"
+        ],
+        "baseConfidence": 20,
+        "maxConfidence": 70,
+        "isCorrectSuspect": false
     }
 }
