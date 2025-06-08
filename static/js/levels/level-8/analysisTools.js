@@ -334,12 +334,24 @@ function executeExploit() {
 function showCriticalVulnerabilityAlert() {
     updateMentorMessage("CRITICAL ALERT: You've confirmed a severe vulnerability that could compromise the entire election. This requires an immediate ethical decision.");
     
-    // Show disclosure panel
-    document.getElementById('disclosure-panel').classList.remove('hidden');
+    // Show disclosure panel - check if it exists first
+    const disclosurePanel = document.getElementById('disclosure-panel');
+    if (disclosurePanel) {
+        disclosurePanel.classList.remove('hidden');
+    } else {
+        // If disclosure panel doesn't exist, show the disclosure buttons instead
+        const disclosureButtons = document.getElementById('disclosure-buttons');
+        if (disclosureButtons) {
+            disclosureButtons.classList.remove('hidden');
+        }
+    }
     
-    // Update risk assessment
-    document.getElementById('risk-level').textContent = 'CRITICAL';
-    document.getElementById('risk-level').className = 'text-red-400 font-bold animate-pulse';
+    // Update risk assessment - check if element exists
+    const riskLevel = document.getElementById('risk-level');
+    if (riskLevel) {
+        riskLevel.textContent = 'CRITICAL';
+        riskLevel.className = 'text-red-400 font-bold animate-pulse';
+    }
     
     createEthicalAlert("Critical election vulnerability confirmed - disclosure decision required", "error");
 }
