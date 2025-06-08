@@ -37,18 +37,89 @@
 
     <!-- Main Audit Interface -->
     <div class="p-6">
+        <!-- Top Status Section - Full Width -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <!-- Mission Status -->
+            <div class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-4">
+                <h4 class="text-slate-300 font-medium mb-3 text-sm">Mission Status</h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Phase:</span>
+                        <span class="text-cyan-400" id="current-phase">Source Analysis</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Disclosure Decision:</span>
+                        <span class="text-yellow-400" id="disclosure-status">Pending</span>
+                    </div>
+                </div>
+                <button id="complete-audit" disabled class="w-full mt-4 bg-green-700 text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed text-sm">
+                    Complete Security Audit
+                </button>
+            </div>
+
+            <!-- Audit Progress -->
+            <div class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-4">
+                <h4 class="text-white font-semibold mb-3">Audit Progress</h4>
+                <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-400">Files Analyzed:</span>
+                        <span class="text-white" id="files-analyzed">0/4</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2">
+                        <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 text-sm">
+                        <div class="text-center">
+                            <div class="text-orange-400" id="vuln-count">0 found</div>
+                            <div class="text-slate-400 text-xs">Vulnerabilities</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-red-400" id="exploit-count">0</div>
+                            <div class="text-slate-400 text-xs">Exploits Tested</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-yellow-400" id="risk-level">Unknown</div>
+                            <div class="text-slate-400 text-xs">Risk Level</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="grid grid-cols-12 gap-4">
             
             <!-- Source Code & Analysis Panel -->
             <div class="col-span-8 space-y-4">
-                <!-- Code Repository Browser -->
+                <!-- Code Repository Browser with Integrated Tools -->
                 <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700">
                     <div class="p-4 border-b border-slate-700">
-                        <h2 class="text-lg font-semibold text-white flex items-center gap-2">
-                            <i class="bi bi-code-slash text-cyan-400"></i>
-                            CivitasVote Source Code Repository
-                        </h2>
-                        <p class="text-sm text-slate-400 mt-1">Select files to analyze for security vulnerabilities</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+                                    <i class="bi bi-code-slash text-cyan-400"></i>
+                                    CivitasVote Source Code Repository
+                                </h2>
+                                <p class="text-sm text-slate-400 mt-1">Select files to analyze for security vulnerabilities</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button id="static-analysis" class="bg-blue-700/80 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
+                                    <i class="bi bi-search"></i>
+                                    Static Analysis
+                                </button>
+                                <button id="dependency-scan" class="bg-purple-700/80 hover:bg-purple-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
+                                    <i class="bi bi-diagram-3"></i>
+                                    Dependencies
+                                </button>
+                                <button id="dynamic-test" class="bg-orange-700/80 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
+                                    <i class="bi bi-play-circle"></i>
+                                    Dynamic Test
+                                </button>
+                                <button id="penetration-test" class="bg-red-700/80 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
+                                    <i class="bi bi-shield-exclamation"></i>
+                                    Pen Test
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- File Tree & Code Viewer -->
@@ -203,57 +274,8 @@
                 </div>
             </div>
 
-            <!-- Analysis Tools & Status Panel -->
+            <!-- Risk Assessment Panel -->
             <div class="col-span-4 space-y-4">
-                <!-- Audit Progress -->
-                <div class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-4">
-                    <h4 class="text-white font-semibold mb-3">Audit Progress</h4>
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-400">Files Analyzed:</span>
-                            <span class="text-white" id="files-analyzed">0/4</span>
-                        </div>
-                        <div class="w-full bg-slate-700 rounded-full h-2">
-                            <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-400">Vulnerabilities:</span>
-                            <span class="text-orange-400" id="vuln-count">0 found</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-400">Exploits Tested:</span>
-                            <span class="text-red-400" id="exploit-count">0</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-400">Risk Level:</span>
-                            <span class="text-yellow-400" id="risk-level">Unknown</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Analysis Tools -->
-                <div class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-4">
-                    <h4 class="text-white font-semibold mb-3">Security Analysis Tools</h4>
-                    <div class="space-y-2">
-                        <button id="static-analysis" class="w-full bg-blue-700/80 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
-                            <i class="bi bi-search"></i>
-                            Static Code Analysis
-                        </button>
-                        <button id="dependency-scan" class="w-full bg-purple-700/80 hover:bg-purple-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
-                            <i class="bi bi-diagram-3"></i>
-                            Dependency Vulnerability Scan
-                        </button>
-                        <button id="dynamic-test" class="w-full bg-orange-700/80 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
-                            <i class="bi bi-play-circle"></i>
-                            Dynamic Security Testing
-                        </button>
-                        <button id="penetration-test" class="w-full bg-red-700/80 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2" disabled>
-                            <i class="bi bi-shield-exclamation"></i>
-                            Penetration Testing
-                        </button>
-                    </div>
-                </div>
-
                 <!-- Risk Assessment -->
                 <div id="risk-assessment" class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-4 hidden">
                     <h4 class="text-white font-semibold mb-3">Risk Assessment</h4>
@@ -262,24 +284,6 @@
                     </div>
                     <button id="generate-report" class="w-full mt-4 bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm" disabled>
                         Generate Security Report
-                    </button>
-                </div>
-
-                <!-- Mission Completion -->
-                <div class="bg-slate-800/30 backdrop-blur border border-slate-700 rounded-xl p-4">
-                    <h4 class="text-slate-300 font-medium mb-3 text-sm">Mission Status</h4>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Phase:</span>
-                            <span class="text-cyan-400" id="current-phase">Source Analysis</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Disclosure Decision:</span>
-                            <span class="text-yellow-400" id="disclosure-status">Pending</span>
-                        </div>
-                    </div>
-                    <button id="complete-audit" disabled class="w-full mt-4 bg-green-700 text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed text-sm">
-                        Complete Security Audit
                     </button>
                 </div>
             </div>
