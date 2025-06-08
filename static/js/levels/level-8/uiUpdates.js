@@ -1,3 +1,5 @@
+import { highlightCodeVulnerability } from './sourceCodeRenderer.js';
+
 export function updateMentorMessage(message) {
     // Create floating mentor notification
     createMentorNotification(message);
@@ -99,26 +101,6 @@ export function showProgressUpdate(phase, description) {
         progressAlert.classList.add('animate-fade-out');
         setTimeout(() => progressAlert.remove(), 300);
     }, 3000);
-}
-
-export function highlightCodeVulnerability(lineNumber, vulnerabilityType) {
-    // Highlight specific lines in code viewer
-    const codeLines = document.querySelectorAll('#code-content .flex');
-    if (codeLines[lineNumber - 1]) {
-        const line = codeLines[lineNumber - 1];
-        line.classList.add('bg-red-900/40', 'border-l-4', 'border-red-500', 'animate-pulse');
-        
-        // Add vulnerability indicator that respects layout
-        const indicator = document.createElement('span');
-        indicator.className = 'ml-2 text-red-400 text-xs font-bold flex-shrink-0';
-        indicator.textContent = `← ${vulnerabilityType}`;
-        line.appendChild(indicator);
-        
-        // Remove animation after 3 seconds
-        setTimeout(() => {
-            line.classList.remove('animate-pulse');
-        }, 3000);
-    }
 }
 
 export function revealVulnerabilitiesInCode(vulnerabilities) {
@@ -296,57 +278,6 @@ if (!document.querySelector('#security-audit-animations')) {
         
         .ethical-indicator {
             animation: ethical-pulse 2s infinite;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-// Add CSS for proper code formatting if not already present
-if (!document.querySelector('#code-formatting-styles')) {
-    const style = document.createElement('style');
-    style.id = 'code-formatting-styles';
-    style.textContent = `
-        #code-content .flex {
-            font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'Ubuntu Mono', monospace;
-            font-size: 12px;
-            line-height: 1.4;
-            white-space: pre;
-        }
-        
-        #code-content .whitespace-pre {
-            white-space: pre;
-            font-family: inherit;
-        }
-        
-        /* Ensure proper spacing for indented code */
-        #code-content {
-            tab-size: 4;
-            -moz-tab-size: 4;
-        }
-        
-        /* Better scrolling for code viewer */
-        #code-content {
-            overflow-x: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #475569 #334155;
-        }
-        
-        #code-content::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        #code-content::-webkit-scrollbar-track {
-            background: #334155;
-            border-radius: 4px;
-        }
-        
-        #code-content::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 4px;
-        }
-        
-        #code-content::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
         }
     `;
     document.head.appendChild(style);
