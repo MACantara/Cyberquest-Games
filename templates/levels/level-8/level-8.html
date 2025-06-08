@@ -125,7 +125,7 @@
                     
                     <!-- File Tree & Code Viewer -->
                     <div class="p-4">
-                        <div class="grid grid-cols-3 gap-4">
+                        <div class="grid grid-cols-4 gap-4">
                             <!-- File Tree -->
                             <div class="bg-slate-900/50 rounded-lg p-3">
                                 <h4 class="text-white font-medium mb-3 text-sm">Project Files</h4>
@@ -174,6 +174,36 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- Exploit Testing Environment - Moved to right side -->
+                            <div class="bg-slate-900/50 rounded-lg p-3" id="exploit-panel-integrated" style="display: none;">
+                                <h4 class="text-orange-400 font-medium mb-3 text-sm flex items-center gap-2">
+                                    <i class="bi bi-terminal"></i>
+                                    Exploit Testing
+                                </h4>
+                                <div class="bg-black/50 rounded-lg p-3">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="text-green-400 text-xs">root@pentest:~#</span>
+                                        <input type="text" id="exploit-command" class="bg-transparent text-white flex-1 outline-none font-mono text-xs" 
+                                               placeholder="Enter exploit command..." disabled>
+                                    </div>
+                                    <button id="run-exploit" class="w-full bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs mb-3" disabled>
+                                        Execute Exploit
+                                    </button>
+                                    <div id="exploit-output" class="text-green-400 font-mono text-xs min-h-24 max-h-32 overflow-y-auto">
+                                        <!-- Exploit results shown here -->
+                                    </div>
+                                </div>
+                                <div class="mt-3 p-2 bg-yellow-900/30 border border-yellow-600 rounded-lg">
+                                    <div class="flex items-start gap-2">
+                                        <i class="bi bi-exclamation-triangle text-yellow-400 text-xs mt-1"></i>
+                                        <div>
+                                            <div class="text-yellow-300 font-medium text-xs">Ethical Testing Warning</div>
+                                            <div class="text-yellow-200 text-xs">Authorized penetration testing only</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,7 +219,7 @@
                     </div>
                 </div>
 
-                <!-- Exploit Testing Environment -->
+                <!-- Original Exploit Testing Environment (keep hidden as backup) -->
                 <div id="exploit-panel" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-4 hidden">
                     <h3 class="text-lg font-semibold text-orange-400 mb-4 flex items-center gap-2">
                         <i class="bi bi-terminal"></i>

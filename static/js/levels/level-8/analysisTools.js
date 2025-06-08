@@ -113,11 +113,14 @@ function performVulnerabilityDiscovery() {
             }
         }
         
-        // Enable exploit testing for high-risk files
+        // Enable exploit testing for high-risk files - use integrated panel
         if (fileWithVulns.riskLevel >= 8) {
-            document.getElementById('exploit-panel').classList.remove('hidden');
-            document.getElementById('exploit-command').disabled = false;
-            document.getElementById('run-exploit').disabled = false;
+            const integratedPanel = document.getElementById('exploit-panel-integrated');
+            if (integratedPanel) {
+                integratedPanel.style.display = 'block';
+                document.getElementById('exploit-command').disabled = false;
+                document.getElementById('run-exploit').disabled = false;
+            }
         }
         
         updateProgress();
