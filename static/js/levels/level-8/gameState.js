@@ -26,25 +26,6 @@ export const gameState = {
 };
 
 export function updateGameMetrics() {
-    // Update main header metrics
-    const integrityElement = document.getElementById('integrity-score');
-    const vulnElement = document.getElementById('vulnerabilities-found');
-    const ethicalElement = document.getElementById('ethical-score');
-    
-    if (integrityElement) {
-        integrityElement.textContent = gameState.integrityScore;
-        integrityElement.className = `text-lg font-bold ${getScoreColor(gameState.integrityScore)}`;
-    }
-    
-    if (vulnElement) {
-        vulnElement.textContent = gameState.vulnerabilitiesFound;
-    }
-    
-    if (ethicalElement) {
-        ethicalElement.textContent = gameState.ethicalScore;
-        ethicalElement.className = `text-lg font-bold ${getScoreColor(gameState.ethicalScore)}`;
-    }
-    
     // Update progress indicators
     updateProgressIndicators();
     
