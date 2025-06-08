@@ -107,6 +107,26 @@ export function updateProgress() {
         exploitCountElement.textContent = gameState.exploitsRun.toString();
     }
     
+    // Show disclosure buttons when all files have been analyzed and vulnerabilities found
+    if (analyzedFiles >= totalFiles && gameState.vulnerabilitiesFound > 0) {
+        const disclosureButtons = document.getElementById('disclosure-buttons');
+        if (disclosureButtons && disclosureButtons.classList.contains('hidden')) {
+            disclosureButtons.classList.remove('hidden');
+            
+            // Add a subtle animation to draw attention
+            disclosureButtons.style.opacity = '0';
+            disclosureButtons.style.transform = 'translateY(-10px)';
+            
+            setTimeout(() => {
+                disclosureButtons.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                disclosureButtons.style.opacity = '1';
+                disclosureButtons.style.transform = 'translateY(0)';
+            }, 100);
+            
+            updateMentorMessage("All files analyzed! Critical vulnerabilities confirmed. Now you must decide how to handle this sensitive information - choose your disclosure method carefully.");
+        }
+    }
+    
     // Check for audit completion conditions - simplified without risk assessment
     if (analyzedFiles >= totalFiles && gameState.vulnerabilitiesFound > 0 && gameState.exploitsRun > 0) {
         // Enable report generation directly
