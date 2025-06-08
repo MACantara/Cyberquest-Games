@@ -308,12 +308,13 @@
     </div>
 
     <!-- Exploit Testing Terminal Popup -->
-    <div id="exploit-terminal-popup" class="hidden fixed bg-slate-800/95 backdrop-blur border border-orange-600 rounded-xl shadow-2xl z-50 min-w-96 max-w-5xl flex flex-col">
+    <div id="exploit-terminal-popup" class="hidden fixed bg-slate-800/95 backdrop-blur border border-orange-600 rounded-xl shadow-2xl z-50 min-w-96 max-w-6xl flex flex-col">
         <!-- Title Bar with Controls -->
         <div id="terminal-popup-header" class="flex items-center justify-between p-3 border-b border-orange-600 cursor-move bg-slate-700/50 rounded-t-xl flex-shrink-0">
             <div class="flex items-center gap-2">
                 <i class="bi bi-terminal text-orange-400"></i>
-                <h3 class="text-orange-400 font-semibold text-sm">Exploit Testing Terminal</h3>
+                <h3 class="text-orange-400 font-semibold text-sm">Penetration Testing Terminal</h3>
+                <span class="text-xs text-orange-300 bg-orange-900/30 px-2 py-1 rounded">v2.1</span>
             </div>
             <div class="flex items-center gap-1">
                 <button id="minimize-terminal-popup" class="text-yellow-400 hover:text-yellow-300 p-1 rounded transition-colors" title="Minimize">
@@ -327,49 +328,77 @@
         
         <!-- Terminal Content Area -->
         <div id="terminal-popup-content" class="p-4 overflow-y-auto flex-1">
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-4 gap-4">
                 <!-- Terminal Interface -->
-                <div class="col-span-2 bg-black/50 rounded-lg p-3">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="text-green-400 text-sm font-mono">root@pentest:~#</span>
-                        <input type="text" id="exploit-command" class="bg-transparent text-white flex-1 outline-none font-mono text-sm" 
-                               placeholder="Enter exploit command (e.g., sqlmap, xss-test, contract-exploit)..." disabled>
+                <div class="col-span-3 bg-black/70 rounded-lg p-3 border border-gray-600">
+                    <!-- Terminal Output -->
+                    <div id="exploit-output" class="text-green-400 font-mono text-sm min-h-64 max-h-96 overflow-y-auto mb-3 p-2 rounded bg-black/30">
+                        <!-- Terminal output will be populated here -->
                     </div>
-                    <button id="run-exploit" class="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm mb-4" disabled>
-                        <i class="bi bi-play-fill mr-1"></i>
-                        Execute Exploit
-                    </button>
-                    <div id="exploit-output" class="text-green-400 font-mono text-sm min-h-48 max-h-64 overflow-y-auto border border-slate-600 rounded p-3 bg-black/30">
-                        <div class="text-slate-500">Terminal ready for exploit testing...</div>
+                    
+                    <!-- Terminal Input -->
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-400 text-sm font-mono flex-shrink-0">root@pentest:~#</span>
+                        <input type="text" id="exploit-command" 
+                               class="bg-transparent text-white flex-1 outline-none font-mono text-sm border-none" 
+                               placeholder="Type 'help' for available commands..." 
+                               disabled
+                               autocomplete="off">
+                    </div>
+                    
+                    <!-- Terminal Controls -->
+                    <div class="flex items-center gap-2 mt-3 pt-2 border-t border-gray-600">
+                        <button id="run-exploit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs" disabled>
+                            <i class="bi bi-play-fill mr-1"></i>
+                            Execute
+                        </button>
+                        <div class="text-xs text-gray-400 ml-auto">
+                            Use ↑↓ for command history
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Ethical Guidelines Panel -->
-                <div class="space-y-4">
-                    <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3">
-                        <div class="flex items-start gap-2 mb-2">
-                            <i class="bi bi-exclamation-triangle text-yellow-400 text-sm mt-1"></i>
+                <!-- Quick Reference Panel -->
+                <div class="space-y-3">
+                    <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-3">
+                        <div class="flex items-start gap-2">
+                            <i class="bi bi-info-circle text-blue-400 text-sm mt-1"></i>
                             <div>
-                                <div class="text-yellow-300 font-semibold text-sm">Ethical Testing Guidelines</div>
-                                <div class="text-yellow-200 text-xs mt-1">
-                                    • Authorized testing environment only<br>
-                                    • Document all findings responsibly<br>
-                                    • Avoid data exfiltration or damage<br>
-                                    • Report vulnerabilities ethically
+                                <div class="text-blue-300 font-semibold text-sm">Quick Commands</div>
+                                <div class="text-blue-200 text-xs mt-1 space-y-1">
+                                    <div><code class="bg-black/30 px-1 rounded">help</code> - Show all commands</div>
+                                    <div><code class="bg-black/30 px-1 rounded">ls</code> - List targets</div>
+                                    <div><code class="bg-black/30 px-1 rounded">sqlmap</code> - SQL injection</div>
+                                    <div><code class="bg-black/30 px-1 rounded">xss-test</code> - XSS testing</div>
+                                    <div><code class="bg-black/30 px-1 rounded">nmap</code> - Network scan</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-3">
+                    <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3">
                         <div class="flex items-start gap-2">
-                            <i class="bi bi-info-circle text-blue-400 text-sm mt-1"></i>
+                            <i class="bi bi-lightbulb text-yellow-400 text-sm mt-1"></i>
                             <div>
-                                <div class="text-blue-300 font-semibold text-sm">Common Commands</div>
-                                <div class="text-blue-200 text-xs mt-1 space-y-1">
-                                    <div><code class="bg-black/30 px-1 rounded">sqlmap</code> - SQL injection testing</div>
-                                    <div><code class="bg-black/30 px-1 rounded">xss-test</code> - Cross-site scripting</div>
-                                    <div><code class="bg-black/30 px-1 rounded">contract-exploit</code> - Smart contract testing</div>
+                                <div class="text-yellow-300 font-semibold text-sm">Pro Tips</div>
+                                <div class="text-yellow-200 text-xs mt-1">
+                                    • Add <code class="bg-black/30 px-1 rounded">?</code> after commands for help<br>
+                                    • Use <code class="bg-black/30 px-1 rounded">history</code> to see past commands<br>
+                                    • <code class="bg-black/30 px-1 rounded">clear</code> to clean terminal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-red-900/30 border border-red-600 rounded-lg p-3">
+                        <div class="flex items-start gap-2">
+                            <i class="bi bi-exclamation-triangle text-red-400 text-sm mt-1"></i>
+                            <div>
+                                <div class="text-red-300 font-semibold text-sm">Ethical Warning</div>
+                                <div class="text-red-200 text-xs mt-1">
+                                    • Authorized testing only<br>
+                                    • Document responsibly<br>
+                                    • Report vulnerabilities ethically
                                 </div>
                             </div>
                         </div>
