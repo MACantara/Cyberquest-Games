@@ -172,17 +172,33 @@ export function initializeCodeFormattingStyles() {
                 color: #fbbf24 !important;
             }
             
-            /* TypeScript/React-specific highlighting */
-            #code-content .hljs-tag {
+            /* Solidity keywords and modifiers */
+            #code-content .hljs-keyword {
                 color: #ff7b72 !important;
+                font-weight: 600;
             }
             
-            #code-content .hljs-name {
-                color: #fbbf24 !important;
-            }
-            
-            #code-content .hljs-attribute {
+            /* Solidity function modifiers and visibility */
+            #code-content .hljs-built_in {
                 color: #79c0ff !important;
+            }
+            
+            /* Solidity pragma and version */
+            #code-content .hljs-meta {
+                color: #a5d6ff !important;
+                font-style: italic;
+            }
+            
+            /* Solidity data types */
+            #code-content .hljs-type {
+                color: #ffa657 !important;
+                font-weight: 500;
+            }
+            
+            /* SPDX license identifier */
+            #code-content .hljs-comment:first-child {
+                color: #7dd3fc !important;
+                font-weight: 500;
             }
             
             /* Fallback for unhighlighted content */
