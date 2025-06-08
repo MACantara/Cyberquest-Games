@@ -119,7 +119,7 @@ export function initializeCodeFormattingStyles() {
                 transition: opacity 0.3s ease, transform 0.3s ease;
             }
             
-            /* Responsive code viewer height adjustment */
+            /* Code viewer maintains proper sizing */
             #code-content {
                 min-height: 400px;
                 max-height: 600px;
@@ -127,8 +127,8 @@ export function initializeCodeFormattingStyles() {
             
             /* When exploit panel is visible, adjust code viewer height */
             .col-span-2 #code-content {
-                min-height: 350px;
-                max-height: 500px;
+                min-height: 400px;
+                max-height: 600px;
             }
             
             #code-content .flex {

@@ -221,10 +221,15 @@ function performVulnerabilityDiscovery() {
 
 function showExploitTestingPanel() {
     const integratedPanel = document.getElementById('exploit-panel-integrated');
+    const codeViewerContainer = document.getElementById('code-viewer-container');
     
-    if (integratedPanel) {
-        // Show the exploit panel below the source code
+    if (integratedPanel && codeViewerContainer) {
+        // Show the exploit panel
         integratedPanel.classList.remove('hidden');
+        
+        // Adjust code viewer width from col-span-3 to col-span-2
+        codeViewerContainer.classList.remove('col-span-3');
+        codeViewerContainer.classList.add('col-span-2');
         
         // Enable exploit testing controls
         document.getElementById('exploit-command').disabled = false;
@@ -232,22 +237,27 @@ function showExploitTestingPanel() {
         
         // Add animation for smooth transition
         integratedPanel.style.opacity = '0';
-        integratedPanel.style.transform = 'translateY(-20px)';
+        integratedPanel.style.transform = 'translateX(20px)';
         
         setTimeout(() => {
             integratedPanel.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
             integratedPanel.style.opacity = '1';
-            integratedPanel.style.transform = 'translateY(0)';
+            integratedPanel.style.transform = 'translateX(0)';
         }, 100);
     }
 }
 
 function hideExploitTestingPanel() {
     const integratedPanel = document.getElementById('exploit-panel-integrated');
+    const codeViewerContainer = document.getElementById('code-viewer-container');
     
-    if (integratedPanel) {
+    if (integratedPanel && codeViewerContainer) {
         // Hide the exploit panel
         integratedPanel.classList.add('hidden');
+        
+        // Restore code viewer full width from col-span-2 to col-span-3
+        codeViewerContainer.classList.remove('col-span-2');
+        codeViewerContainer.classList.add('col-span-3');
         
         // Disable exploit testing controls
         document.getElementById('exploit-command').disabled = true;
