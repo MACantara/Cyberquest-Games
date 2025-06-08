@@ -337,11 +337,11 @@
                     </div>
                     
                     <!-- Terminal Input - Fixed at bottom of terminal interface -->
-                    <div class="flex-shrink-0 p-3 border-t border-gray-600 bg-black/50 rounded-b-lg">
+                    <div class="flex-shrink-0 p-3 bg-black/30">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="text-green-400 text-sm font-mono flex-shrink-0">root@pentest:~#</span>
                             <input type="text" id="exploit-command" 
-                                   class="bg-black/50 text-white flex-1 outline-none font-mono text-sm border border-gray-600 rounded px-2 py-1" 
+                                   class="bg-transparent text-white flex-1 outline-none font-mono text-sm" 
                                    placeholder="Type 'help' for available commands..." 
                                    disabled
                                    autocomplete="off">
@@ -349,11 +349,11 @@
                         
                         <!-- Terminal Controls -->
                         <div class="flex items-center gap-2">
-                            <button id="run-exploit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs" disabled>
+                            <button id="run-exploit" class="bg-transparent hover:bg-gray-800 text-green-400 hover:text-green-300 px-2 py-1 text-xs transition-colors" disabled>
                                 <i class="bi bi-play-fill mr-1"></i>
                                 Execute
                             </button>
-                            <div class="text-xs text-gray-400 ml-auto">
+                            <div class="text-xs text-gray-500 ml-auto">
                                 Use ↑↓ for command history
                             </div>
                         </div>
