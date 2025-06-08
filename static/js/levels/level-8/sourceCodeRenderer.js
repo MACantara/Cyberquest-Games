@@ -2,49 +2,53 @@ export function displaySourceCode(file) {
     const codeContent = document.getElementById('code-content');
     const lines = file.sourceCode.split('\n');
     
-    // Apply syntax highlighting to the entire code block first
-    const highlightedCode = applyHighlightJs(file.sourceCode, file.name, file.type);
-    const highlightedLines = highlightedCode.split('\n');
-    
     codeContent.innerHTML = lines.map((line, index) => {
         const lineNum = index + 1;
         // Only show vulnerability indicators if vulnerabilities have been revealed
         const isVulnerable = file.vulnerabilitiesRevealed && 
                            file.vulnerabilities.some(v => v.line === lineNum);
         
-        // Use highlighted line if available, otherwise escape the original
-        const displayContent = highlightedLines[index] || escapeHtml(line);
+        // Apply highlighting to individual line instead of entire code block
+        const highlightedLine = applyHighlightJsToLine(line, file.name, file.type);
         
         return `
             <div class="flex ${isVulnerable ? 'bg-red-900/20' : ''}">
                 <span class="text-slate-500 w-8 text-right mr-3 select-none flex-shrink-0">${lineNum}</span>
-                <span class="whitespace-pre flex-1">${displayContent}</span>
+                <span class="whitespace-pre flex-1">${highlightedLine}</span>
                 ${isVulnerable ? '<span class="ml-2 text-red-400 text-xs flex-shrink-0">⚠</span>' : ''}
             </div>
         `;
     }).join('');
 }
 
-function applyHighlightJs(sourceCode, fileName, fileType) {
-    if (!window.hljs) {
-        return escapeHtml(sourceCode);
+function applyHighlightJsToLine(line, fileName, fileType) {
+    if (!window.hljs || !line.trim()) {
+        // For empty lines, preserve spacing
+        const leadingSpaces = line.match(/^(\s*)/)[1];
+        const preservedSpaces = leadingSpaces.replace(/\s/g, '&nbsp;');
+        const trimmedLine = line.trim();
+        return preservedSpaces + escapeHtml(trimmedLine);
     }
     
-    // Create a temporary element for highlighting
+    // Create a temporary element for highlighting individual line
     const tempElement = document.createElement('code');
-    tempElement.textContent = sourceCode;
+    tempElement.textContent = line;
     
     // Set language class based on file type
     const language = getLanguageClass(fileName, fileType);
     tempElement.className = language;
     
     try {
-        // Apply highlight.js
+        // Apply highlight.js to individual line
         hljs.highlightElement(tempElement);
         return tempElement.innerHTML;
     } catch (error) {
         console.warn('Highlight.js error:', error);
-        return escapeHtml(sourceCode);
+        // Fallback to manual formatting
+        const leadingSpaces = line.match(/^(\s*)/)[1];
+        const preservedSpaces = leadingSpaces.replace(/\s/g, '&nbsp;');
+        const trimmedLine = line.trim();
+        return preservedSpaces + escapeHtml(trimmedLine);
     }
 }
 
@@ -273,6 +277,80 @@ export function initializeCodeFormattingStyles() {
                 width: 2px;
                 background: #3b82f6;
                 opacity: 0.6;
+            }
+            
+            /* TypeScript/React-specific highlighting - treat JSX as TypeScript */
+            #code-content .hljs-tag {
+                color: #ff7b72 !important;
+                font-weight: 600;
+            }
+            
+            #code-content .hljs-name {
+                color: #fbbf24 !important;
+                font-weight: 600;
+            }
+            
+            #code-content .hljs-attribute {
+                color: #79c0ff !important;
+            }
+            
+            /* JSX/TSX component names */
+            #code-content .hljs-title.class_ {
+                color: #fbbf24 !important;
+                font-weight: 600;
+            }
+            
+            /* JSX attributes and props */
+            #code-content .hljs-attr {
+                color: #79c0ff !important;
+            }
+            
+            /* React hooks and TypeScript interfaces */
+            #code-content .hljs-built_in {
+                color: #79c0ff !important;
+                font-weight: 500;
+            }
+            
+            /* TypeScript types and interfaces */
+            #code-content .hljs-type {
+                color: #ffa657 !important;
+                font-weight: 500;
+            }
+            
+            /* Generic types */
+            #code-content .hljs-params {
+                color: #c9d1d9 !important;
+            }
+            
+            /* JSX expression brackets - ensure no extra line breaks */
+            #code-content .hljs-subst {
+                color: #ff7b72 !important;
+                display: inline !important;
+            }
+            
+            /* Template literals in JSX - prevent line wrapping */
+            #code-content .hljs-template-tag {
+                color: #ff7b72 !important;
+                display: inline !important;
+            }
+            
+            #code-content .hljs-template-variable {
+                color: #ffa657 !important;
+                display: inline !important;
+            }
+            
+            /* Prevent extra line breaks in highlighted code */
+            #code-content .hljs-tag,
+            #code-content .hljs-name,
+            #code-content .hljs-attribute {
+                display: inline !important;
+                white-space: nowrap !important;
+            }
+            
+            /* Fix JSX element line breaks */
+            #code-content .whitespace-pre {
+                white-space: pre !important;
+                line-height: 1.5 !important;
             }
         `;
         document.head.appendChild(style);
