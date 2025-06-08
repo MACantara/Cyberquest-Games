@@ -1,8 +1,8 @@
-import { gameState, updateGameMetrics, resetGameState } from './gameState.js';
+import { startAttackSimulation, stopAttackSimulation } from './attackSimulation.js';
+import { initializeMitigationButtons, initializeCommandInput } from './defenseTools.js';
 import { loadInfrastructureData } from './infrastructureHandler.js';
-import { handleDefenseTool, executeCommand, initializeMitigationButtons, initializeCommandInput } from './defenseTools.js';
-import { startAttackSimulation, stopAttackSimulation, generateInitialAlerts } from './attackSimulation.js';
-import { updateCommanderMessage, showResultModal } from './uiUpdates.js';
+import { gameState, updateGameMetrics, resetGameState } from './gameState.js';
+import { updateCommanderMessage } from './uiUpdates.js';
 
 let levelInitialized = false;
 
