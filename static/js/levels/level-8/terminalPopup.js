@@ -41,18 +41,21 @@ export function initializeTerminalPopup() {
     document.addEventListener('mousemove', resizeTerminal);
     document.addEventListener('mouseup', stopTerminalResize);
 
-    // Terminal functionality - only Enter key handling
-    document.getElementById('exploit-command')?.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            executeCommand();
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            navigateHistory('up');
-        } else if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            navigateHistory('down');
-        }
-    });
+    // Terminal functionality - fix arrow key handling
+    const commandInput = document.getElementById('exploit-command');
+    if (commandInput) {
+        commandInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                executeCommand();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                navigateHistory('up');
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                navigateHistory('down');
+            }
+        });
+    }
 
     // Set initial position and size for more compact terminal
     if (popup) {
@@ -218,6 +221,13 @@ function executeCommand() {
 }
 
 function navigateHistory(direction) {
+    // Load history from localStorage if not already loaded
+    if (terminalHistory.length === 0) {
+        const storedHistory = JSON.parse(localStorage.getItem('terminalHistory') || '[]');
+        terminalHistory = storedHistory;
+        historyIndex = terminalHistory.length;
+    }
+
     if (terminalHistory.length === 0) return;
     
     const commandInput = document.getElementById('exploit-command');
@@ -236,6 +246,11 @@ function navigateHistory(direction) {
             commandInput.value = '';
         }
     }
+    
+    // Move cursor to end of input
+    setTimeout(() => {
+        commandInput.setSelectionRange(commandInput.value.length, commandInput.value.length);
+    }, 0);
 }
 
 function escapeHtml(text) {
