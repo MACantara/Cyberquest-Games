@@ -131,6 +131,18 @@ function showAnonymousOfferMessage() {
 }
 
 export function showMessage(type) {
-    // Legacy function for compatibility
-    showContextualMessage(type, 'manual');
+    // Legacy function for compatibility - map to new contextual system
+    switch(type) {
+        case 'vendor':
+            showContextualMessage('vendor_contact', 'manual');
+            break;
+        case 'anonymous':
+            showContextualMessage('anonymous_offer', 'manual');
+            break;
+        case 'support':
+            showContextualMessage('disclosure_decision', 'manual');
+            break;
+        default:
+            console.warn('Unknown message type:', type);
+    }
 }
