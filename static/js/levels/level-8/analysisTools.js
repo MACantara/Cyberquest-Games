@@ -11,6 +11,10 @@ import {
     initializeStaticAnalysisPopup, 
     showStaticAnalysisPopup 
 } from './staticAnalysisPopup.js';
+import { 
+    initializeTerminalPopup, 
+    showTerminalPopup 
+} from './terminalPopup.js';
 
 let currentFile = null;
 let vulnerabilitiesDiscovered = [];
@@ -29,15 +33,10 @@ export function initializeAnalysisTools() {
     document.getElementById('analyze-code')?.addEventListener('click', () => performStaticAnalysis());
     document.getElementById('find-vulns')?.addEventListener('click', () => performVulnerabilityDiscovery());
 
-    // Exploit testing
-    document.getElementById('run-exploit')?.addEventListener('click', () => executeExploit());
-    document.getElementById('exploit-command')?.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') executeExploit();
-    });
-
     // Initialize popup controls
     initializeVulnerabilityPopup();
     initializeStaticAnalysisPopup();
+    initializeTerminalPopup();
 }
 
 function selectFile(fileId) {
@@ -220,39 +219,13 @@ function performVulnerabilityDiscovery() {
 }
 
 function showExploitTestingPanel() {
-    const integratedPanel = document.getElementById('exploit-panel-integrated');
-    
-    if (integratedPanel) {
-        // Show the exploit panel below the code sections
-        integratedPanel.classList.remove('hidden');
-        
-        // Enable exploit testing controls
-        document.getElementById('exploit-command').disabled = false;
-        document.getElementById('run-exploit').disabled = false;
-        
-        // Add animation for smooth transition
-        integratedPanel.style.opacity = '0';
-        integratedPanel.style.transform = 'translateY(-20px)';
-        
-        setTimeout(() => {
-            integratedPanel.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            integratedPanel.style.opacity = '1';
-            integratedPanel.style.transform = 'translateY(0)';
-        }, 100);
-    }
+    // Show the terminal popup instead of integrated panel
+    showTerminalPopup();
 }
 
 function hideExploitTestingPanel() {
-    const integratedPanel = document.getElementById('exploit-panel-integrated');
-    
-    if (integratedPanel) {
-        // Hide the exploit panel
-        integratedPanel.classList.add('hidden');
-        
-        // Disable exploit testing controls
-        document.getElementById('exploit-command').disabled = true;
-        document.getElementById('run-exploit').disabled = true;
-    }
+    // Terminal popup handles its own hiding via close button
+    // This function can remain for compatibility
 }
 
 function showVulnerabilityResults(file) {

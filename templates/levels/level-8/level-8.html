@@ -140,7 +140,7 @@
                             </div>
                         </div>
                         
-                        <!-- Code Viewer - Full width without terminal on side -->
+                        <!-- Code Viewer - Back to full width -->
                         <div class="col-span-3 bg-slate-900/50 p-3" id="code-viewer-container">
                             <div class="flex items-center justify-between mb-3">
                                 <h4 id="current-file" class="text-white font-medium text-sm">Select a file to analyze</h4>
@@ -158,63 +158,6 @@
                             <div id="code-content" class="bg-black/50 rounded p-3 min-h-48 font-mono text-xs text-green-400 overflow-auto">
                                 <div class="text-slate-400 text-center mt-8">
                                     Click on a file to view its source code
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Exploit Testing Terminal - Below file tree and code viewer -->
-                    <div class="bg-slate-900/50 p-3 hidden" id="exploit-panel-integrated">
-                        <h4 class="text-orange-400 font-medium mb-3 text-sm flex items-center gap-2">
-                            <i class="bi bi-terminal"></i>
-                            Exploit Testing Environment
-                        </h4>
-                        <div class="grid grid-cols-3 gap-4">
-                            <!-- Terminal Interface -->
-                            <div class="col-span-2 bg-black/50 rounded-lg p-3">
-                                <div class="flex items-center gap-2 mb-3">
-                                    <span class="text-green-400 text-sm font-mono">root@pentest:~#</span>
-                                    <input type="text" id="exploit-command" class="bg-transparent text-white flex-1 outline-none font-mono text-sm" 
-                                           placeholder="Enter exploit command (e.g., sqlmap, xss-test, contract-exploit)..." disabled>
-                                </div>
-                                <button id="run-exploit" class="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm mb-4" disabled>
-                                    <i class="bi bi-play-fill mr-1"></i>
-                                    Execute Exploit
-                                </button>
-                                <div id="exploit-output" class="text-green-400 font-mono text-sm min-h-32 max-h-48 overflow-y-auto border border-slate-600 rounded p-3 bg-black/30">
-                                    <div class="text-slate-500">Terminal ready for exploit testing...</div>
-                                </div>
-                            </div>
-                            
-                            <!-- Ethical Guidelines Panel -->
-                            <div class="space-y-4">
-                                <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3">
-                                    <div class="flex items-start gap-2 mb-2">
-                                        <i class="bi bi-exclamation-triangle text-yellow-400 text-sm mt-1"></i>
-                                        <div>
-                                            <div class="text-yellow-300 font-semibold text-sm">Ethical Testing Guidelines</div>
-                                            <div class="text-yellow-200 text-xs mt-1">
-                                                • Authorized testing environment only<br>
-                                                • Document all findings responsibly<br>
-                                                • Avoid data exfiltration or damage<br>
-                                                • Report vulnerabilities ethically
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-3">
-                                    <div class="flex items-start gap-2">
-                                        <i class="bi bi-info-circle text-blue-400 text-sm mt-1"></i>
-                                        <div>
-                                            <div class="text-blue-300 font-semibold text-sm">Common Commands</div>
-                                            <div class="text-blue-200 text-xs mt-1 space-y-1">
-                                                <div><code class="bg-black/30 px-1 rounded">sqlmap</code> - SQL injection testing</div>
-                                                <div><code class="bg-black/30 px-1 rounded">xss-test</code> - Cross-site scripting</div>
-                                                <div><code class="bg-black/30 px-1 rounded">contract-exploit</code> - Smart contract testing</div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -361,6 +304,93 @@
                     Continue
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Exploit Testing Terminal Popup -->
+    <div id="exploit-terminal-popup" class="hidden fixed bg-slate-800/95 backdrop-blur border border-orange-600 rounded-xl shadow-2xl z-50 min-w-96 max-w-5xl flex flex-col">
+        <!-- Title Bar with Controls -->
+        <div id="terminal-popup-header" class="flex items-center justify-between p-3 border-b border-orange-600 cursor-move bg-slate-700/50 rounded-t-xl flex-shrink-0">
+            <div class="flex items-center gap-2">
+                <i class="bi bi-terminal text-orange-400"></i>
+                <h3 class="text-orange-400 font-semibold text-sm">Exploit Testing Terminal</h3>
+            </div>
+            <div class="flex items-center gap-1">
+                <button id="minimize-terminal-popup" class="text-yellow-400 hover:text-yellow-300 p-1 rounded transition-colors" title="Minimize">
+                    <i class="bi bi-dash-lg text-xs"></i>
+                </button>
+                <button id="close-terminal-popup" class="text-orange-400 hover:text-orange-300 p-1 rounded transition-colors" title="Close">
+                    <i class="bi bi-x-lg text-xs"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Terminal Content Area -->
+        <div id="terminal-popup-content" class="p-4 overflow-y-auto flex-1">
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Terminal Interface -->
+                <div class="col-span-2 bg-black/50 rounded-lg p-3">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-green-400 text-sm font-mono">root@pentest:~#</span>
+                        <input type="text" id="exploit-command" class="bg-transparent text-white flex-1 outline-none font-mono text-sm" 
+                               placeholder="Enter exploit command (e.g., sqlmap, xss-test, contract-exploit)..." disabled>
+                    </div>
+                    <button id="run-exploit" class="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm mb-4" disabled>
+                        <i class="bi bi-play-fill mr-1"></i>
+                        Execute Exploit
+                    </button>
+                    <div id="exploit-output" class="text-green-400 font-mono text-sm min-h-48 max-h-64 overflow-y-auto border border-slate-600 rounded p-3 bg-black/30">
+                        <div class="text-slate-500">Terminal ready for exploit testing...</div>
+                    </div>
+                </div>
+                
+                <!-- Ethical Guidelines Panel -->
+                <div class="space-y-4">
+                    <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3">
+                        <div class="flex items-start gap-2 mb-2">
+                            <i class="bi bi-exclamation-triangle text-yellow-400 text-sm mt-1"></i>
+                            <div>
+                                <div class="text-yellow-300 font-semibold text-sm">Ethical Testing Guidelines</div>
+                                <div class="text-yellow-200 text-xs mt-1">
+                                    • Authorized testing environment only<br>
+                                    • Document all findings responsibly<br>
+                                    • Avoid data exfiltration or damage<br>
+                                    • Report vulnerabilities ethically
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-3">
+                        <div class="flex items-start gap-2">
+                            <i class="bi bi-info-circle text-blue-400 text-sm mt-1"></i>
+                            <div>
+                                <div class="text-blue-300 font-semibold text-sm">Common Commands</div>
+                                <div class="text-blue-200 text-xs mt-1 space-y-1">
+                                    <div><code class="bg-black/30 px-1 rounded">sqlmap</code> - SQL injection testing</div>
+                                    <div><code class="bg-black/30 px-1 rounded">xss-test</code> - Cross-site scripting</div>
+                                    <div><code class="bg-black/30 px-1 rounded">contract-exploit</code> - Smart contract testing</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Resize Handle -->
+        <div id="terminal-resize-handle" class="absolute bottom-0 right-0 w-4 h-4 cursor-nw-resize flex items-center justify-center">
+            <svg class="w-3 h-3 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 6L14 10L10 14L6 10L10 6Z" transform="rotate(45 10 10)"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Terminal Minimized Popup Indicator -->
+    <div id="terminal-minimized-indicator" class="hidden fixed bottom-4 right-80 bg-orange-600 hover:bg-orange-700 text-white px-3 py-2 rounded-lg cursor-pointer shadow-lg z-50 transition-colors">
+        <div class="flex items-center gap-2">
+            <i class="bi bi-terminal text-xs"></i>
+            <span class="text-xs font-semibold">Terminal</span>
         </div>
     </div>
 </div>
