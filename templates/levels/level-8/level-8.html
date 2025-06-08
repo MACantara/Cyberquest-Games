@@ -72,6 +72,24 @@
                                 <p class="text-sm text-slate-400 mt-1">Select files to analyze for security vulnerabilities</p>
                             </div>
                             
+                            <!-- Vulnerability Disclosure Buttons -->
+                            <div class="flex items-center justify-center gap-3">
+                                <button class="disclosure-option flex items-center gap-2 bg-green-900/20 hover:bg-green-900/40 border border-green-600 text-green-300 px-4 py-2 rounded-lg transition-all text-sm" data-choice="responsible">
+                                    <i class="bi bi-shield-check text-green-400"></i>
+                                    Responsible Disclosure
+                                </button>
+
+                                <button class="disclosure-option flex items-center gap-2 bg-blue-900/20 hover:bg-blue-900/40 border border-blue-600 text-blue-300 px-4 py-2 rounded-lg transition-all text-sm" data-choice="public">
+                                    <i class="bi bi-megaphone text-blue-400"></i>
+                                    Public Disclosure
+                                </button>
+
+                                <button class="disclosure-option flex items-center gap-2 bg-red-900/20 hover:bg-red-900/40 border border-red-600 text-red-300 px-4 py-2 rounded-lg transition-all text-sm" data-choice="blackmarket">
+                                    <i class="bi bi-currency-bitcoin text-red-400"></i>
+                                    Black Market Sale
+                                </button>
+                            </div>
+                            
                             <!-- Audit Metrics -->
                             <div class="flex gap-4 text-sm">
                                 <div class="text-center">
@@ -220,7 +238,7 @@
                     </div>
                 </div>
 
-                <!-- Disclosure Decision Panel -->
+                <!-- Disclosure Decision Panel - Remove the buttons section -->
                 <div id="disclosure-panel" class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 hidden">
                     <h3 class="text-lg font-semibold text-yellow-400 mb-4 flex items-center gap-2">
                         ⚖️ Critical Decision: Vulnerability Disclosure
@@ -237,41 +255,6 @@
                             <strong>Exploitability:</strong> High (Remote, no authentication required)<br>
                             <strong>Discovery:</strong> You are the first to find this vulnerability
                         </div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <button class="disclosure-option w-full text-left p-4 border border-green-600 bg-green-900/20 hover:bg-green-900/40 rounded-lg transition-all" data-choice="responsible">
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-shield-check text-green-400 text-xl mt-1"></i>
-                                <div>
-                                    <h5 class="text-green-300 font-semibold">Responsible Disclosure</h5>
-                                    <p class="text-green-200 text-sm mt-1">Report directly to CivitasVote security team with 90-day disclosure timeline</p>
-                                    <div class="text-xs text-green-400 mt-2">✓ Ethical ✓ Legal ✓ Protects democracy</div>
-                                </div>
-                            </div>
-                        </button>
-
-                        <button class="disclosure-option w-full text-left p-4 border border-blue-600 bg-blue-900/20 hover:bg-blue-900/40 rounded-lg transition-all" data-choice="public">
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-megaphone text-blue-400 text-xl mt-1"></i>
-                                <div>
-                                    <h5 class="text-blue-300 font-semibold">Public Disclosure</h5>
-                                    <p class="text-blue-200 text-sm mt-1">Immediately publish findings to security communities and media</p>
-                                    <div class="text-xs text-blue-400 mt-2">⚠ High impact ⚠ May cause panic ⚠ Forces immediate action</div>
-                                </div>
-                            </div>
-                        </button>
-
-                        <button class="disclosure-option w-full text-left p-4 border border-red-600 bg-red-900/20 hover:bg-red-900/40 rounded-lg transition-all" data-choice="blackmarket">
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-currency-bitcoin text-red-400 text-xl mt-1"></i>
-                                <div>
-                                    <h5 class="text-red-300 font-semibold">Black Market Sale</h5>
-                                    <p class="text-red-200 text-sm mt-1">Sell vulnerability information to highest bidder on dark web</p>
-                                    <div class="text-xs text-red-400 mt-2">✗ Illegal ✗ Unethical ✗ Threatens democracy</div>
-                                </div>
-                            </div>
-                        </button>
                     </div>
                 </div>
             </div>
