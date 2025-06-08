@@ -17,12 +17,6 @@ export function initializeAnalysisTools() {
     // Analysis tool handlers
     document.getElementById('analyze-code')?.addEventListener('click', () => performStaticAnalysis());
     document.getElementById('find-vulns')?.addEventListener('click', () => performVulnerabilityDiscovery());
-    
-    // Security tool handlers
-    document.getElementById('static-analysis')?.addEventListener('click', () => runStaticAnalysis());
-    document.getElementById('dependency-scan')?.addEventListener('click', () => runDependencyScan());
-    document.getElementById('dynamic-test')?.addEventListener('click', () => runDynamicTesting());
-    document.getElementById('penetration-test')?.addEventListener('click', () => runPenetrationTest());
 
     // Exploit testing
     document.getElementById('run-exploit')?.addEventListener('click', () => executeExploit());
