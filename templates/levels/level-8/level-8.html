@@ -55,11 +55,11 @@
     </header>
 
     <!-- Main Audit Interface -->
-    <div class="p-6">
-        <div class="col-span-12 space-y-4">
+    <div class="p-0">
+        <div class="col-span-12 space-y-0">
             
             <!-- Code Repository Browser -->
-            <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700">
+            <div class="bg-slate-800/50 backdrop-blur border border-slate-700">
                 <div class="p-4 border-b border-slate-700">
                     <div class="flex items-center justify-between">
                         <div>
@@ -111,10 +111,10 @@
                 </div>
                 
                 <!-- File Tree & Code Viewer -->
-                <div class="p-4">
-                    <div class="grid grid-cols-4 gap-4">
+                <div class="p-0">
+                    <div class="grid grid-cols-4 gap-0">
                         <!-- File Tree -->
-                        <div class="bg-slate-900/50 rounded-lg p-3">
+                        <div class="bg-slate-900/50 p-3">
                             <h4 class="text-white font-medium mb-3 text-sm">Project Files</h4>
                             <div class="space-y-1 text-sm">
                                 <div class="code-file cursor-pointer hover:bg-slate-700/50 p-2 rounded text-slate-300 hover:text-white" data-file="vote-processor">
@@ -141,7 +141,7 @@
                         </div>
                         
                         <!-- Code Viewer - Full width when exploit panel hidden -->
-                        <div class="col-span-3 bg-slate-900/50 rounded-lg p-3" id="code-viewer-container">
+                        <div class="col-span-3 bg-slate-900/50 p-3" id="code-viewer-container">
                             <div class="flex items-center justify-between mb-3">
                                 <h4 id="current-file" class="text-white font-medium text-sm">Select a file to analyze</h4>
                                 <div class="flex gap-2">
@@ -166,7 +166,7 @@
             </div>
 
             <!-- Exploit Testing Terminal - Now below source code -->
-            <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 hidden" id="exploit-panel-integrated">
+            <div class="bg-slate-800/50 backdrop-blur border border-slate-700 hidden" id="exploit-panel-integrated">
                 <div class="p-4 border-b border-slate-700">
                     <h3 class="text-lg font-semibold text-white flex items-center gap-2">
                         <i class="bi bi-terminal text-orange-400"></i>
@@ -175,10 +175,10 @@
                     <p class="text-sm text-slate-400 mt-1">Controlled penetration testing with ethical guidelines</p>
                 </div>
                 
-                <div class="p-4">
-                    <div class="grid grid-cols-3 gap-4">
+                <div class="p-0">
+                    <div class="grid grid-cols-3 gap-0">
                         <!-- Terminal Interface -->
-                        <div class="col-span-2 bg-black/50 rounded-lg p-4">
+                        <div class="col-span-2 bg-black/50 p-4">
                             <div class="flex items-center gap-2 mb-3">
                                 <span class="text-green-400 text-sm font-mono">root@pentest:~#</span>
                                 <input type="text" id="exploit-command" class="bg-transparent text-white flex-1 outline-none font-mono text-sm" 
@@ -194,7 +194,7 @@
                         </div>
                         
                         <!-- Ethical Guidelines Panel -->
-                        <div class="space-y-4">
+                        <div class="space-y-4 p-4">
                             <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3">
                                 <div class="flex items-start gap-2 mb-2">
                                     <i class="bi bi-exclamation-triangle text-yellow-400 text-sm mt-1"></i>
