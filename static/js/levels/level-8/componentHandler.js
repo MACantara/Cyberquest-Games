@@ -107,22 +107,6 @@ export function updateProgress() {
         exploitCountElement.textContent = gameState.exploitsRun.toString();
     }
     
-    // Update current phase
-    const currentPhaseElement = document.getElementById('current-phase');
-    if (currentPhaseElement) {
-        if (analyzedFiles === 0) {
-            currentPhaseElement.textContent = 'Source Analysis';
-        } else if (gameState.vulnerabilitiesFound === 0) {
-            currentPhaseElement.textContent = 'Vulnerability Discovery';
-        } else if (gameState.exploitsRun === 0) {
-            currentPhaseElement.textContent = 'Exploit Testing';
-        } else if (!gameState.disclosureDecisionMade) {
-            currentPhaseElement.textContent = 'Ethical Decision';
-        } else {
-            currentPhaseElement.textContent = 'Audit Complete';
-        }
-    }
-    
     // Check for audit completion conditions - simplified without risk assessment
     if (analyzedFiles >= totalFiles && gameState.vulnerabilitiesFound > 0 && gameState.exploitsRun > 0) {
         // Enable report generation directly
