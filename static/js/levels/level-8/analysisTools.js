@@ -64,11 +64,16 @@ function displaySourceCode(file) {
         const isVulnerable = file.vulnerabilitiesRevealed && 
                            file.vulnerabilities.some(v => v.line === lineNum);
         
+        // Preserve whitespace and indentation by using &nbsp; for spaces
+        const formattedLine = escapeHtml(line)
+            .replace(/^(\s+)/, (match) => '&nbsp;'.repeat(match.length))
+            .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;'); // Convert tabs to 4 spaces
+        
         return `
             <div class="flex ${isVulnerable ? 'bg-red-900/20' : ''}">
-                <span class="text-slate-500 w-8 text-right mr-3 select-none">${lineNum}</span>
-                <span class="text-green-400 ${isVulnerable ? 'text-red-300' : ''}">${escapeHtml(line)}</span>
-                ${isVulnerable ? '<span class="ml-2 text-red-400 text-xs">⚠</span>' : ''}
+                <span class="text-slate-500 w-8 text-right mr-3 select-none flex-shrink-0">${lineNum}</span>
+                <span class="text-green-400 ${isVulnerable ? 'text-red-300' : ''} whitespace-pre">${formattedLine}</span>
+                ${isVulnerable ? '<span class="ml-2 text-red-400 text-xs flex-shrink-0">⚠</span>' : ''}
             </div>
         `;
     }).join('');
