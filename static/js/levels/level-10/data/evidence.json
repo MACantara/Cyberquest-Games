@@ -1,80 +1,224 @@
 {
     "logs": [
         {
-            "id": "ssh_anomaly",
-            "type": "SSH Log",
-            "description": "Unusual late-night access from Dr. Reeves account",
-            "timestamp": "2024-03-15 02:47:33",
-            "indicator": true
+            "id": "log_001",
+            "type": "SSH Access Log",
+            "timestamp": "2024-02-15 02:47:33",
+            "description": "Late-night SSH login from 192.168.1.15 (Dr. Reeves' workstation)",
+            "details": "User: areeves, Session: 4h 28m, Commands: 47 executed",
+            "indicator": true,
+            "suspectLink": "dr",
+            "evidenceValue": 15
         },
         {
-            "id": "failed_login",
-            "type": "Auth Log",
-            "description": "Multiple failed login attempts to Marcus Chen account",
-            "timestamp": "2024-03-14 23:15:22",
-            "indicator": false
+            "id": "log_002", 
+            "type": "Authentication Failure",
+            "timestamp": "2024-02-15 23:15:22",
+            "description": "Multiple failed login attempts targeting Marcus Chen's account",
+            "details": "15 failed attempts from 185.220.101.45, Account: mchen",
+            "indicator": true,
+            "suspectLink": "mc",
+            "evidenceValue": 10
         },
         {
-            "id": "privilege_escalation",
-            "type": "System Log",
-            "description": "Unauthorized root access from guest account",
-            "timestamp": "2024-03-15 03:22:18",
-            "indicator": true
+            "id": "log_003",
+            "type": "Privilege Escalation", 
+            "timestamp": "2024-02-15 03:22:18",
+            "description": "Unauthorized root access obtained via sudo exploit",
+            "details": "User escalated to root privileges, Origin: 192.168.1.15",
+            "indicator": true,
+            "suspectLink": "dr",
+            "evidenceValue": 20
         },
         {
-            "id": "data_exfiltration",
-            "type": "Network Log",
-            "description": "Large data transfer to external server",
-            "timestamp": "2024-03-15 04:15:45",
-            "indicator": true
+            "id": "log_004",
+            "type": "VPN Connection",
+            "timestamp": "2024-02-14 21:30:45",
+            "description": "External VPN connection from known Tor exit node",
+            "details": "Connection from 185.220.102.67, Duration: 6h 15m",
+            "indicator": true,
+            "suspectLink": "zk",
+            "evidenceValue": 12
+        },
+        {
+            "id": "log_005",
+            "type": "File Access",
+            "timestamp": "2024-02-15 04:15:45",
+            "description": "Large data transfer to external server detected",
+            "details": "2.3 GB transferred to encrypted endpoint, Protocol: HTTPS/TLS",
+            "indicator": true,
+            "suspectLink": "dr",
+            "evidenceValue": 18
         }
     ],
     "hashes": [
         {
-            "id": "malware_hash",
-            "file": "system_update.exe",
-            "hash": "a7f5c9e2b4d8f1a3c6e9b2d5f8a1c4e7",
-            "status": "MALICIOUS",
-            "indicator": true
-        },
-        {
-            "id": "clean_hash",
-            "file": "backup_tool.exe",
-            "hash": "f8a1c4e7b2d5f9a2c5e8b1d4f7a0c3e6",
-            "status": "CLEAN",
-            "indicator": false
-        },
-        {
-            "id": "modified_hash",
-            "file": "security_patch.exe",
-            "hash": "c4e7b2d5f8a1c9e2b4d8f1a3c6e9b2d5",
+            "id": "hash_001",
+            "file": "research_data.zip",
+            "hash": "a7f8c9e2d4b6f1e8c3a9d7f2e5b8c1a4",
             "status": "MODIFIED",
-            "indicator": true
+            "description": "Critical AI research data archive",
+            "originalHash": "b8f9d0e3d5c7f2e9c4a0d8f3e6b9c2a5",
+            "indicator": true,
+            "suspectLink": "dr",
+            "evidenceValue": 16
+        },
+        {
+            "id": "hash_002",
+            "file": "admin_tools.exe", 
+            "hash": "d4c7e9f2a8b5c1e6d3a7f0e4b8c5a2e9",
+            "status": "MALICIOUS",
+            "description": "Suspicious administrative utility",
+            "details": "Known backdoor signature detected",
+            "indicator": true,
+            "suspectLink": "mc",
+            "evidenceValue": 14
+        },
+        {
+            "id": "hash_003",
+            "file": "security_audit.pdf",
+            "hash": "f2e8b5c9a7d4f1e5c2a8d6f3e7b4c0a6",
+            "status": "CLEAN",
+            "description": "Academy security assessment report",
+            "details": "Standard security documentation",
+            "indicator": false,
+            "suspectLink": null,
+            "evidenceValue": 2
         }
     ],
     "metadata": [
         {
-            "id": "doc_metadata",
-            "file": "project_notes.docx",
-            "author": "A.Reeves",
-            "created": "2024-03-10 18:30:00",
-            "modified": "2024-03-15 02:45:12",
-            "indicator": true
+            "id": "meta_001",
+            "file": "leaked_emails.pst",
+            "type": "Email Archive",
+            "author": "Dr. Alexis Reeves",
+            "created": "2024-02-10 14:22:18",
+            "modified": "2024-02-15 02:55:41",
+            "description": "Email communications about AI ethics violations",
+            "details": "Contains correspondence with external entities about Academy policies",
+            "indicator": true,
+            "suspectLink": "dr",
+            "evidenceValue": 19
         },
         {
-            "id": "image_metadata",
-            "file": "academy_layout.jpg",
-            "camera": "Internal Security Cam 7",
-            "location": "Server Room B",
-            "timestamp": "2024-03-15 02:50:33",
-            "indicator": true
+            "id": "meta_002",
+            "file": "security_bypass.jpg",
+            "type": "Image File",
+            "camera": "iPhone 14 Pro",
+            "location": "Academy Server Room B-12",
+            "created": "2024-02-14 23:45:12",
+            "description": "Photo of server access credentials",
+            "details": "EXIF data shows unauthorized after-hours access",
+            "indicator": true,
+            "suspectLink": "zk",
+            "evidenceValue": 13
         },
         {
-            "id": "email_metadata",
-            "file": "encrypted_message.eml",
-            "sender": "masked.sender@darknet.onion",
-            "encryption": "PGP 4096-bit",
-            "indicator": true
+            "id": "meta_003",
+            "file": "system_config.txt",
+            "type": "Configuration File", 
+            "author": "Marcus Chen",
+            "created": "2024-02-15 08:30:22",
+            "modified": "2024-02-15 23:45:18",
+            "description": "Modified system configuration with backdoor entries",
+            "details": "Unauthorized changes to security settings",
+            "indicator": true,
+            "suspectLink": "mc",
+            "evidenceValue": 17
+        },
+        {
+            "id": "meta_004",
+            "file": "resignation_letter.docx",
+            "type": "Document",
+            "author": "Zara Khan", 
+            "created": "2024-01-28 16:45:33",
+            "modified": "2024-02-14 22:10:55",
+            "description": "Resignation letter with suspicious recent modifications",
+            "details": "Document edited weeks after submission date",
+            "indicator": true,
+            "suspectLink": "zk",
+            "evidenceValue": 11
+        }
+    ],
+    "timeline": [
+        {
+            "id": "timeline_001",
+            "title": "Operation Planning Phase",
+            "description": "Coordinated sequence of suspicious activities leading to the breach",
+            "events": [
+                {
+                    "time": "2024-01-15",
+                    "event": "Dr. Reeves dismissed for ethics violations",
+                    "significance": "Potential motive established"
+                },
+                {
+                    "time": "2024-01-28", 
+                    "event": "Zara Khan submits resignation",
+                    "significance": "Inside access maintained until departure"
+                },
+                {
+                    "time": "2024-02-10",
+                    "event": "Increased external reconnaissance activity",
+                    "significance": "Attack preparation begins"
+                },
+                {
+                    "time": "2024-02-14",
+                    "event": "Multiple VPN connections from Tor network",
+                    "significance": "Operational security established"
+                },
+                {
+                    "time": "2024-02-15 02:47",
+                    "event": "Unauthorized late-night access",
+                    "significance": "Primary breach execution"
+                }
+            ],
+            "indicator": true,
+            "evidenceValue": 25
+        },
+        {
+            "id": "timeline_002",
+            "title": "Data Exfiltration Timeline",
+            "description": "Chronological analysis of data theft activities",
+            "events": [
+                {
+                    "time": "2024-02-15 03:22",
+                    "event": "Privilege escalation achieved",
+                    "significance": "Root access obtained"
+                },
+                {
+                    "time": "2024-02-15 03:45",
+                    "event": "Database queries executed",
+                    "significance": "Sensitive data accessed"
+                },
+                {
+                    "time": "2024-02-15 04:15",
+                    "event": "Large file transfer initiated",
+                    "significance": "Data exfiltration begins"
+                },
+                {
+                    "time": "2024-02-15 04:43",
+                    "event": "Connection terminated",
+                    "significance": "Operation completed"
+                }
+            ],
+            "indicator": true,
+            "evidenceValue": 22
+        }
+    ],
+    "traffic": [
+        {
+            "id": "traffic_001",
+            "type": "Network Flow Analysis",
+            "description": "Suspicious traffic patterns during breach window",
+            "sourceIP": "192.168.1.15",
+            "destinationIP": "185.220.101.45",
+            "protocol": "HTTPS",
+            "volume": "2.3 GB",
+            "duration": "28 minutes",
+            "details": "Encrypted tunnel to known Tor exit node",
+            "indicator": true,
+            "suspectLink": "dr",
+            "evidenceValue": 20
         }
     ]
 }
