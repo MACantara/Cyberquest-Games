@@ -43,8 +43,7 @@ export function initializeTerminalPopup() {
     document.addEventListener('mousemove', resizeTerminal);
     document.addEventListener('mouseup', stopTerminalResize);
 
-    // Terminal functionality with enhanced command handling
-    document.getElementById('run-exploit')?.addEventListener('click', () => executeCommand());
+    // Terminal functionality - only Enter key handling
     document.getElementById('exploit-command')?.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             executeCommand();
@@ -74,9 +73,8 @@ export function showTerminalPopup() {
         popup.classList.remove('hidden');
         terminalPopupVisible = true;
         
-        // Enable terminal controls
+        // Enable terminal input only
         document.getElementById('exploit-command').disabled = false;
-        document.getElementById('run-exploit').disabled = false;
         
         // Add entrance animation
         popup.style.opacity = '0';
@@ -99,7 +97,7 @@ export function showTerminalPopup() {
             adjustTerminalHeight();
         }, 100);
         
-        updateMentorMessage("Exploit testing terminal opened. Type 'help' to see available commands. Be careful - you're testing against live election infrastructure.");
+        updateMentorMessage("Exploit testing terminal opened. Type 'help' to see available commands and press Enter to execute. Be careful - you're testing against live election infrastructure.");
     }
 }
 
