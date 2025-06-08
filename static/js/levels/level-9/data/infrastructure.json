@@ -3,28 +3,118 @@
         "id": "hospital",
         "name": "Medical Centers",
         "priority": 1,
-        "attacks": ["volumetric", "application"],
-        "description": "Patient records and emergency medical services"
+        "baseHealth": 100,
+        "currentHealth": 30,
+        "attacks": ["volumetric", "application", "protocol"],
+        "description": "Patient records and emergency medical services",
+        "icon": "🏥",
+        "attackPatterns": {
+            "volumetric": { "intensity": 85, "frequency": 0.8 },
+            "application": { "intensity": 60, "frequency": 0.6 },
+            "protocol": { "intensity": 40, "frequency": 0.3 }
+        },
+        "vulnerabilities": [
+            "Legacy patient management systems",
+            "Unencrypted medical device communications",
+            "Weak authentication on emergency portals"
+        ]
     },
     "power": {
         "id": "power",
         "name": "Power Grid",
         "priority": 2,
-        "attacks": ["protocol", "volumetric"],
-        "description": "City electrical infrastructure and IoT systems"
+        "baseHealth": 100,
+        "currentHealth": 45,
+        "attacks": ["protocol", "volumetric", "iot"],
+        "description": "City electrical infrastructure and IoT systems",
+        "icon": "⚡",
+        "attackPatterns": {
+            "protocol": { "intensity": 90, "frequency": 0.9 },
+            "volumetric": { "intensity": 70, "frequency": 0.5 },
+            "iot": { "intensity": 65, "frequency": 0.7 }
+        },
+        "vulnerabilities": [
+            "Exposed SCADA control systems",
+            "Unsecured IoT grid sensors",
+            "Weak industrial protocol encryption"
+        ]
     },
     "emergency": {
         "id": "emergency",
         "name": "Emergency Services",
         "priority": 1,
-        "attacks": ["application", "volumetric", "protocol"],
-        "description": "911 dispatch and emergency response coordination"
+        "baseHealth": 100,
+        "currentHealth": 15,
+        "attacks": ["application", "volumetric", "protocol", "social"],
+        "description": "911 dispatch and emergency response coordination",
+        "icon": "🚨",
+        "attackPatterns": {
+            "application": { "intensity": 95, "frequency": 0.95 },
+            "volumetric": { "intensity": 80, "frequency": 0.8 },
+            "protocol": { "intensity": 55, "frequency": 0.4 },
+            "social": { "intensity": 30, "frequency": 0.2 }
+        },
+        "vulnerabilities": [
+            "Overloaded call routing systems",
+            "Database injection in dispatch software",
+            "Insufficient bandwidth for peak loads"
+        ]
     },
     "transport": {
         "id": "transport",
         "name": "Transportation",
         "priority": 3,
-        "attacks": ["protocol"],
-        "description": "Traffic control and public transit systems"
+        "baseHealth": 100,
+        "currentHealth": 75,
+        "attacks": ["protocol", "iot"],
+        "description": "Traffic control and public transit systems",
+        "icon": "🚊",
+        "attackPatterns": {
+            "protocol": { "intensity": 60, "frequency": 0.6 },
+            "iot": { "intensity": 45, "frequency": 0.4 }
+        },
+        "vulnerabilities": [
+            "Unsecured traffic light controllers",
+            "Legacy transit scheduling systems",
+            "Weak mesh network authentication"
+        ]
+    },
+    "financial": {
+        "id": "financial",
+        "name": "Banking Systems",
+        "priority": 2,
+        "baseHealth": 100,
+        "currentHealth": 85,
+        "attacks": ["application", "volumetric"],
+        "description": "ATM networks and payment processing",
+        "icon": "🏦",
+        "attackPatterns": {
+            "application": { "intensity": 50, "frequency": 0.3 },
+            "volumetric": { "intensity": 40, "frequency": 0.2 }
+        },
+        "vulnerabilities": [
+            "ATM network congestion points",
+            "Payment gateway bottlenecks",
+            "Mobile banking app weaknesses"
+        ]
+    },
+    "water": {
+        "id": "water",
+        "name": "Water Treatment",
+        "priority": 2,
+        "baseHealth": 100,
+        "currentHealth": 90,
+        "attacks": ["protocol", "iot"],
+        "description": "Water purification and distribution systems",
+        "icon": "💧",
+        "attackPatterns": {
+            "protocol": { "intensity": 35, "frequency": 0.25 },
+            "iot": { "intensity": 25, "frequency": 0.15 }
+        },
+        "vulnerabilities": [
+            "Industrial control system access",
+            "Sensor network interference",
+            "Chemical dosing system controls"
+        ]
     }
 }
