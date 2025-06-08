@@ -7,6 +7,10 @@ import {
     showVulnerabilityPopup, 
     updateVulnerabilityDisplay 
 } from './vulnerabilityPopup.js';
+import { 
+    initializeStaticAnalysisPopup, 
+    showStaticAnalysisPopup 
+} from './staticAnalysisPopup.js';
 
 let currentFile = null;
 let vulnerabilitiesDiscovered = [];
@@ -30,8 +34,9 @@ export function initializeAnalysisTools() {
         if (e.key === 'Enter') executeExploit();
     });
 
-    // Initialize vulnerability popup controls
+    // Initialize popup controls
     initializeVulnerabilityPopup();
+    initializeStaticAnalysisPopup();
 }
 
 function selectFile(fileId) {
@@ -74,7 +79,9 @@ function performStaticAnalysis() {
     
     setTimeout(() => {
         const file = loadFileContent(currentFile);
-        showAnalysisResults(file, 'static');
+        // Show the popup instead of modal
+        showStaticAnalysisPopup(file);
+        
         analysisBtn.innerHTML = '<i class="bi bi-check mr-1"></i>Complete';
         analysisBtn.classList.add('bg-green-600');
         
@@ -175,50 +182,6 @@ function hideExploitTestingPanel() {
         document.getElementById('exploit-command').disabled = true;
         document.getElementById('run-exploit').disabled = true;
     }
-}
-
-function showAnalysisResults(file, type) {
-    // Use the modal system instead of a non-existent element
-    showResultModal(
-        '🔍',
-        'Static Analysis Complete',
-        `Analysis results for ${file.name}`,
-        `
-            <div class="text-left space-y-3">
-                <div class="flex items-center gap-2 mb-4">
-                    <i class="bi bi-search text-blue-400"></i>
-                    <span class="font-semibold text-white">Static Analysis Results - ${file.name}</span>
-                </div>
-                
-                <div class="bg-slate-800 border border-slate-600 rounded-lg p-3">
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">File Type:</span>
-                            <span class="text-white">${file.type}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Technology:</span>
-                            <span class="text-white">${file.technology}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Risk Level:</span>
-                            <span class="text-${file.riskLevel > 7 ? 'red' : file.riskLevel > 5 ? 'yellow' : 'green'}-400">${file.riskLevel}/10</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Code Quality:</span>
-                            <span class="text-red-400">Poor - Multiple security issues detected</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-3">
-                    <div class="text-blue-300 text-sm">
-                        <span class="font-semibold">Analysis Complete:</span> Ready for vulnerability discovery scan.
-                    </div>
-                </div>
-            </div>
-        `
-    );
 }
 
 function showVulnerabilityResults(file) {
