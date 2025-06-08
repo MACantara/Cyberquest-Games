@@ -48,7 +48,7 @@ export function initializeStaticAnalysisPopup() {
 export function showStaticAnalysisPopup(file) {
     const popup = document.getElementById('static-analysis-popup');
     if (popup) {
-        // Update content
+        // Update content based on file analysis state
         updateAnalysisDisplay(file);
         
         popup.classList.remove('hidden');
@@ -124,58 +124,127 @@ export function restoreStaticAnalysisPopup() {
 function updateAnalysisDisplay(file) {
     const analysisContent = document.getElementById('analysis-results-content');
     
-    analysisContent.innerHTML = `
-        <div class="space-y-3">
-            <div class="flex items-center gap-2 mb-4">
-                <i class="bi bi-search text-blue-400"></i>
-                <span class="font-semibold text-white text-sm">Static Analysis Results - ${file.name}</span>
-            </div>
-            
-            <div class="bg-slate-700/50 border border-slate-600 rounded-lg p-3">
-                <div class="text-sm space-y-2">
-                    <div class="flex justify-between">
-                        <span class="text-slate-400">File Type:</span>
-                        <span class="text-white text-xs">${file.type}</span>
+    // Check if file has been analyzed before
+    const isFirstAnalysis = !file.hasBeenAnalyzed;
+    
+    if (isFirstAnalysis) {
+        // First time analyzing this file
+        analysisContent.innerHTML = `
+            <div class="space-y-3">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="bi bi-search text-blue-400"></i>
+                    <span class="font-semibold text-white text-sm">Initial Static Analysis - ${file.name}</span>
+                </div>
+                
+                <div class="bg-slate-700/50 border border-slate-600 rounded-lg p-3">
+                    <div class="text-sm space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">File Type:</span>
+                            <span class="text-white text-xs">${file.type}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Technology:</span>
+                            <span class="text-white text-xs">${file.technology}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Size:</span>
+                            <span class="text-white text-xs">${file.sourceCode ? file.sourceCode.split('\n').length : 'N/A'} lines</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Initial Risk Assessment:</span>
+                            <span class="text-yellow-400 text-xs">Scanning...</span>
+                        </div>
                     </div>
-                    <div class="flex justify-between">
-                        <span class="text-slate-400">Technology:</span>
-                        <span class="text-white text-xs">${file.technology}</span>
+                </div>
+                
+                <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-3">
+                    <div class="text-blue-300 text-sm">
+                        <span class="font-semibold">Preliminary Scan:</span> 
+                        <span class="text-xs">Basic structure analysis complete. Ready for deep vulnerability scan.</span>
                     </div>
-                    <div class="flex justify-between">
-                        <span class="text-slate-400">Risk Level:</span>
-                        <span class="text-${file.riskLevel > 7 ? 'red' : file.riskLevel > 5 ? 'yellow' : 'green'}-400 text-xs">${file.riskLevel}/10</span>
+                </div>
+                
+                <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3">
+                    <div class="text-yellow-300 text-sm">
+                        <span class="font-semibold">Surface-Level Concerns:</span>
+                        <div class="text-yellow-200 text-xs mt-1 space-y-1">
+                            <div>• Code complexity indicates potential issues</div>
+                            <div>• Multiple external dependencies detected</div>
+                            <div>• Security-sensitive operations identified</div>
+                            <div>• Input validation patterns require review</div>
+                        </div>
                     </div>
-                    <div class="flex justify-between">
-                        <span class="text-slate-400">Code Quality:</span>
-                        <span class="text-red-400 text-xs">Poor - Multiple security issues detected</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-slate-400">Lines of Code:</span>
-                        <span class="text-white text-xs">${file.sourceCode ? file.sourceCode.split('\n').length : 'N/A'}</span>
+                </div>
+                
+                <div class="bg-cyan-900/30 border border-cyan-600 rounded-lg p-3">
+                    <div class="text-cyan-300 text-sm">
+                        <span class="font-semibold">Next Step:</span>
+                        <span class="text-cyan-200 text-xs">Run "Find Vulns" to perform deep security analysis.</span>
                     </div>
                 </div>
             </div>
-            
-            <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-3">
-                <div class="text-blue-300 text-sm">
-                    <span class="font-semibold">Analysis Complete:</span> 
-                    <span class="text-xs">Ready for vulnerability discovery scan.</span>
+        `;
+    } else {
+        // Re-analyzing previously scanned file
+        analysisContent.innerHTML = `
+            <div class="space-y-3">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="bi bi-search text-blue-400"></i>
+                    <span class="font-semibold text-white text-sm">Re-Analysis Results - ${file.name}</span>
                 </div>
-            </div>
-            
-            <div class="bg-orange-900/30 border border-orange-600 rounded-lg p-3">
-                <div class="text-orange-300 text-sm">
-                    <span class="font-semibold">Security Concerns:</span>
-                    <div class="text-orange-200 text-xs mt-1 space-y-1">
-                        <div>• Input validation weaknesses detected</div>
-                        <div>• Potential injection attack vectors</div>
-                        <div>• Insufficient error handling</div>
-                        <div>• Authentication bypass patterns</div>
+                
+                <div class="bg-slate-700/50 border border-slate-600 rounded-lg p-3">
+                    <div class="text-sm space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">File Type:</span>
+                            <span class="text-white text-xs">${file.type}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Technology:</span>
+                            <span class="text-white text-xs">${file.technology}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Confirmed Risk Level:</span>
+                            <span class="text-${file.riskLevel > 7 ? 'red' : file.riskLevel > 5 ? 'yellow' : 'green'}-400 text-xs">${file.riskLevel}/10</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Vulnerability Count:</span>
+                            <span class="text-red-400 text-xs">${file.vulnerabilities ? file.vulnerabilities.length : 0} identified</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Code Quality:</span>
+                            <span class="text-red-400 text-xs">Poor - Multiple security issues confirmed</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-900/30 border border-green-600 rounded-lg p-3">
+                    <div class="text-green-300 text-sm">
+                        <span class="font-semibold">Analysis Status:</span> 
+                        <span class="text-xs">Complete - All vulnerabilities documented.</span>
+                    </div>
+                </div>
+                
+                <div class="bg-red-900/30 border border-red-600 rounded-lg p-3">
+                    <div class="text-red-300 text-sm">
+                        <span class="font-semibold">Critical Findings Summary:</span>
+                        <div class="text-red-200 text-xs mt-1 space-y-1">
+                            ${file.vulnerabilities ? file.vulnerabilities.map(vuln => 
+                                `<div>• ${vuln.type} (${vuln.severity})</div>`
+                            ).join('') : '<div>• No vulnerabilities in cache</div>'}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-purple-900/30 border border-purple-600 rounded-lg p-3">
+                    <div class="text-purple-300 text-sm">
+                        <span class="font-semibold">Recommendation:</span>
+                        <span class="text-purple-200 text-xs">File already fully analyzed. Check vulnerability popup for detailed findings.</span>
                     </div>
                 </div>
             </div>
-        </div>
-    `;
+        `;
+    }
 }
 
 // Drag functionality

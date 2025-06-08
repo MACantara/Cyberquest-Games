@@ -14,6 +14,7 @@ import {
 
 let currentFile = null;
 let vulnerabilitiesDiscovered = [];
+let analyzedFiles = new Set(); // Track which files have been analyzed
 
 export function initializeAnalysisTools() {
     // File selection handlers
@@ -48,29 +49,72 @@ function selectFile(fileId) {
     document.getElementById('current-file').textContent = file.name;
     displaySourceCode(file);
     
+    // Check if file has been analyzed before and update button states
+    const hasBeenAnalyzed = analyzedFiles.has(fileId);
+    const hasVulnerabilities = file.vulnerabilitiesRevealed;
+    
     // Enable analysis buttons
     document.getElementById('analyze-code').disabled = false;
     document.getElementById('find-vulns').disabled = false;
     
-    // Update mentor guidance
-    if (fileId === 'vote-processor') {
-        updateMentorMessage("You're examining the core vote processing logic. This file handles the most critical operations - look for input validation and database interaction vulnerabilities.");
-    } else if (fileId === 'auth-handler') {
-        updateMentorMessage("Authentication code requires careful analysis. Check for session management flaws and cryptographic weaknesses.");
-    } else if (fileId === 'blockchain-api') {
-        updateMentorMessage("Smart contract code needs special attention. Look for integer overflows, reentrancy attacks, and access control issues.");
-    } else if (fileId === 'frontend-ui') {
-        updateMentorMessage("Frontend code often contains XSS vulnerabilities and client-side validation bypasses. Check how user input is handled.");
+    // Update button text based on previous analysis
+    const analyzeBtn = document.getElementById('analyze-code');
+    const vulnBtn = document.getElementById('find-vulns');
+    
+    if (hasBeenAnalyzed) {
+        analyzeBtn.innerHTML = '<i class="bi bi-arrow-clockwise mr-1"></i>Re-Analyze';
+        analyzeBtn.classList.remove('bg-green-600');
+        analyzeBtn.classList.add('bg-blue-600');
+    } else {
+        analyzeBtn.innerHTML = '<i class="bi bi-search mr-1"></i>Analyze';
+        analyzeBtn.classList.remove('bg-green-600', 'bg-blue-600');
+    }
+    
+    if (hasVulnerabilities) {
+        vulnBtn.innerHTML = '<i class="bi bi-eye mr-1"></i>View Vulns';
+        vulnBtn.classList.remove('bg-red-600');
+        vulnBtn.classList.add('bg-purple-600');
+    } else {
+        vulnBtn.innerHTML = '<i class="bi bi-bug mr-1"></i>Find Vulns';
+        vulnBtn.classList.remove('bg-red-600', 'bg-purple-600');
+    }
+    
+    // Update mentor guidance based on file state
+    if (hasBeenAnalyzed && hasVulnerabilities) {
+        updateMentorMessage(`File ${file.name} has been fully analyzed. You can re-run analysis or view cached vulnerability results.`);
+    } else if (hasBeenAnalyzed) {
+        updateMentorMessage(`File ${file.name} has basic analysis complete. Run vulnerability discovery to find security issues.`);
+    } else {
+        // Original guidance for new files
+        if (fileId === 'vote-processor') {
+            updateMentorMessage("You're examining the core vote processing logic. This file handles the most critical operations - look for input validation and database interaction vulnerabilities.");
+        } else if (fileId === 'auth-handler') {
+            updateMentorMessage("Authentication code requires careful analysis. Check for session management flaws and cryptographic weaknesses.");
+        } else if (fileId === 'blockchain-api') {
+            updateMentorMessage("Smart contract code needs special attention. Look for integer overflows, reentrancy attacks, and access control issues.");
+        } else if (fileId === 'frontend-ui') {
+            updateMentorMessage("Frontend code often contains XSS vulnerabilities and client-side validation bypasses. Check how user input is handled.");
+        }
     }
     
     // Visual feedback
     document.querySelectorAll('.code-file').forEach(f => f.classList.remove('bg-slate-700'));
     document.querySelector(`[data-file="${fileId}"]`).classList.add('bg-slate-700');
+    
+    // Add visual indicator for analyzed files
+    const fileElement = document.querySelector(`[data-file="${fileId}"]`);
+    if (hasBeenAnalyzed && !fileElement.querySelector('.analysis-indicator')) {
+        const indicator = document.createElement('i');
+        indicator.className = 'bi bi-check-circle text-green-400 text-xs ml-1 analysis-indicator';
+        indicator.title = 'File analyzed';
+        fileElement.appendChild(indicator);
+    }
 }
 
 function performStaticAnalysis() {
     if (!currentFile) return;
     
+    const file = loadFileContent(currentFile);
     updateMentorMessage("Running static code analysis... This will examine the code without executing it to identify potential security issues.");
     
     const analysisBtn = document.getElementById('analyze-code');
@@ -78,9 +122,17 @@ function performStaticAnalysis() {
     analysisBtn.innerHTML = '<i class="bi bi-hourglass-split mr-1 animate-spin"></i>Analyzing...';
     
     setTimeout(() => {
-        const file = loadFileContent(currentFile);
-        // Show the popup instead of modal
-        showStaticAnalysisPopup(file);
+        // Mark file as analyzed and add analysis state
+        const fileWithAnalysis = {
+            ...file,
+            hasBeenAnalyzed: analyzedFiles.has(currentFile)
+        };
+        
+        // Show the popup with appropriate content
+        showStaticAnalysisPopup(fileWithAnalysis);
+        
+        // Mark as analyzed for future runs
+        analyzedFiles.add(currentFile);
         
         analysisBtn.innerHTML = '<i class="bi bi-check mr-1"></i>Complete';
         analysisBtn.classList.add('bg-green-600');
@@ -95,46 +147,70 @@ function performVulnerabilityDiscovery() {
     if (!currentFile) return;
     
     const file = loadFileContent(currentFile);
-    updateMentorMessage("Initiating vulnerability discovery scan... This will identify specific security weaknesses in the code.");
+    const hasBeenScanned = analyzedFiles.has(currentFile) && file.vulnerabilitiesRevealed;
+    
+    if (hasBeenScanned) {
+        // File already scanned - show cached results
+        updateMentorMessage("Retrieving cached vulnerability scan results for this file...");
+    } else {
+        // First vulnerability scan
+        updateMentorMessage("Initiating deep vulnerability discovery scan... This will identify specific security weaknesses in the code.");
+    }
     
     const vulnBtn = document.getElementById('find-vulns');
     vulnBtn.disabled = true;
-    vulnBtn.innerHTML = '<i class="bi bi-bug mr-1 animate-pulse"></i>Scanning...';
     
-    setTimeout(() => {
-        // Reveal vulnerabilities for this file
-        const fileWithVulns = revealFileVulnerabilities(currentFile);
+    if (hasBeenScanned) {
+        vulnBtn.innerHTML = '<i class="bi bi-clock-history mr-1"></i>Loading Cache...';
         
-        // Update the display to show vulnerability indicators
-        displaySourceCode(fileWithVulns);
-        
-        vulnerabilitiesDiscovered.push(...fileWithVulns.vulnerabilities);
-        showVulnerabilityResults(fileWithVulns);
-        
-        vulnBtn.innerHTML = '<i class="bi bi-exclamation-triangle mr-1"></i>Vulns Found';
-        vulnBtn.classList.add('bg-red-600');
-        
-        // Update game state
-        gameState.vulnerabilitiesFound += fileWithVulns.vulnerabilities.length;
-        gameState.filesAnalyzed += 1;
-        updateGameMetrics();
-        
-        // Check for critical vulnerabilities
-        if (fileWithVulns.severity === 'Critical') {
-            createEthicalAlert(`Critical vulnerabilities found in ${fileWithVulns.name}!`, 'error');
+        setTimeout(() => {
+            // Show cached results immediately
+            const cachedFile = revealFileVulnerabilities(currentFile);
+            showVulnerabilityResults(cachedFile);
             
-            if (currentFile === 'vote-processor') {
-                setTimeout(() => showCriticalVulnerabilityAlert(), 2000);
+            vulnBtn.innerHTML = '<i class="bi bi-check-circle mr-1"></i>Cached Results';
+            vulnBtn.classList.add('bg-blue-600');
+            
+            updateMentorMessage("Vulnerability scan results retrieved from cache. All previously identified security issues are displayed.");
+        }, 1000);
+    } else {
+        vulnBtn.innerHTML = '<i class="bi bi-bug mr-1 animate-pulse"></i>Deep Scanning...';
+        
+        setTimeout(() => {
+            // Reveal vulnerabilities for this file
+            const fileWithVulns = revealFileVulnerabilities(currentFile);
+            
+            // Update the display to show vulnerability indicators
+            displaySourceCode(fileWithVulns);
+            
+            vulnerabilitiesDiscovered.push(...fileWithVulns.vulnerabilities);
+            showVulnerabilityResults(fileWithVulns);
+            
+            vulnBtn.innerHTML = '<i class="bi bi-exclamation-triangle mr-1"></i>Vulns Found';
+            vulnBtn.classList.add('bg-red-600');
+            
+            // Update game state
+            gameState.vulnerabilitiesFound += fileWithVulns.vulnerabilities.length;
+            gameState.filesAnalyzed += 1;
+            updateGameMetrics();
+            
+            // Check for critical vulnerabilities
+            if (fileWithVulns.severity === 'Critical') {
+                createEthicalAlert(`Critical vulnerabilities found in ${fileWithVulns.name}!`, 'error');
+                
+                if (currentFile === 'vote-processor') {
+                    setTimeout(() => showCriticalVulnerabilityAlert(), 2000);
+                }
             }
-        }
-        
-        // Enable exploit testing for high-risk files - use integrated panel with layout adjustment
-        if (fileWithVulns.riskLevel >= 8) {
-            showExploitTestingPanel();
-        }
-        
-        updateProgress();
-    }, 4000);
+            
+            // Enable exploit testing for high-risk files
+            if (fileWithVulns.riskLevel >= 8) {
+                showExploitTestingPanel();
+            }
+            
+            updateProgress();
+        }, 4000);
+    }
 }
 
 function showExploitTestingPanel() {
@@ -266,76 +342,4 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
-}
-
-// Drag functionality
-function startDrag(e) {
-    if (e.target.closest('#minimize-popup') || e.target.closest('#close-popup')) return;
-    
-    dragState.isDragging = true;
-    const popup = document.getElementById('vulnerability-popup');
-    const rect = popup.getBoundingClientRect();
-    
-    dragState.startX = e.clientX;
-    dragState.startY = e.clientY;
-    dragState.initialX = rect.left;
-    dragState.initialY = rect.top;
-    
-    popup.style.transition = 'none';
-    e.preventDefault();
-}
-
-function drag(e) {
-    if (!dragState.isDragging) return;
-    
-    const popup = document.getElementById('vulnerability-popup');
-    const deltaX = e.clientX - dragState.startX;
-    const deltaY = e.clientY - dragState.startY;
-    
-    const newX = Math.max(0, Math.min(window.innerWidth - popup.offsetWidth, dragState.initialX + deltaX));
-    const newY = Math.max(0, Math.min(window.innerHeight - popup.offsetHeight, dragState.initialY + deltaY));
-    
-    popup.style.left = newX + 'px';
-    popup.style.top = newY + 'px';
-    popup.style.right = 'auto';
-}
-
-function stopDrag() {
-    if (dragState.isDragging) {
-        const popup = document.getElementById('vulnerability-popup');
-        popup.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-        dragState.isDragging = false;
-    }
-}
-
-// Resize functionality
-function startResize(e) {
-    resizeState.isResizing = true;
-    const popup = document.getElementById('vulnerability-popup');
-    const rect = popup.getBoundingClientRect();
-    
-    resizeState.startX = e.clientX;
-    resizeState.startY = e.clientY;
-    resizeState.initialWidth = rect.width;
-    resizeState.initialHeight = rect.height;
-    
-    e.preventDefault();
-}
-
-function resize(e) {
-    if (!resizeState.isResizing) return;
-    
-    const popup = document.getElementById('vulnerability-popup');
-    const deltaX = e.clientX - resizeState.startX;
-    const deltaY = e.clientY - resizeState.startY;
-    
-    const newWidth = Math.max(300, resizeState.initialWidth + deltaX);
-    const newHeight = Math.max(200, resizeState.initialHeight + deltaY);
-    
-    popup.style.width = newWidth + 'px';
-    popup.style.height = newHeight + 'px';
-}
-
-function stopResize() {
-    resizeState.isResizing = false;
 }

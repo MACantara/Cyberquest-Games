@@ -56,7 +56,8 @@ export function loadFileContent(fileId) {
     // Return a copy with vulnerabilities hidden until scan is performed
     return {
         ...file,
-        vulnerabilitiesRevealed: false
+        vulnerabilitiesRevealed: false,
+        hasBeenAnalyzed: false
     };
 }
 
@@ -66,7 +67,8 @@ export function revealFileVulnerabilities(fileId) {
     if (file) {
         return {
             ...file,
-            vulnerabilitiesRevealed: true
+            vulnerabilitiesRevealed: true,
+            hasBeenAnalyzed: true
         };
     }
     return null;
