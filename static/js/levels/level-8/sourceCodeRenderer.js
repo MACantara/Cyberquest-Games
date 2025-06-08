@@ -2,38 +2,63 @@ export function displaySourceCode(file) {
     const codeContent = document.getElementById('code-content');
     const lines = file.sourceCode.split('\n');
     
+    // Apply syntax highlighting to the entire code block first
+    const highlightedCode = applyHighlightJs(file.sourceCode, file.name, file.type);
+    const highlightedLines = highlightedCode.split('\n');
+    
     codeContent.innerHTML = lines.map((line, index) => {
         const lineNum = index + 1;
         // Only show vulnerability indicators if vulnerabilities have been revealed
         const isVulnerable = file.vulnerabilitiesRevealed && 
                            file.vulnerabilities.some(v => v.line === lineNum);
         
-        // Apply basic formatting without syntax highlighting
-        const formattedLine = formatCodeLine(line);
+        // Use highlighted line if available, otherwise escape the original
+        const displayContent = highlightedLines[index] || escapeHtml(line);
         
         return `
             <div class="flex ${isVulnerable ? 'bg-red-900/20' : ''}">
                 <span class="text-slate-500 w-8 text-right mr-3 select-none flex-shrink-0">${lineNum}</span>
-                <span class="whitespace-pre flex-1 text-green-400">${formattedLine}</span>
+                <span class="whitespace-pre flex-1">${displayContent}</span>
                 ${isVulnerable ? '<span class="ml-2 text-red-400 text-xs flex-shrink-0">⚠</span>' : ''}
             </div>
         `;
     }).join('');
 }
 
-function formatCodeLine(line) {
-    // Preserve leading whitespace and escape HTML
-    const leadingSpaces = line.match(/^(\s*)/)[1];
-    const preservedSpaces = leadingSpaces.replace(/\s/g, '&nbsp;');
-    const trimmedLine = line.trim();
-    
-    if (!trimmedLine) {
-        return preservedSpaces;
+function applyHighlightJs(sourceCode, fileName, fileType) {
+    if (!window.hljs) {
+        return escapeHtml(sourceCode);
     }
     
-    // Just escape HTML and preserve formatting
-    const escaped = escapeHtml(trimmedLine);
-    return preservedSpaces + escaped;
+    // Create a temporary element for highlighting
+    const tempElement = document.createElement('code');
+    tempElement.textContent = sourceCode;
+    
+    // Set language class based on file type
+    const language = getLanguageClass(fileName, fileType);
+    tempElement.className = language;
+    
+    try {
+        // Apply highlight.js
+        hljs.highlightElement(tempElement);
+        return tempElement.innerHTML;
+    } catch (error) {
+        console.warn('Highlight.js error:', error);
+        return escapeHtml(sourceCode);
+    }
+}
+
+function getLanguageClass(fileName, fileType) {
+    if (fileName.endsWith('.js') || fileType === 'backend') {
+        return 'language-javascript';
+    } else if (fileName.endsWith('.py') || fileType === 'authentication') {
+        return 'language-python';
+    } else if (fileName.endsWith('.sol') || fileType === 'smart contract') {
+        return 'language-solidity';
+    } else if (fileName.endsWith('.tsx') || fileName.endsWith('.jsx') || fileType === 'frontend') {
+        return 'language-typescript';
+    }
+    return 'language-javascript'; // default fallback
 }
 
 export function highlightCodeVulnerability(lineNumber, vulnerabilityType) {
@@ -74,10 +99,95 @@ export function initializeCodeFormattingStyles() {
                 font-family: inherit;
             }
             
-            /* Basic code viewer styling */
+            /* Basic code viewer styling with highlight.js dark theme */
             #code-content {
-                background: #0f172a;
+                background: #0d1117;
                 border-radius: 8px;
+                color: #c9d1d9;
+            }
+            
+            /* Enhance highlight.js colors for better contrast in our dark theme */
+            #code-content .hljs-keyword {
+                color: #ff7b72 !important;
+                font-weight: 600;
+            }
+            
+            #code-content .hljs-string {
+                color: #a5d6ff !important;
+            }
+            
+            #code-content .hljs-comment {
+                color: #8b949e !important;
+                font-style: italic;
+            }
+            
+            #code-content .hljs-function .hljs-title {
+                color: #d2a8ff !important;
+            }
+            
+            #code-content .hljs-variable {
+                color: #ffa657 !important;
+            }
+            
+            #code-content .hljs-number {
+                color: #79c0ff !important;
+            }
+            
+            #code-content .hljs-built_in {
+                color: #ffa657 !important;
+            }
+            
+            #code-content .hljs-type {
+                color: #ffa657 !important;
+            }
+            
+            #code-content .hljs-literal {
+                color: #79c0ff !important;
+            }
+            
+            #code-content .hljs-operator {
+                color: #ff7b72 !important;
+            }
+            
+            #code-content .hljs-punctuation {
+                color: #c9d1d9 !important;
+            }
+            
+            /* Python-specific highlighting */
+            #code-content .hljs-decorator {
+                color: #79c0ff !important;
+            }
+            
+            #code-content .hljs-meta {
+                color: #79c0ff !important;
+            }
+            
+            /* Solidity-specific highlighting */
+            #code-content .hljs-title.class_ {
+                color: #f97316 !important;
+                font-weight: 600;
+            }
+            
+            #code-content .hljs-attr {
+                color: #fbbf24 !important;
+            }
+            
+            /* TypeScript/React-specific highlighting */
+            #code-content .hljs-tag {
+                color: #ff7b72 !important;
+            }
+            
+            #code-content .hljs-name {
+                color: #fbbf24 !important;
+            }
+            
+            #code-content .hljs-attribute {
+                color: #79c0ff !important;
+            }
+            
+            /* Fallback for unhighlighted content */
+            #code-content span:not([class*="hljs-"]) {
+                color: #c9d1d9;
             }
             
             /* Hover effects */
