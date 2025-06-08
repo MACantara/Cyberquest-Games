@@ -1,6 +1,5 @@
-import { gameState, updateGameMetrics } from './gameState.js';
-import { updateMentorMessage, createEthicalAlert } from './uiUpdates.js';
-import { loadFileContent } from './componentHandler.js';
+import { processCommand, setCurrentContext } from './terminal-popup-window/terminalCommands.js';
+import { updateMentorMessage } from './uiUpdates.js';
 
 let terminalPopupVisible = false;
 let terminalMinimized = false;
@@ -8,7 +7,6 @@ let terminalDragState = { isDragging: false, startX: 0, startY: 0, initialX: 0, 
 let terminalResizeState = { isResizing: false, startX: 0, startY: 0, initialWidth: 0, initialHeight: 0 };
 let terminalHistory = [];
 let historyIndex = -1;
-let currentContext = null;
 
 export function initializeTerminalPopup() {
     const popup = document.getElementById('exploit-terminal-popup');
@@ -101,6 +99,61 @@ export function showTerminalPopup() {
     }
 }
 
+export function closeTerminalPopup() {
+    const popup = document.getElementById('exploit-terminal-popup');
+    const minimizedIndicator = document.getElementById('terminal-minimized-indicator');
+    
+    if (popup) {
+        popup.style.opacity = '0';
+        popup.style.transform = 'scale(0.9)';
+        
+        setTimeout(() => {
+            popup.classList.add('hidden');
+            terminalPopupVisible = false;
+            terminalMinimized = false;
+        }, 300);
+    }
+    
+    if (minimizedIndicator) {
+        minimizedIndicator.classList.add('hidden');
+    }
+}
+
+export function minimizeTerminalPopup() {
+    const popup = document.getElementById('exploit-terminal-popup');
+    const minimizedIndicator = document.getElementById('terminal-minimized-indicator');
+    
+    if (popup && minimizedIndicator) {
+        popup.style.opacity = '0';
+        popup.style.transform = 'scale(0.9)';
+        
+        setTimeout(() => {
+            popup.classList.add('hidden');
+            minimizedIndicator.classList.remove('hidden');
+            terminalMinimized = true;
+        }, 300);
+    }
+}
+
+export function restoreTerminalPopup() {
+    const popup = document.getElementById('exploit-terminal-popup');
+    const minimizedIndicator = document.getElementById('terminal-minimized-indicator');
+    
+    if (popup && minimizedIndicator) {
+        minimizedIndicator.classList.add('hidden');
+        popup.classList.remove('hidden');
+        
+        popup.style.opacity = '0';
+        popup.style.transform = 'scale(0.9)';
+        
+        setTimeout(() => {
+            popup.style.opacity = '1';
+            popup.style.transform = 'scale(1)';
+            terminalMinimized = false;
+        }, 10);
+    }
+}
+
 function adjustTerminalHeight() {
     const popup = document.getElementById('exploit-terminal-popup');
     const terminalOutput = document.getElementById('exploit-output');
@@ -148,13 +201,15 @@ function executeCommand() {
     // Add command to history
     if (command !== terminalHistory[terminalHistory.length - 1]) {
         terminalHistory.push(command);
+        // Also store in localStorage for persistence
+        localStorage.setItem('terminalHistory', JSON.stringify(terminalHistory));
     }
     historyIndex = terminalHistory.length;
     
     // Display command
     output.innerHTML += `<div class="text-cyan-400 mb-1">root@pentest:~# ${escapeHtml(command)}</div>`;
     
-    // Process command
+    // Process command using the new commands module
     processCommand(command.toLowerCase(), output);
     
     // Clear input and scroll to bottom
@@ -162,352 +217,24 @@ function executeCommand() {
     output.scrollTop = output.scrollHeight;
 }
 
-function processCommand(command, output) {
-    const args = command.split(' ');
-    const baseCommand = args[0];
-    
-    switch(baseCommand) {
-        case 'help':
-            showHelp(output);
-            break;
-        case 'ls':
-        case 'dir':
-            showDirectoryListing(output);
-            break;
-        case 'cat':
-        case 'type':
-            showFileContent(args[1], output);
-            break;
-        case 'nmap':
-            runNetworkScan(args.slice(1), output);
-            break;
-        case 'sqlmap':
-            runSQLInjectionTest(args.slice(1), output);
-            break;
-        case 'xss-test':
-        case 'xsser':
-            runXSSTest(args.slice(1), output);
-            break;
-        case 'contract-exploit':
-        case 'mythril':
-            runContractExploit(args.slice(1), output);
-            break;
-        case 'history':
-            showCommandHistory(output);
-            break;
-        case 'clear':
-            clearTerminal(output);
-            break;
-        case 'whoami':
-            output.innerHTML += `<div class="text-green-400 mb-2">nova@cyberquest-academy</div>`;
-            break;
-        case 'pwd':
-            output.innerHTML += `<div class="text-green-400 mb-2">/home/nova/pentest</div>`;
-            break;
-        default:
-            if (command.endsWith('?')) {
-                showContextHelp(command.slice(0, -1), output);
-            } else {
-                showCommandNotFound(command, output);
-            }
-    }
-}
-
-function showHelp(output) {
-    output.innerHTML += `
-        <div class="text-yellow-400 mb-3">
-            <div class="font-bold mb-2">Available Commands:</div>
-            <div class="space-y-1 text-sm">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <div class="text-cyan-400 font-mono">help</div>
-                        <div class="text-gray-400 text-xs ml-4">Show this help message</div>
-                    </div>
-                    <div>
-                        <div class="text-cyan-400 font-mono">ls / dir</div>
-                        <div class="text-gray-400 text-xs ml-4">List available targets</div>
-                    </div>
-                    <div>
-                        <div class="text-cyan-400 font-mono">nmap [target]</div>
-                        <div class="text-gray-400 text-xs ml-4">Network reconnaissance</div>
-                    </div>
-                    <div>
-                        <div class="text-cyan-400 font-mono">sqlmap [options]</div>
-                        <div class="text-gray-400 text-xs ml-4">SQL injection testing</div>
-                    </div>
-                    <div>
-                        <div class="text-cyan-400 font-mono">xss-test [target]</div>
-                        <div class="text-gray-400 text-xs ml-4">Cross-site scripting test</div>
-                    </div>
-                    <div>
-                        <div class="text-cyan-400 font-mono">contract-exploit</div>
-                        <div class="text-gray-400 text-xs ml-4">Smart contract analysis</div>
-                    </div>
-                    <div>
-                        <div class="text-cyan-400 font-mono">history</div>
-                        <div class="text-gray-400 text-xs ml-4">Show command history</div>
-                    </div>
-                    <div>
-                        <div class="text-cyan-400 font-mono">clear</div>
-                        <div class="text-gray-400 text-xs ml-4">Clear terminal output</div>
-                    </div>
-                </div>
-                <div class="mt-3 text-yellow-300 text-xs">
-                    💡 Tip: Add <span class="text-cyan-400 font-mono">?</span> after any command for detailed help (e.g., <span class="text-cyan-400 font-mono">sqlmap?</span>)
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function showContextHelp(command, output) {
-    const helpData = {
-        'sqlmap': {
-            description: 'Automated SQL injection testing tool',
-            usage: 'sqlmap [options]',
-            examples: [
-                'sqlmap --url voting.civitas.com/api/vote',
-                'sqlmap --data "voter_id=123&candidate=1"',
-                'sqlmap --dump-all'
-            ],
-            warning: '⚠️ Test only on authorized targets'
-        },
-        'xss-test': {
-            description: 'Cross-site scripting vulnerability scanner',
-            usage: 'xss-test [target] [options]',
-            examples: [
-                'xss-test --url voting.civitas.com/candidate',
-                'xss-test --payload stored',
-                'xss-test --crawl'
-            ],
-            warning: '⚠️ May trigger security alerts'
-        },
-        'contract-exploit': {
-            description: 'Smart contract vulnerability analysis',
-            usage: 'contract-exploit [contract-address]',
-            examples: [
-                'contract-exploit 0x742d35Cc...',
-                'contract-exploit --reentrancy',
-                'contract-exploit --overflow'
-            ],
-            warning: '⚠️ Blockchain interactions are permanent'
-        },
-        'nmap': {
-            description: 'Network discovery and security auditing',
-            usage: 'nmap [options] [target]',
-            examples: [
-                'nmap -sS civitas.internal',
-                'nmap -sV -O 192.168.1.0/24',
-                'nmap --script vuln'
-            ],
-            warning: '⚠️ Noisy scans may be detected'
-        }
-    };
-    
-    const help = helpData[command];
-    if (help) {
-        output.innerHTML += `
-            <div class="text-blue-400 mb-3">
-                <div class="font-bold text-blue-300 mb-2">${command.toUpperCase()} - Help</div>
-                <div class="space-y-2 text-sm">
-                    <div><span class="text-blue-200">Description:</span> ${help.description}</div>
-                    <div><span class="text-blue-200">Usage:</span> <span class="font-mono text-cyan-400">${help.usage}</span></div>
-                    <div class="text-blue-200">Examples:</div>
-                    <div class="ml-4 space-y-1">
-                        ${help.examples.map(ex => `<div class="font-mono text-cyan-400">${ex}</div>`).join('')}
-                    </div>
-                    <div class="text-yellow-400 text-xs">${help.warning}</div>
-                </div>
-            </div>
-        `;
-    } else {
-        output.innerHTML += `<div class="text-red-400 mb-2">No help available for '${command}'</div>`;
-    }
-}
-
-function showDirectoryListing(output) {
-    output.innerHTML += `
-        <div class="text-green-400 mb-3">
-            <div class="mb-2">Available targets in CivitasVote environment:</div>
-            <div class="space-y-1 text-sm font-mono ml-4">
-                <div class="text-red-400">🎯 vote-processor.js    [CRITICAL]</div>
-                <div class="text-orange-400">🎯 auth-handler.py     [HIGH]</div>
-                <div class="text-yellow-400">🎯 blockchain-api.sol  [MEDIUM]</div>
-                <div class="text-blue-400">🎯 voting-ui.tsx       [LOW]</div>
-                <div class="text-gray-400">📁 logs/</div>
-                <div class="text-gray-400">📁 config/</div>
-                <div class="text-gray-400">📁 tools/</div>
-            </div>
-        </div>
-    `;
-}
-
-function runSQLInjectionTest(args, output) {
-    output.innerHTML += `
-        <div class="text-yellow-400 mb-1">[INFO] Starting SQL injection assessment...</div>
-    `;
-    
-    setTimeout(() => {
-        output.innerHTML += `
-            <div class="text-green-400 mb-3">
-                <div class="mb-2">[INFO] Testing SQL injection on CivitasVote endpoints</div>
-                <div class="text-sm space-y-1">
-                    <div>[+] Target: vote-processor.js endpoint /api/submit-vote</div>
-                    <div>[+] Parameter: voter_id (vulnerable)</div>
-                    <div>[!] Payload: ' OR '1'='1' --</div>
-                    <div class="text-red-400">[CRITICAL] Blind SQL injection confirmed!</div>
-                    <div class="text-red-300">[CRITICAL] Database: civitas_vote accessible</div>
-                    <div class="text-red-300">[CRITICAL] Tables discovered: voters(1234), votes(5678), candidates(8)</div>
-                    <div class="text-orange-400">[WARNING] Full database dump possible</div>
-                    <div class="text-red-400 font-bold">[ALERT] SEVERE RISK TO ELECTION INTEGRITY</div>
-                </div>
-                <div class="mt-2 p-2 bg-red-900/30 border border-red-600 rounded text-red-200 text-xs">
-                    Impact Assessment: Complete election database compromise possible.
-                    Attackers could view, modify, or delete all voter records and votes.
-                </div>
-            </div>
-        `;
-        
-        gameState.exploitsRun += 1;
-        updateGameMetrics();
-        output.scrollTop = output.scrollHeight;
-    }, 2000);
-}
-
-function runXSSTest(args, output) {
-    output.innerHTML += `
-        <div class="text-yellow-400 mb-1">[INFO] Initiating XSS vulnerability scan...</div>
-    `;
-    
-    setTimeout(() => {
-        output.innerHTML += `
-            <div class="text-yellow-400 mb-3">
-                <div class="mb-2">[INFO] Cross-site scripting analysis on voting interface</div>
-                <div class="text-sm space-y-1">
-                    <div>[+] Target: voting-ui.tsx candidate display</div>
-                    <div>[+] Testing payload: &lt;script&gt;alert('XSS')&lt;/script&gt;</div>
-                    <div class="text-orange-400">[SUCCESS] Stored XSS vulnerability confirmed</div>
-                    <div class="text-yellow-300">[INFO] JavaScript execution in voter context</div>
-                    <div class="text-orange-400">[RISK] Session hijacking potential</div>
-                    <div class="text-orange-400">[RISK] Voter preference disclosure possible</div>
-                </div>
-                <div class="mt-2 p-2 bg-orange-900/30 border border-orange-600 rounded text-orange-200 text-xs">
-                    Impact Assessment: Malicious scripts could steal voter sessions,
-                    redirect votes, or harvest personal voting data.
-                </div>
-            </div>
-        `;
-        
-        gameState.exploitsRun += 1;
-        updateGameMetrics();
-        output.scrollTop = output.scrollHeight;
-    }, 1500);
-}
-
-function runContractExploit(args, output) {
-    output.innerHTML += `
-        <div class="text-yellow-400 mb-1">[INFO] Analyzing smart contract vulnerabilities...</div>
-    `;
-    
-    setTimeout(() => {
-        output.innerHTML += `
-            <div class="text-red-400 mb-3">
-                <div class="mb-2">[INFO] Smart contract security assessment: blockchain-api.sol</div>
-                <div class="text-sm space-y-1">
-                    <div>[+] Contract address: 0x742d35Cc6Bf3B11C9C9D77326e3...</div>
-                    <div>[+] Testing integer overflow conditions</div>
-                    <div class="text-red-400">[CRITICAL] Integer overflow exploit successful!</div>
-                    <div class="text-red-300">[CRITICAL] Vote count manipulation confirmed</div>
-                    <div class="text-orange-400">[WARNING] Reentrancy vulnerability detected</div>
-                    <div class="text-red-400">[CRITICAL] Access control bypass possible</div>
-                    <div class="text-red-400 font-bold">[ALERT] ELECTION FRAUD CAPABILITIES CONFIRMED</div>
-                </div>
-                <div class="mt-2 p-2 bg-red-900/30 border border-red-600 rounded text-red-200 text-xs">
-                    Impact Assessment: Smart contract flaws enable permanent vote record corruption.
-                    Attackers could reset vote counts, vote multiple times, or drain contract funds.
-                </div>
-            </div>
-        `;
-        
-        gameState.exploitsRun += 1;
-        updateGameMetrics();
-        
-        // Trigger critical vulnerability alert
-        setTimeout(() => showCriticalVulnerabilityAlert(), 1000);
-        output.scrollTop = output.scrollHeight;
-    }, 2500);
-}
-
-function runNetworkScan(args, output) {
-    output.innerHTML += `
-        <div class="text-yellow-400 mb-1">[INFO] Starting network reconnaissance...</div>
-    `;
-    
-    setTimeout(() => {
-        output.innerHTML += `
-            <div class="text-cyan-400 mb-3">
-                <div class="mb-2">[INFO] Nmap scan results for civitas.internal</div>
-                <div class="text-sm space-y-1 font-mono">
-                    <div>PORT     STATE SERVICE    VERSION</div>
-                    <div class="text-green-400">22/tcp   open  ssh        OpenSSH 8.2</div>
-                    <div class="text-green-400">80/tcp   open  http       nginx 1.18.0</div>
-                    <div class="text-green-400">443/tcp  open  https      nginx 1.18.0</div>
-                    <div class="text-yellow-400">3306/tcp open  mysql      MySQL 8.0.25</div>
-                    <div class="text-red-400">5432/tcp open  postgresql PostgreSQL 13.3</div>
-                    <div class="text-orange-400">8545/tcp open  ethereum   Geth/v1.10.8</div>
-                </div>
-                <div class="mt-2 text-green-300 text-xs">
-                    Network topology mapped. Database ports exposed suggest configuration issues.
-                </div>
-            </div>
-        `;
-        output.scrollTop = output.scrollHeight;
-    }, 1800);
-}
-
-function showCommandHistory(output) {
-    if (terminalHistory.length === 0) {
-        output.innerHTML += `<div class="text-gray-400 mb-2">No commands in history</div>`;
-        return;
-    }
-    
-    output.innerHTML += `
-        <div class="text-cyan-400 mb-3">
-            <div class="mb-2">Command History:</div>
-            <div class="text-sm space-y-1">
-                ${terminalHistory.map((cmd, index) => 
-                    `<div class="font-mono">${index + 1}: ${escapeHtml(cmd)}</div>`
-                ).join('')}
-            </div>
-        </div>
-    `;
-}
-
-function clearTerminal(output) {
-    output.innerHTML = '';
-    showWelcomeMessage();
-}
-
-function showCommandNotFound(command, output) {
-    output.innerHTML += `
-        <div class="text-red-400 mb-2">
-            Command '${escapeHtml(command)}' not found. Type 'help' for available commands.
-        </div>
-    `;
-}
-
 function navigateHistory(direction) {
+    if (terminalHistory.length === 0) return;
+    
     const commandInput = document.getElementById('exploit-command');
     
-    if (direction === 'up' && historyIndex > 0) {
-        historyIndex--;
-        commandInput.value = terminalHistory[historyIndex];
-    } else if (direction === 'down' && historyIndex < terminalHistory.length - 1) {
-        historyIndex++;
-        commandInput.value = terminalHistory[historyIndex];
-    } else if (direction === 'down' && historyIndex === terminalHistory.length - 1) {
-        historyIndex++;
-        commandInput.value = '';
+    if (direction === 'up') {
+        if (historyIndex > 0) {
+            historyIndex--;
+            commandInput.value = terminalHistory[historyIndex];
+        }
+    } else if (direction === 'down') {
+        if (historyIndex < terminalHistory.length - 1) {
+            historyIndex++;
+            commandInput.value = terminalHistory[historyIndex];
+        } else {
+            historyIndex = terminalHistory.length;
+            commandInput.value = '';
+        }
     }
 }
 
@@ -591,12 +318,12 @@ function stopTerminalResize() {
     terminalResizeState.isResizing = false;
 }
 
-// Check if terminal popup is currently visible
-export function isTerminalPopupVisible() {
+// Check if terminal is currently visible
+export function isTerminalVisible() {
     return terminalPopupVisible && !terminalMinimized;
 }
 
-// Check if terminal popup is minimized
-export function isTerminalPopupMinimized() {
+// Check if terminal is minimized
+export function isTerminalMinimized() {
     return terminalMinimized;
 }
