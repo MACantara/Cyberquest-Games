@@ -1,7 +1,6 @@
 import { gameState, updateGameMetrics } from './gameState.js';
 import { loadInfrastructure, selectInfrastructureNode, closeDefensePanel } from './infrastructureHandler.js';
 import { handleDefenseTool, executeCommand } from './defenseTools.js';
-import { handleEmergencyBlackhole, handleFailoverActivate, handleTraceSource } from './emergencyActions.js';
 import { startAttackSimulation, generateInitialAlerts } from './attackSimulation.js';
 import { updateCommanderMessage, showResultModal } from './uiUpdates.js';
 
@@ -64,11 +63,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById('command-input').value = '';
         }
     });
-
-    // Emergency actions
-    document.getElementById('emergency-blackhole').addEventListener('click', handleEmergencyBlackhole);
-    document.getElementById('failover-activate').addEventListener('click', handleFailoverActivate);
-    document.getElementById('trace-source').addEventListener('click', handleTraceSource);
 
     // Modal and UI event handlers
     document.getElementById('start-mission').addEventListener('click', function() {
