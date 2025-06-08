@@ -2,6 +2,11 @@ import { gameState, updateGameMetrics } from './gameState.js';
 import { updateMentorMessage, showResultModal, createEthicalAlert } from './uiUpdates.js';
 import { loadFileContent, updateProgress, revealFileVulnerabilities } from './componentHandler.js';
 import { displaySourceCode } from './sourceCodeRenderer.js';
+import { 
+    initializeVulnerabilityPopup, 
+    showVulnerabilityPopup, 
+    updateVulnerabilityDisplay 
+} from './vulnerabilityPopup.js';
 
 let currentFile = null;
 let vulnerabilitiesDiscovered = [];
@@ -24,6 +29,9 @@ export function initializeAnalysisTools() {
     document.getElementById('exploit-command')?.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') executeExploit();
     });
+
+    // Initialize vulnerability popup controls
+    initializeVulnerabilityPopup();
 }
 
 function selectFile(fileId) {
@@ -214,33 +222,11 @@ function showAnalysisResults(file, type) {
 }
 
 function showVulnerabilityResults(file) {
-    document.getElementById('vulnerability-panel').classList.remove('hidden');
-    const vulnList = document.getElementById('vulnerability-list');
+    // Update the popup content
+    updateVulnerabilityDisplay(file);
     
-    vulnList.innerHTML = file.vulnerabilities.map(vuln => `
-        <div class="bg-slate-800 border border-red-600 rounded-lg p-4">
-            <div class="flex items-start gap-3">
-                <i class="bi bi-bug-fill text-red-400 text-lg mt-1"></i>
-                <div class="flex-1">
-                    <div class="flex justify-between items-start mb-2">
-                        <h5 class="font-semibold text-red-300">${vuln.type}</h5>
-                        <span class="text-xs px-2 py-1 bg-red-600 text-white rounded">${vuln.severity}</span>
-                    </div>
-                    <p class="text-red-200 text-sm mb-2">${vuln.description}</p>
-                    <div class="text-xs text-slate-400 mb-2">Line ${vuln.line} in ${file.name}</div>
-                    
-                    <div class="bg-black/30 rounded p-2 mb-3">
-                        <div class="text-xs text-yellow-400 mb-1">Exploit Example:</div>
-                        <div class="text-green-400 font-mono text-xs">${vuln.exploit}</div>
-                    </div>
-                    
-                    <div class="text-orange-300 text-sm">
-                        <span class="font-medium">Impact:</span> ${vuln.impact}
-                    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
+    // Show the popup
+    showVulnerabilityPopup();
 }
 
 function executeExploit() {
@@ -317,4 +303,76 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// Drag functionality
+function startDrag(e) {
+    if (e.target.closest('#minimize-popup') || e.target.closest('#close-popup')) return;
+    
+    dragState.isDragging = true;
+    const popup = document.getElementById('vulnerability-popup');
+    const rect = popup.getBoundingClientRect();
+    
+    dragState.startX = e.clientX;
+    dragState.startY = e.clientY;
+    dragState.initialX = rect.left;
+    dragState.initialY = rect.top;
+    
+    popup.style.transition = 'none';
+    e.preventDefault();
+}
+
+function drag(e) {
+    if (!dragState.isDragging) return;
+    
+    const popup = document.getElementById('vulnerability-popup');
+    const deltaX = e.clientX - dragState.startX;
+    const deltaY = e.clientY - dragState.startY;
+    
+    const newX = Math.max(0, Math.min(window.innerWidth - popup.offsetWidth, dragState.initialX + deltaX));
+    const newY = Math.max(0, Math.min(window.innerHeight - popup.offsetHeight, dragState.initialY + deltaY));
+    
+    popup.style.left = newX + 'px';
+    popup.style.top = newY + 'px';
+    popup.style.right = 'auto';
+}
+
+function stopDrag() {
+    if (dragState.isDragging) {
+        const popup = document.getElementById('vulnerability-popup');
+        popup.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        dragState.isDragging = false;
+    }
+}
+
+// Resize functionality
+function startResize(e) {
+    resizeState.isResizing = true;
+    const popup = document.getElementById('vulnerability-popup');
+    const rect = popup.getBoundingClientRect();
+    
+    resizeState.startX = e.clientX;
+    resizeState.startY = e.clientY;
+    resizeState.initialWidth = rect.width;
+    resizeState.initialHeight = rect.height;
+    
+    e.preventDefault();
+}
+
+function resize(e) {
+    if (!resizeState.isResizing) return;
+    
+    const popup = document.getElementById('vulnerability-popup');
+    const deltaX = e.clientX - resizeState.startX;
+    const deltaY = e.clientY - resizeState.startY;
+    
+    const newWidth = Math.max(300, resizeState.initialWidth + deltaX);
+    const newHeight = Math.max(200, resizeState.initialHeight + deltaY);
+    
+    popup.style.width = newWidth + 'px';
+    popup.style.height = newHeight + 'px';
+}
+
+function stopResize() {
+    resizeState.isResizing = false;
 }
