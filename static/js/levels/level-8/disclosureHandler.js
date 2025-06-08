@@ -36,17 +36,6 @@ export function handleDisclosureDecision(choice) {
     
     // Hide disclosure panel
     document.getElementById('disclosure-panel').classList.add('hidden');
-    
-    // Update disclosure status
-    const disclosureStatus = document.getElementById('disclosure-status');
-    if (disclosureStatus) {
-        disclosureStatus.textContent = choice === 'responsible' ? 'Responsible' : 
-                                      choice === 'public' ? 'Public' :
-                                      choice === 'blackmarket' ? 'Black Market' : 'Unknown';
-        disclosureStatus.className = choice === 'responsible' ? 'text-green-400' : 
-                                     choice === 'public' ? 'text-blue-400' :
-                                     choice === 'blackmarket' ? 'text-red-400' : 'text-gray-400';
-    }
 }
 
 function handleResponsibleDisclosure() {
