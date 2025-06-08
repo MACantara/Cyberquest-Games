@@ -110,19 +110,19 @@ function listTargets(output) {
         <div class="text-green-400 mb-2">
             <div class="font-bold mb-2">🎯 Available Test Targets:</div>
             <div class="space-y-2 text-sm">
-                <div class="bg-red-900/30 border-l-4 border-red-500 pl-3">
+                <div class="border-l-4 border-red-500 pl-3">
                     <div class="text-red-300 font-semibold">civitas-vote.local:8080</div>
                     <div class="text-red-200 text-xs">Primary voting application - CRITICAL SYSTEM</div>
                 </div>
-                <div class="bg-orange-900/30 border-l-4 border-orange-500 pl-3">
+                <div class="border-l-4 border-orange-500 pl-3">
                     <div class="text-orange-300 font-semibold">auth-api.civitas.local:443</div>
                     <div class="text-orange-200 text-xs">Authentication service - HIGH PRIORITY</div>
                 </div>
-                <div class="bg-yellow-900/30 border-l-4 border-yellow-500 pl-3">
+                <div class="border-l-4 border-yellow-500 pl-3">
                     <div class="text-yellow-300 font-semibold">blockchain.civitas.eth</div>
                     <div class="text-yellow-200 text-xs">Smart contract interface - MEDIUM RISK</div>
                 </div>
-                <div class="bg-blue-900/30 border-l-4 border-blue-500 pl-3">
+                <div class="border-l-4 border-blue-500 pl-3">
                     <div class="text-blue-300 font-semibold">frontend.civitas.local</div>
                     <div class="text-blue-200 text-xs">User interface - LOW RISK</div>
                 </div>
