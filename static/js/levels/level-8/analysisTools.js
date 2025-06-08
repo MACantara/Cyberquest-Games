@@ -1,6 +1,6 @@
 import { gameState, updateGameMetrics } from './gameState.js';
 import { updateMentorMessage, showResultModal, createEthicalAlert } from './uiUpdates.js';
-import { loadFileContent, updateProgress } from './componentHandler.js';
+import { loadFileContent, updateProgress, revealFileVulnerabilities } from './componentHandler.js';
 
 let currentFile = null;
 let vulnerabilitiesDiscovered = [];
@@ -66,7 +66,9 @@ function displaySourceCode(file) {
     
     codeContent.innerHTML = lines.map((line, index) => {
         const lineNum = index + 1;
-        const isVulnerable = file.vulnerabilities.some(v => v.line === lineNum);
+        // Only show vulnerability indicators if vulnerabilities have been revealed
+        const isVulnerable = file.vulnerabilitiesRevealed && 
+                           file.vulnerabilities.some(v => v.line === lineNum);
         
         return `
             <div class="flex ${isVulnerable ? 'bg-red-900/20' : ''}">
@@ -110,20 +112,26 @@ function performVulnerabilityDiscovery() {
     vulnBtn.innerHTML = '<i class="bi bi-bug mr-1 animate-pulse"></i>Scanning...';
     
     setTimeout(() => {
-        vulnerabilitiesDiscovered.push(...file.vulnerabilities);
-        showVulnerabilityResults(file);
+        // Reveal vulnerabilities for this file
+        const fileWithVulns = revealFileVulnerabilities(currentFile);
+        
+        // Update the display to show vulnerability indicators
+        displaySourceCode(fileWithVulns);
+        
+        vulnerabilitiesDiscovered.push(...fileWithVulns.vulnerabilities);
+        showVulnerabilityResults(fileWithVulns);
         
         vulnBtn.innerHTML = '<i class="bi bi-exclamation-triangle mr-1"></i>Vulns Found';
         vulnBtn.classList.add('bg-red-600');
         
         // Update game state
-        gameState.vulnerabilitiesFound += file.vulnerabilities.length;
+        gameState.vulnerabilitiesFound += fileWithVulns.vulnerabilities.length;
         gameState.filesAnalyzed += 1;
         updateGameMetrics();
         
         // Check for critical vulnerabilities
-        if (file.severity === 'Critical') {
-            createEthicalAlert(`Critical vulnerabilities found in ${file.name}!`, 'error');
+        if (fileWithVulns.severity === 'Critical') {
+            createEthicalAlert(`Critical vulnerabilities found in ${fileWithVulns.name}!`, 'error');
             
             if (currentFile === 'vote-processor') {
                 setTimeout(() => showCriticalVulnerabilityAlert(), 2000);
@@ -131,7 +139,7 @@ function performVulnerabilityDiscovery() {
         }
         
         // Enable exploit testing for high-risk files
-        if (file.riskLevel >= 8) {
+        if (fileWithVulns.riskLevel >= 8) {
             document.getElementById('exploit-panel').classList.remove('hidden');
             document.getElementById('exploit-command').disabled = false;
             document.getElementById('run-exploit').disabled = false;
