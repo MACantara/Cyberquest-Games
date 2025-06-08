@@ -3,10 +3,14 @@ import { loadComponents } from './componentHandler.js';
 import { initializeAnalysisTools } from './analysisTools.js';
 import { initializeDisclosureHandlers } from './disclosureHandler.js';
 import { updateMentorMessage, showResultModal } from './uiUpdates.js';
+import { initializeCodeFormattingStyles } from './sourceCodeRenderer.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
     // Load component/file data
     await loadComponents();
+    
+    // Initialize code formatting styles
+    initializeCodeFormattingStyles();
     
     // Initialize game systems
     function initGame() {
