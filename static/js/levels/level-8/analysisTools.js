@@ -57,26 +57,26 @@ function selectFile(fileId) {
     document.getElementById('analyze-code').disabled = false;
     document.getElementById('find-vulns').disabled = false;
     
-    // Update button text based on previous analysis
+    // Update button text and styling based on previous analysis
     const analyzeBtn = document.getElementById('analyze-code');
     const vulnBtn = document.getElementById('find-vulns');
     
+    // Reset button classes to base state first
+    analyzeBtn.className = 'bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs';
+    vulnBtn.className = 'bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded text-xs';
+    
     if (hasBeenAnalyzed) {
         analyzeBtn.innerHTML = '<i class="bi bi-arrow-clockwise mr-1"></i>Re-Analyze';
-        analyzeBtn.classList.remove('bg-green-600');
-        analyzeBtn.classList.add('bg-blue-600');
+        analyzeBtn.className = 'bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-1 rounded text-xs';
     } else {
         analyzeBtn.innerHTML = '<i class="bi bi-search mr-1"></i>Analyze';
-        analyzeBtn.classList.remove('bg-green-600', 'bg-blue-600');
     }
     
     if (hasVulnerabilities) {
         vulnBtn.innerHTML = '<i class="bi bi-eye mr-1"></i>View Vulns';
-        vulnBtn.classList.remove('bg-red-600');
-        vulnBtn.classList.add('bg-purple-600');
+        vulnBtn.className = 'bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-xs';
     } else {
         vulnBtn.innerHTML = '<i class="bi bi-bug mr-1"></i>Find Vulns';
-        vulnBtn.classList.remove('bg-red-600', 'bg-purple-600');
     }
     
     // Update mentor guidance based on file state
@@ -120,6 +120,7 @@ function performStaticAnalysis() {
     const analysisBtn = document.getElementById('analyze-code');
     analysisBtn.disabled = true;
     analysisBtn.innerHTML = '<i class="bi bi-hourglass-split mr-1 animate-spin"></i>Analyzing...';
+    analysisBtn.className = 'bg-yellow-600 text-white px-3 py-1 rounded text-xs opacity-75';
     
     setTimeout(() => {
         // Mark file as analyzed and add analysis state
@@ -135,7 +136,8 @@ function performStaticAnalysis() {
         analyzedFiles.add(currentFile);
         
         analysisBtn.innerHTML = '<i class="bi bi-check mr-1"></i>Complete';
-        analysisBtn.classList.add('bg-green-600');
+        analysisBtn.className = 'bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs';
+        analysisBtn.disabled = false;
         
         // Enable next step
         document.getElementById('find-vulns').classList.remove('opacity-50');
@@ -162,6 +164,7 @@ function performVulnerabilityDiscovery() {
     
     if (hasBeenScanned) {
         vulnBtn.innerHTML = '<i class="bi bi-clock-history mr-1"></i>Loading Cache...';
+        vulnBtn.className = 'bg-blue-600 text-white px-3 py-1 rounded text-xs opacity-75';
         
         setTimeout(() => {
             // Show cached results immediately
@@ -169,12 +172,14 @@ function performVulnerabilityDiscovery() {
             showVulnerabilityResults(cachedFile);
             
             vulnBtn.innerHTML = '<i class="bi bi-check-circle mr-1"></i>Cached Results';
-            vulnBtn.classList.add('bg-blue-600');
+            vulnBtn.className = 'bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs';
+            vulnBtn.disabled = false;
             
             updateMentorMessage("Vulnerability scan results retrieved from cache. All previously identified security issues are displayed.");
         }, 1000);
     } else {
         vulnBtn.innerHTML = '<i class="bi bi-bug mr-1 animate-pulse"></i>Deep Scanning...';
+        vulnBtn.className = 'bg-yellow-600 text-white px-3 py-1 rounded text-xs opacity-75';
         
         setTimeout(() => {
             // Reveal vulnerabilities for this file
@@ -187,7 +192,8 @@ function performVulnerabilityDiscovery() {
             showVulnerabilityResults(fileWithVulns);
             
             vulnBtn.innerHTML = '<i class="bi bi-exclamation-triangle mr-1"></i>Vulns Found';
-            vulnBtn.classList.add('bg-red-600');
+            vulnBtn.className = 'bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs';
+            vulnBtn.disabled = false;
             
             // Update game state
             gameState.vulnerabilitiesFound += fileWithVulns.vulnerabilities.length;
