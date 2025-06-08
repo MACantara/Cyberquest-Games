@@ -107,23 +107,33 @@ export function updateProgress() {
         }
     }
     
-    // Check for audit completion conditions
+    // Check for audit completion conditions - simplified without risk assessment
     if (analyzedFiles >= totalFiles && gameState.vulnerabilitiesFound > 0 && gameState.exploitsRun > 0) {
-        showRiskAssessment();
+        // Enable report generation directly
+        enableReportGeneration();
     }
 }
 
-function showRiskAssessment() {
-    const riskAssessment = document.getElementById('risk-assessment');
-    if (riskAssessment) {
-        riskAssessment.classList.remove('hidden');
-        
-        const riskDetails = document.getElementById('risk-details');
-        riskDetails.innerHTML = `
-            <div class="space-y-3">
-                <div class="bg-red-900/30 border border-red-600 rounded-lg p-3">
-                    <div class="font-semibold text-red-300 mb-2">Critical Risk Assessment</div>
-                    <div class="text-red-200 text-sm space-y-1">
+function enableReportGeneration() {
+    updateMentorMessage("All files analyzed and vulnerabilities confirmed. You can now generate a comprehensive security report for disclosure.");
+    
+    // Show completion notification without risk assessment panel
+    showResultModal(
+        '📋',
+        'Analysis Complete',
+        'Security audit findings ready for reporting.',
+        `
+            <div class="text-left space-y-3">
+                <div class="bg-green-900/30 border border-green-600 rounded-lg p-3">
+                    <div class="text-green-300 font-semibold">✅ Comprehensive Analysis Complete</div>
+                    <div class="text-green-200 text-sm mt-1">
+                        All critical components have been analyzed and vulnerabilities documented.
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3">
+                    <div class="font-semibold text-yellow-300 mb-2">Critical Findings Summary</div>
+                    <div class="text-yellow-200 text-sm space-y-1">
                         <div>• SQL injection allows complete database manipulation</div>
                         <div>• Authentication bypass enables mass voter impersonation</div>
                         <div>• Smart contract flaws permit permanent vote record corruption</div>
@@ -131,69 +141,17 @@ function showRiskAssessment() {
                     </div>
                 </div>
                 
-                <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3">
-                    <div class="font-semibold text-yellow-300 mb-2">Democratic Impact</div>
-                    <div class="text-yellow-200 text-sm">
-                        These vulnerabilities collectively pose an existential threat to election integrity. 
-                        Exploitation could undermine democratic processes and public trust in digital voting.
-                    </div>
-                </div>
-                
                 <div class="bg-slate-800 border border-slate-600 rounded-lg p-3">
-                    <div class="font-semibold text-white mb-2">Recommended Action</div>
+                    <div class="font-semibold text-white mb-2">Next Steps</div>
                     <div class="text-slate-300 text-sm">
-                        Immediate responsible disclosure required. Election deployment must be delayed until critical vulnerabilities are patched.
+                        Make your ethical disclosure decision to complete the audit.
                     </div>
                 </div>
             </div>
-        `;
-        
-        // Enable report generation
-        document.getElementById('generate-report').disabled = false;
-        document.getElementById('generate-report').addEventListener('click', generateSecurityReport);
-    }
-}
-
-function generateSecurityReport() {
-    updateMentorMessage("Generating comprehensive security report for responsible disclosure...");
+        `
+    );
     
-    const reportBtn = document.getElementById('generate-report');
-    reportBtn.disabled = true;
-    reportBtn.innerHTML = '<i class="bi bi-hourglass-split mr-1 animate-spin"></i>Generating...';
-    
-    setTimeout(() => {
-        reportBtn.innerHTML = '<i class="bi bi-check mr-1"></i>Report Ready';
-        reportBtn.classList.add('bg-green-600');
-        
-        // Show completion notification
-        showResultModal(
-            '📋',
-            'Security Report Generated',
-            'Comprehensive audit report prepared for responsible disclosure.',
-            `
-                <div class="text-left space-y-3">
-                    <div class="bg-green-900/30 border border-green-600 rounded-lg p-3">
-                        <div class="text-green-300 font-semibold">✅ Audit Documentation Complete</div>
-                        <div class="text-green-200 text-sm mt-1">
-                            Professional security report generated with:
-                            <ul class="list-disc list-inside mt-2 space-y-1">
-                                <li>Executive summary of critical findings</li>
-                                <li>Technical vulnerability details</li>
-                                <li>Proof-of-concept demonstrations</li>
-                                <li>Risk assessment and impact analysis</li>
-                                <li>Recommended remediation steps</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            `
-        );
-        
-        // Enable audit completion
-        document.getElementById('complete-audit').disabled = false;
-        document.getElementById('complete-audit').classList.remove('opacity-50', 'cursor-not-allowed');
-        
-        gameState.ethicalScore += 10;
-        updateGameMetrics();
-    }, 3000);
+    // Mark report as generated for completion conditions
+    gameState.reportGenerated = true;
+    updateGameMetrics();
 }
